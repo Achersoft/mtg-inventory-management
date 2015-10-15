@@ -1,0 +1,57 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.achersoft.mtg.importer.persistence.ImporterMapper">
+    <insert id="addSet">
+        INSERT INTO mtg_set (id, 
+                             name, 
+                             code, 
+                             block) 
+                     VALUES (#{id},
+                             #{name},
+                        <if test="gathererCode != null">
+                             #{gathererCode},
+                        </if>
+                        <if test="gathererCode == null">
+                             #{code},
+                        </if>
+                             #{block})
+     ON DUPLICATE KEY UPDATE id=id
+    </insert>
+    
+    <insert id="addCard">
+        INSERT into mtg_card (id, 
+                              name, 
+                              set_id, 
+                              mana_cost, 
+                              type,
+                              sub_type,
+                              rarity,
+                              card_text, 
+                              oracle_text, 
+                              artist, 
+                              power, 
+                              toughness, 
+                              number, 
+                              multiverse_id, 
+                              split_sequence,
+                              split_id)
+                      VALUES (#{id},
+                              #{name},
+                              #{setId},
+                              #{manaCost},
+                              #{type},
+                              #{type},
+                              #{rarity},
+                              #{originalText},
+                              #{text}, 
+                              #{artist},
+                              #{power},
+                              #{toughness},
+                              1,
+                              #{multiverseid},
+                              #{splitSequence},
+                              #{splitId})
+      ON DUPLICATE KEY UPDATE id=id
+    </insert>
+</mapper>

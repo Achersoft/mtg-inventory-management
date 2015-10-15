@@ -1,0 +1,729 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.achersoft.mtg.importer.persistence.ImporterMapper">
+    <select id="getCandidateIds" resultType="java.lang.String">
+        SELECT HEX(c.id) 'id'
+          FROM candidate c 
+    </select>
+    
+    <select id="getCandidateGeneralInfo" resultType="com.enginsol.estaff.candidate.dao.CandidateGeneral">
+           SELECT c.personnel_status 'personnelStatus',
+                  c.hire_date 'hireDate',
+                  HEX(c.responsible_manager) 'manager',
+                  c.priority 'priority',
+                  c.availability_status 'availabilityStatus',
+	          c.preemployment_status 'preemploymentStatus',
+                  c.exprstart_date 'experienceStartDate',
+                  c.source_date 'createdOn',
+                  c.last_action_date 'lastActionDate',
+                  c.note 'notes'
+             FROM candidate c 
+            WHERE c.id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateContactInfo" resultType="com.enginsol.estaff.candidate.dao.CandidateContact">
+           SELECT c.first_name 'firstName',
+                  c.middle_name 'middleName',
+                  c.last_name 'lastName',
+                  c.preferredName 'preferredName',
+                  c.aliases 'aliases',
+                  ci.contact_instructions 'contactInstructions',
+                  ci.preferred_phone 'preferredPhone',
+	          ci.home_phone 'homePhone',
+                  ci.work_phone 'workPhone',
+	          ci.cell_phone 'cellPhone',
+                  ci.preferred_email 'preferredEmail',
+                  ci.personal_email 'personalEmail',
+                  ci.work_email 'workEmail',
+                  ci.other_email 'otherEmail',
+                  ci.home_address 'homeAddress',
+                  ci.other_address 'otherAddress'
+             FROM candidate c
+  LEFT OUTER JOIN contactinfo ci ON c.id = ci.candidate_id
+            WHERE c.id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateClearanceInfo" resultType="com.enginsol.estaff.candidate.dao.CandidateClearance">
+        SELECT ci.clearance_type 'type',
+               ci.clearance_status 'status',
+	       ci.poly_willing 'polyWilling',
+               ci.us_citizen 'usCitizen',
+               ci.assoc_us_citizen 'haveForeignContacts',
+               ci.non_us_friends_cont 'maintainFrequentContact',
+               ci.non_us_friends_country 'contactCountryOfResidence',
+               ci.non_us_friends_travel 'foreignTravel',
+	       ci.clearance_issues 'reasonforDenial',
+               ci.employer_contact 'employerReference',
+	       ci.attemp_clear_inplace 'clearInPlace',
+               ci.fspviable 'viableForFSP',
+               ci.clearance_comments 'comments'
+          FROM clearanceinfo ci 
+         WHERE ci.candidate_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateInterviewInfo" resultType="com.enginsol.estaff.candidate.dao.CandidateInterviewInfo">
+          SELECT HEX(i.id) 'id',
+                 i.interview_date 'interviewTime',
+                 i.schedule_note 'schedulingInfo',
+                 i.last_contact 'lastContacted',
+                 i.contact_atts 'contactAttempts',
+                 i.confirm_req 'confimationSent',
+                 i.confirm_rcvd 'confimationReceived',
+                 i.most_recent 'mostRecent'
+            FROM interview i 
+           WHERE i.candidate_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateInterviewers" resultType="java.lang.String">
+           SELECT HEX(i.user_id) 
+             FROM interview_interviewer i
+            WHERE i.interview_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateInterviewComment" resultType="com.enginsol.estaff.candidate.dao.CandidateInterviewComment">
+        SELECT HEX(ic.id) 'id',
+               HEX(ic.interview_id) 'interviewId',
+               ic.comment 'comment',
+               HEX(ic.created_by) 'user',
+               ic.created_on 'enteredOn',
+               ic.last_modified 'lastModified'
+          FROM interview_comment ic 
+         WHERE ic.id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateInterviewComments" resultType="com.enginsol.estaff.candidate.dao.CandidateInterviewComment">
+        SELECT HEX(ic.id) 'id',
+               HEX(ic.interview_id) 'interviewId',
+               ic.comment 'comment',
+               HEX(ic.created_by) 'user',
+               ic.created_on 'enteredOn',
+               ic.last_modified 'lastModified'
+          FROM interview_comment ic 
+         WHERE ic.interview_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidatePreemploymentInfo" resultType="com.enginsol.estaff.candidate.dao.CandidatePreemploymentInfo">
+           SELECT HEX(pei.id) 'id',
+                  pei.source_date 'entered',
+	          HEX(pei.source_id) 'source',
+                  pei.referred_by 'referredBy',
+                  pei.referral_date 'referredOn',
+                  HEX(pei.reviewed_by) 'reviewedBy',
+                  HEX(pei.prescreened_by) 'prescreenedBy',
+                  pei.prescreened_date 'prescreenedOn',
+                  pei.employment_status 'employmentStatus',
+	          pei.employer 'employer',
+                  pei.employer_aware 'searchAware',
+                  pei.reason_forLeaving 'reasonForLeaving',
+                  pei.salary_current 'currentSalary',
+                  pei.salary_goal_min 'minSalary',
+                  pei.salary_goal_max 'maxSalary',
+	          pei.salary_negotiable 'negotiableSalary',
+                  pei.salary_notes 'salaryNotes',
+                  pei.will_relocate 'willRelocate',
+                  pei.relocate_details 'relocationDetails',
+                  pei.will_travel 'willtravel',
+                  pei.hazardous_travel 'willTravelHazardous',
+                  pei.travel_percent 'travelPercentage',
+	          pei.travel_constraint 'travelConstraints',
+                  pei.will_shift_work 'shiftWork',
+                  pei.shift_work 'shiftWorkConstraints',
+                  pei.target_job_type 'targetPosition',
+                  pei.target_employment 'targetEmployment',
+                  pei.available_date 'availableOn',
+                  pei.specific_benefits 'valuedBenefits',
+	          pei.available_notes 'availabilityNotes',
+                  pei.offer_date 'offerMadeOn',
+                  pei.provided_corp_info 'providedEmploymentSummary',
+                  pei.comments 'prescreenComments',
+                  pei.most_recent 'mostRecent'
+             FROM preemploymentinfo pei 
+            WHERE pei.candidate_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateQualificationInfo" resultType="com.enginsol.estaff.candidate.dao.CandidateQualification">
+        SELECT c.associates_degree 'associates',
+               c.bachelors_degree 'bachelors',
+               c.masters_degree 'masters',
+               c.phd_degree 'doctorates'
+          FROM candidate c
+         WHERE c.id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateSkillSet" resultType="java.lang.String">
+        SELECT HEX(cs.skillcat_id)
+          FROM candidate_skillcategory cs
+         WHERE cs.candidate_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateCertifications" resultType="java.lang.String">
+        SELECT HEX(cc.cert_id)
+          FROM candidate_certification cc
+         WHERE cc.candidate_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateReferenceInfo" resultType="com.enginsol.estaff.candidate.dao.CandidateReference">
+        SELECT HEX(r.id) 'id',
+               r.contact_name 'name',
+               r.contact_phone 'phone',
+	       r.contact_email 'email',
+               r.completed_by 'checkedBy',
+               r.completed_date 'checkedOn',
+               r.relationship 'relationship',
+	       r.relationship_details 'workExperience',
+               r.position_title 'jobTitle',
+               r.technical_strength 'strengths',
+               r.performance_comments 'performance',
+	       r.teamplayer 'interpersonal',
+               r.meets_schedules 'timeManagement',
+               r.performance_issues 'issues',
+               r.work_with_again 'workWithAgain',
+	       r.recommendation 'comments'
+          FROM reference r
+         WHERE r.candidate_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateComment" resultType="com.enginsol.estaff.candidate.dao.CandidateComment">
+        SELECT HEX(cc.id) 'id',
+               HEX(cc.candidate_id) 'candidateId',
+               cc.type 'type',
+               cc.comment 'comment',
+               HEX(cc.created_by) 'user',
+               cc.created_on 'enteredOn',
+               cc.last_modified 'lastModified',
+               cc.sys_msg 'systemMessage'
+          FROM candidate_comment cc 
+         WHERE cc.id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateComments" resultType="com.enginsol.estaff.candidate.dao.CandidateComment">
+        SELECT HEX(cc.id) 'id',
+               HEX(cc.candidate_id) 'candidateId',
+               cc.type 'type',
+               cc.comment 'comment',
+               HEX(cc.created_by) 'user',
+               cc.created_on 'enteredOn',
+               cc.last_modified 'lastModified',
+               cc.sys_msg 'systemMessage'
+          FROM candidate_comment cc 
+         WHERE cc.candidate_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateResume" resultType="com.enginsol.estaff.candidate.dao.CandidateResume">
+        SELECT r.filename 'fileName',
+               r.content_type 'contentType',
+               r.Document 'document'
+          FROM resume r
+         WHERE r.candidate_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateMatchCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) 
+          FROM matched 
+         WHERE candidate_id = UNHEX(#{id})
+    </select>
+    
+    <select id="getCandidateMatches" resultType="com.enginsol.estaff.candidate.dao.CandidateMatch">
+             SELECT HEX(m.id) 'id', 
+                    HEX(m.position_id) 'positionId',
+                    p.name 'positionName',
+                    m.match_status 'matchedStatus', 
+                    m.matched_date 'matchedDate',
+                    m.rating 'rating',
+                    m.note 'note',
+                    m.required_score 'requiredScore', 
+                    m.desired_score 'desiredScore' 
+               FROM matched m
+    LEFT OUTER JOIN position p ON p.id = m.position_id
+              WHERE m.candidate_id = UNHEX(#{id})
+    </select>
+    
+    <insert id="addCandidate">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            select ordered_uuid()
+        </selectKey>
+        INSERT INTO candidate (id,
+                               first_name,
+                               last_name,
+                               middle_name,
+                               preferredName,
+                               aliases,
+                               personnel_status,
+                               availability_status,
+                               priority,
+                               associates_degree,
+                               bachelors_degree,
+                               masters_degree,
+                               phd_degree,
+                               exprstart_date,
+                               last_action_date,
+                               responsible_manager,
+                               hire_date,
+                               note) 
+                       VALUES (UNHEX(#{id}),
+                               #{contact.firstName},
+                               #{contact.lastName},
+                               #{contact.middleName},
+                               #{contact.preferredName},
+                               #{contact.aliases},
+                               #{general.personnelStatus},
+                               #{general.availabilityStatus},
+                               #{general.priority},
+                               #{qualifications.associates},
+                               #{qualifications.bachelors},
+                               #{qualifications.masters},
+                               #{qualifications.doctorates},
+                               #{general.experienceStartDate},
+                               #{general.lastActionDate},
+                               #{general.manager},
+                               #{general.hireDate},
+                               #{general.notes});                      
+    </insert>
+    
+    <insert id="addCandidateContactData">
+        INSERT INTO contactinfo (candidate_id, 
+                                 personal_email, 
+                                 work_email, 
+                                 other_email, 
+                                 preferred_email, 
+                                 home_phone, 
+                                 work_phone, 
+                                 cell_phone, 
+                                 preferred_phone,
+                                 contact_instructions, 
+                                 home_address, 
+                                 other_address) 
+                         VALUES (UNHEX(#{id}),
+                                 #{contact.personalEmail},
+                                 #{contact.workEmail},
+                                 #{contact.otherEmail},
+                                 #{contact.preferredEmail},
+                                 #{contact.homePhone},
+                                 #{contact.workPhone},
+                                 #{contact.cellPhone},
+                                 #{contact.preferredPhone},
+                                 #{contact.contactInstructions},
+                                 #{contact.homeAddress},
+                                 #{contact.otherAddress})
+    </insert>
+    
+    <insert id="addCandidateClearanceData">
+        INSERT INTO clearanceinfo (candidate_id, 
+                                   clearance_type, 
+                                   clearance_status, 
+                                   poly_willing, 
+                                   us_citizen, 
+                                   assoc_us_citizen, 
+                                   non_us_friends_cont, 
+                                   non_us_friends_country, 
+                                   non_us_friends_travel,
+                                   clearance_issues, 
+                                   employer_contact, 
+                                   attemp_clear_inplace, 
+                                   fspviable, 
+                                   clearance_comments) 
+                           VALUES (UNHEX(#{id}),
+                                   #{clearance.type},
+                                   #{clearance.status},
+                                   #{clearance.polyWilling},
+                                   #{clearance.usCitizen},
+                                   #{clearance.haveForeignContacts},
+                                   #{clearance.maintainFrequentContact},
+                                   #{clearance.contactCountryOfResidence},
+                                   #{clearance.foreignTravel},
+                                   #{clearance.reasonforDenial},
+                                   #{clearance.employerReference},
+                                   #{clearance.clearInPlace},
+                                   #{clearance.viableForFSP},
+                                   #{clearance.comments})
+    </insert>
+    
+    <insert id="addCandidateSkillsData">
+        INSERT INTO candidate_skillcategory (candidate_id,
+                                             skillcat_id)  
+                                     values
+        <foreach item="element" index="index" collection="skills" separator=",">
+                                            (UNHEX(#{id}),
+                                             UNHEX(#{element}))
+        </foreach>
+    </insert>
+    
+    <insert id="addCandidateCertificationsData">
+        INSERT INTO candidate_certification (candidate_id, 
+                                             cert_id) 
+                                     values
+        <foreach item="element" index="index" collection="certifications" separator=",">
+                                            (UNHEX(#{id}),
+                                             UNHEX(#{element}))
+        </foreach>
+    </insert>
+    
+    <insert id="addCandidatePreemploymentInfo">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="preemployment.id">
+            select ordered_uuid()
+        </selectKey>
+        INSERT INTO preemploymentinfo (id,
+                                       candidate_id, 
+                                       source_date,
+                                       source_id,
+                                       referred_by,
+                                       referral_date,
+                                       reviewed_by,
+                                       prescreened_by,
+                                       prescreened_date,
+                                       employment_status,
+                                       employer,
+                                       employer_aware,
+                                       reason_forLeaving,
+                                       salary_current,
+                                       salary_goal_min,
+                                       salary_goal_max,
+                                       salary_negotiable,
+                                       salary_notes,
+                                       will_relocate,
+                                       relocate_details,
+                                       will_travel,
+                                       hazardous_travel,
+                                       travel_percent,
+                                       travel_constraint,
+                                       will_shift_work,
+                                       shift_work,
+                                       target_job_type,
+                                       target_employment,
+                                       available_date,
+                                       specific_benefits,
+                                       available_notes,
+                                       offer_date,
+                                       provided_corp_info,
+                                       comments,
+                                       most_recent) 
+                               values
+                                      (UNHEX(#{preemployment.id}),
+                                       UNHEX(#{id}),
+                                       #{preemployment.entered},
+                                       UNHEX(#{preemployment.source}),
+                                       #{preemployment.referredBy},
+                                       #{preemployment.referredOn},
+                                       UNHEX(#{preemployment.reviewedBy}),
+                                       UNHEX(#{preemployment.prescreenedBy}),
+                                       #{preemployment.prescreenedOn},
+                                       #{preemployment.employmentStatus},
+                                       #{preemployment.employer},
+                                       #{preemployment.searchAware},
+                                       #{preemployment.reasonForLeaving},
+                                       #{preemployment.currentSalary},
+                                       #{preemployment.minSalary},
+                                       #{preemployment.maxSalary},
+                                       #{preemployment.negotiableSalary},
+                                       #{preemployment.salaryNotes},
+                                       #{preemployment.willRelocate},
+                                       #{preemployment.relocationDetails},
+                                       #{preemployment.willTravel},
+                                       #{preemployment.willTravelHazardous},
+                                       #{preemployment.travelPercentage},
+                                       #{preemployment.travelConstraints},
+                                       #{preemployment.shiftWork},
+                                       #{preemployment.shiftWorkConstraints},
+                                       #{preemployment.targetPosition},
+                                       #{preemployment.targetEmployment},
+                                       #{preemployment.availableOn},
+                                       #{preemployment.valuedBenefits},
+                                       #{preemployment.availabilityNotes},
+                                       #{preemployment.offerMadeOn},
+                                       #{preemployment.providedEmploymentSummary},
+                                       #{preemployment.prescreenComments},
+                                       #{preemployment.mostRecent})
+    </insert>
+    
+    <insert id="addCandidateInterviewInfo">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="interview.id">
+            select ordered_uuid()
+        </selectKey>
+        INSERT INTO interview (id,
+                               candidate_id, 
+                               schedule_note, 
+                               interview_date, 
+                               confirm_req, 
+                               confirm_rcvd, 
+                               last_contact, 
+                               contact_atts,
+                               most_recent) 
+                       values (UNHEX(#{interview.id}),
+                               UNHEX(#{id}),
+                               #{interview.schedulingInfo},
+                               #{interview.interviewTime},
+                               #{interview.confimationSent},
+                               #{interview.confimationReceived},
+                               #{interview.lastContacted},
+                               #{interview.contactAttempts},
+                               #{interview.mostRecent})
+    </insert>
+    
+    <insert id="addCandidateInterviewers">
+        INSERT INTO interview_interviewer (interview_id,
+                                           user_id)
+                                   values
+        <foreach item="element" index="index" collection="interviewers" separator=",">
+                                          (UNHEX(#{id}),
+                                           UNHEX(#{element}))
+        </foreach> 
+    </insert>
+    
+    <insert id="addInterviewComment">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="comment.id">
+            select ordered_uuid()
+        </selectKey>
+        INSERT INTO interview_comment (id,
+                                       interview_id,
+                                       comment,
+                                       created_by, 
+                                       created_on,
+                                       last_modified)
+                               values (UNHEX(#{comment.id}),
+                                       UNHEX(#{comment.interviewId}),
+                                       #{comment.comment},
+                                       UNHEX(#{comment.user}),
+                                       #{comment.enteredOn},
+                                       #{comment.lastModified})
+    </insert>
+
+    <insert id="addCandidateReference">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="reference.id">
+            select ordered_uuid()
+        </selectKey>
+        INSERT INTO reference (id,
+                               candidate_id,
+                               contact_name,
+                               contact_phone,
+                               contact_email, 
+                               completed_by,
+                               completed_date,
+                               position_title,
+                               relationship,
+                               relationship_details,
+                               technical_strength, 
+                               performance_comments,
+                               performance_issues,
+                               teamplayer,
+                               meets_schedules,
+                               recommendation, 
+                               work_with_again)
+                       VALUES
+                              (UNHEX(#{reference.id}),
+                               UNHEX(#{id}),
+                               #{reference.name},
+                               #{reference.phone},
+                               #{reference.email},
+                               #{reference.checkedBy},
+                               #{reference.checkedOn},
+                               #{reference.jobTitle},
+                               #{reference.relationship},
+                               #{reference.workExperience},
+                               #{reference.strengths},
+                               #{reference.performance},
+                               #{reference.issues},
+                               #{reference.interpersonal},
+                               #{reference.timeManagement},
+                               #{reference.comments},
+                               #{reference.workWithAgain})
+    </insert>
+    
+    <insert id="addComment">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="comment.id">
+            select ordered_uuid()
+        </selectKey>
+        INSERT INTO candidate_comment (id,
+                                       candidate_id,
+                                       type,
+                                       comment,
+                                       created_by, 
+                                       created_on,
+                                       last_modified,
+                                       sys_msg)
+                               values (UNHEX(#{comment.id}),
+                                       UNHEX(#{comment.candidateId}),
+                                       #{comment.type},
+                                       #{comment.comment},
+                                       UNHEX(#{comment.user}),
+                                       #{comment.enteredOn},
+                                       #{comment.lastModified},
+                                       #{comment.systemMessage})
+    </insert>
+    
+    <update id="updateCandidatePersonnelData">
+        UPDATE candidate SET
+               first_name = #{contact.firstName},
+               last_name = #{contact.lastName},
+               middle_name = #{contact.middleName},
+               preferredName = #{contact.preferredName},
+               aliases = #{contact.aliases},
+               personnel_status = #{general.personnelStatus},
+               availability_status = #{general.availabilityStatus},
+               priority = #{general.priority},
+               associates_degree = #{qualifications.associates},
+               bachelors_degree = #{qualifications.bachelors},
+               masters_degree = #{qualifications.masters},
+               phd_degree = #{qualifications.doctorates},
+               exprstart_date = #{general.experienceStartDate},
+               last_action_date = #{general.lastActionDate},
+               responsible_manager = #{general.manager},
+               hire_date = #{general.hireDate},
+               note = #{general.notes}
+         WHERE id = UNHEX(#{id})
+    </update>
+    
+    <update id="updateCandidateContactData">
+        UPDATE contactinfo SET
+               personal_email = #{contact.personalEmail},
+               work_email = #{contact.workEmail},
+               other_email = #{contact.otherEmail},
+               preferred_email = #{contact.preferredEmail},
+               home_phone = #{contact.homePhone},
+               work_phone = #{contact.workPhone},
+               cell_phone = #{contact.cellPhone},
+               preferred_phone = #{contact.preferredPhone},
+               contact_instructions = #{contact.contactInstructions},
+               home_address = #{contact.homeAddress},
+               other_address = #{contact.otherAddress}
+         WHERE candidate_id = UNHEX(#{id})
+    </update>
+    
+    <update id="updateCandidateClearanceData">
+        UPDATE clearanceinfo SET
+               clearance_type = #{clearance.type},
+               clearance_status =  #{clearance.status},
+               poly_willing = #{clearance.polyWilling},
+               us_citizen = #{clearance.usCitizen},
+               assoc_us_citizen = #{clearance.haveForeignContacts}, 
+               non_us_friends_cont = #{clearance.maintainFrequentContact}, 
+               non_us_friends_country = #{clearance.contactCountryOfResidence}, 
+               non_us_friends_travel = #{clearance.foreignTravel},
+               clearance_issues = #{clearance.reasonforDenial}, 
+               employer_contact = #{clearance.employerReference},
+               attemp_clear_inplace = #{clearance.clearInPlace}, 
+               fspviable = #{clearance.viableForFSP},
+               clearance_comments = #{clearance.comments}
+         WHERE candidate_id = UNHEX(#{id})
+    </update>
+    
+    <update id="updateCandidatePreemploymentInfo">
+        UPDATE preemploymentinfo SET
+               source_date = #{preemployment.entered},
+               source_id = UNHEX(#{preemployment.source}),
+               referred_by = #{preemployment.referredBy},
+               referral_date = #{preemployment.referredOn},
+               reviewed_by = UNHEX(#{preemployment.reviewedBy}),
+               prescreened_by = UNHEX(#{preemployment.prescreenedBy}),
+               prescreened_date = #{preemployment.prescreenedOn},
+               employment_status = #{preemployment.employmentStatus},
+               employer = #{preemployment.employer},
+               employer_aware = #{preemployment.searchAware},
+               reason_forLeaving = #{preemployment.reasonForLeaving},
+               salary_current = #{preemployment.currentSalary},
+               salary_goal_min = #{preemployment.minSalary},
+               salary_goal_max = #{preemployment.maxSalary},
+               salary_negotiable = #{preemployment.negotiableSalary},
+               salary_notes = #{preemployment.salaryNotes},
+               will_relocate = #{preemployment.willRelocate},
+               relocate_details = #{preemployment.relocationDetails},
+               will_travel = #{preemployment.willTravel},
+               hazardous_travel = #{preemployment.willTravelHazardous},
+               travel_percent = #{preemployment.travelPercentage},
+               travel_constraint = #{preemployment.travelConstraints},
+               will_shift_work = #{preemployment.shiftWork},
+               shift_work = #{preemployment.shiftWorkConstraints},
+               target_job_type = #{preemployment.targetPosition},
+               target_employment = #{preemployment.targetEmployment},
+               available_date = #{preemployment.availableOn},
+               specific_benefits = #{preemployment.valuedBenefits},
+               available_notes = #{preemployment.availabilityNotes},
+               offer_date = #{preemployment.offerMadeOn},
+               provided_corp_info = #{preemployment.providedEmploymentSummary},
+               comments = #{preemployment.prescreenComments},
+               most_recent = #{preemployment.mostRecent}
+         WHERE id = UNHEX(#{preemployment.id})
+    </update>
+    
+    <update id="updateCandidateInterviewInfo">
+        UPDATE interview SET
+               schedule_note = #{interview.schedulingInfo},
+               interview_date = #{interview.interviewTime},
+               confirm_req = #{interview.confimationSent},
+               confirm_rcvd = #{interview.confimationReceived}, 
+               last_contact = #{interview.lastContacted}, 
+               contact_atts = #{interview.contactAttempts},
+               most_recent = #{interview.mostRecent}
+         WHERE id = UNHEX(#{interview.id})
+    </update>  
+    
+    <update id="updateCandidateReference">
+        UPDATE reference SET
+               contact_name = #{reference.name},
+               contact_phone = #{reference.phone},
+               contact_email = #{reference.email},
+               completed_by = #{reference.checkedBy},
+               completed_date = #{reference.checkedOn},
+               position_title = #{reference.jobTitle},
+               relationship = #{reference.relationship},
+               relationship_details = #{reference.workExperience},
+               technical_strength = #{reference.strengths},
+               performance_comments = #{reference.performance},
+               performance_issues = #{reference.issues},
+               teamplayer = #{reference.interpersonal},
+               meets_schedules = #{reference.timeManagement},
+               recommendation = #{reference.comments}, 
+               work_with_again = #{reference.workWithAgain}
+         WHERE id = UNHEX(#{reference.id})
+    </update> 
+    
+    <update id="updateInterviewComment">
+        UPDATE interview_comment SET
+               comment = #{comment.comment},
+               last_modified = #{comment.lastModified}
+         WHERE id = UNHEX(#{comment.id})
+    </update> 
+    
+    <update id="updateComment">
+        UPDATE candidate_comment SET
+               comment = #{comment.comment},
+               last_modified = #{comment.lastModified}
+         WHERE id = UNHEX(#{comment.id})
+    </update> 
+    
+    <delete id="deleteCandidate">
+        DELETE 
+          FROM candidate 
+         WHERE id = UNHEX(#{id})
+    </delete>
+    
+    <delete id="deleteCandidateSkillsData">
+        DELETE 
+          FROM candidate_skillcategory 
+         WHERE candidate_id = UNHEX(#{id})
+    </delete>
+    
+    <delete id="deleteCandidateCertificationsData">
+        DELETE 
+          FROM candidate_certification 
+         WHERE candidate_id = UNHEX(#{id})
+    </delete>
+    
+    <delete id="deleteCandidateInterviewers">
+        DELETE 
+          FROM interview_interviewer
+         WHERE interview_id = UNHEX(#{id})
+    </delete>
+    
+    <delete id="deleteInterviewComment">
+        DELETE 
+          FROM interview_comment
+         WHERE id = UNHEX(#{id})
+    </delete>
+    
+    <delete id="deleteComment">
+        DELETE 
+          FROM candidate_comment
+         WHERE id = UNHEX(#{id})
+    </delete>
+</mapper>
