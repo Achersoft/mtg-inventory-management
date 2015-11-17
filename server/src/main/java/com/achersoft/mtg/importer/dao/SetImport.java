@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Set {
+public class SetImport {
     public String id;
     public String name;
     public String code;
@@ -23,5 +23,5 @@ public class Set {
     public String type;
     public String block;
     public boolean onlineOnly;
-    public List<Card> cards;
+    public List<CardImport> cards;
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.achersoft.mtg.card.persistence.CardMapper">
+    <select id="getSets" resultType="com.achersoft.mtg.card.dao.Set">
+        SELECT id,
+               name
+          FROM mtg_set
+    </select>
+    
+    <select id="getSet" resultType="com.achersoft.mtg.card.dao.Card">
+        SELECT c.id 'id',
+               c.name 'name',
+               c.set_id 'setId',
+               s.name 'set',
+               c.mana_cost 'manaCost',
+               c.type 'type',
+               c.sub_type 'subType',
+               c.rarity 'rarity',
+               c.card_text 'originalText',
+               c.oracle_text 'text',
+               c.artist 'artist',
+               c.power 'power',
+               c.toughness 'toughness',
+               c.number 'number',
+               c.multiverse_id 'multiverseid',
+               c.split_sequence 'splitSequence',
+               c.split_id 'splitId'
+          FROM mtg_card c,
+               mtg_set s
+         WHERE s.id = c.set_id
+        and c.mana_cost is not null
+          limit 10
+    </select>
+</mapper>

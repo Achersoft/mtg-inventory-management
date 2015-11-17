@@ -1,5 +1,8 @@
 package com.achersoft.init;
 
+import com.achersoft.mtg.card.CardService;
+import com.achersoft.mtg.card.CardServiceImpl;
+import com.achersoft.mtg.card.persistence.CardMapper;
 import com.achersoft.mtg.importer.CardImporterService;
 import com.achersoft.mtg.importer.CardImporterServiceImpl;
 import com.achersoft.mtg.importer.persistence.ImporterMapper;
@@ -16,7 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackageClasses = { ImporterMapper.class } )
+@MapperScan(basePackageClasses = { ImporterMapper.class,
+                                   CardMapper.class } )
 public class SpringConfig {
     
     // <editor-fold defaultstate="collapsed" desc="REST Gateways"> 
@@ -28,8 +32,13 @@ public class SpringConfig {
     
     // <editor-fold defaultstate="collapsed" desc="Services"> 
     @Bean
-    public CardImporterService acrdImporterService() {
+    public CardImporterService cardImporterService() {
         return new CardImporterServiceImpl();
+    }
+    
+    @Bean
+    public CardService cardService() {
+        return new CardServiceImpl();
     }
     // </editor-fold>
     

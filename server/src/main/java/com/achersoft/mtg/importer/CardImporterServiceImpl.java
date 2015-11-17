@@ -1,7 +1,7 @@
 package com.achersoft.mtg.importer;
 
-import com.achersoft.mtg.importer.dao.Card;
-import com.achersoft.mtg.importer.dao.Sets;
+import com.achersoft.mtg.importer.dao.CardImport;
+import com.achersoft.mtg.importer.dao.SetsImport;
 import com.achersoft.mtg.importer.persistence.ImporterMapper;
 import javax.inject.Inject;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -13,13 +13,13 @@ public class CardImporterServiceImpl implements CardImporterService {
     private @Inject ImporterMapper mapper;
     
     @Override
-    public void importSets(Sets sets) {
-        sets.getSets().stream().filter((set) -> !set.onlineOnly).forEach((set) -> {
+    public void importSets(SetsImport sets) {
+       /* sets.getSets().stream().filter((set) -> !set.onlineOnly).forEach((set) -> {
             set.setId(DigestUtils.sha1Hex(set.name));
             mapper.addSet(set);
             set.getCards().stream().map((card) -> {
                 if(card.names != null) {
-                    Card splitCard = new Card();
+                    CardImport splitCard = new CardImport();
                     splitCard.setId(DigestUtils.sha1Hex(String.join("", card.names)));
                     splitCard.setSetId(set.getId());
                     if(card.getType().contains("Instant") || card.getType().contains("Sorcery")) {
@@ -38,6 +38,6 @@ public class CardImporterServiceImpl implements CardImporterService {
             }).forEach((card) -> {
                 mapper.addCard(card);
             });
-        });
+        });*/
     }
 }

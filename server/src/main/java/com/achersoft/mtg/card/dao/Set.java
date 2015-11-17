@@ -1,4 +1,4 @@
-package com.achersoft.mtg.importer.dao;
+package com.achersoft.mtg.card.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -6,16 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author Shaun
- */
 @Builder
 @Data
 @NoArgsConstructor 
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Legality {
-    public String format;
-    public String legality;
+public class Set {
+    public String id;
+    public String name;
 }

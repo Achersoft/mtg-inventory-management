@@ -1,7 +1,6 @@
 package com.achersoft.mtg.importer.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Card {
+public class CardImport {
     public String id;
     public String setId;
     public String layout;
@@ -42,10 +41,10 @@ public class Card {
     public String oracle;
     public String flavor;
     public String imageName;
-    public List<Legality> legalities;
+    public List<LegalityImport> legalities;
     public List<String> printings; 
     public boolean reserved;
-    public List<Ruling> rulings;
+    public List<RulingImport> rulings;
     public Integer splitSequence;
     public String splitId;
 }

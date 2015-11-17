@@ -1,9 +1,9 @@
 package com.achersoft.rest.services;
 
 import com.achersoft.mtg.importer.CardImporterService;
-import com.achersoft.mtg.importer.dao.Card;
-import com.achersoft.mtg.importer.dao.Set;
-import com.achersoft.mtg.importer.dao.Sets;
+import com.achersoft.mtg.importer.dao.CardImport;
+import com.achersoft.mtg.importer.dao.SetImport;
+import com.achersoft.mtg.importer.dao.SetsImport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class ImporterRestService {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public void getCandidates(@FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FormDataContentDisposition contentDispositionHeader) throws Exception {
-        cardImporter.importSets(new ObjectMapper().readValue(fileInputStream, Sets.class));
+        cardImporter.importSets(new ObjectMapper().readValue(fileInputStream, SetsImport.class));
     }
     
 /*

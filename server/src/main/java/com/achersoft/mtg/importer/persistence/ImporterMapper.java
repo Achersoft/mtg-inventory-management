@@ -1,9 +1,9 @@
 package com.achersoft.mtg.importer.persistence;
 
-import com.achersoft.mtg.importer.dao.Card;
-import com.achersoft.mtg.importer.dao.Set;
+import com.achersoft.mtg.importer.dao.CardImport;
+import com.achersoft.mtg.importer.dao.SetImport;
 
 public interface ImporterMapper {
-    public void addSet(Set set);
-    public void addCard(Card card);
+    public void addSet(SetImport set);
+    public void addCard(CardImport card);
 }

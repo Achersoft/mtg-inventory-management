@@ -1,7 +1,7 @@
 package com.achersoft.mtg.importer.parser;
 
-import com.achersoft.mtg.importer.dao.Set;
-import com.achersoft.mtg.importer.dao.Sets;
+import com.achersoft.mtg.importer.dao.SetImport;
+import com.achersoft.mtg.importer.dao.SetsImport;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -13,18 +13,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class SetsDeserializer extends JsonDeserializer<Sets> {
+public class SetsDeserializer extends JsonDeserializer<SetsImport> {
  
     @Override
-    public Sets deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        List<Set> set = new ArrayList();
-        Sets sets = new Sets();
-        ObjectMapper mapper = new ObjectMapper();
+    public SetsImport deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        List<SetImport> set = new ArrayList();
+        SetsImport sets = new SetsImport();
+    /*    ObjectMapper mapper = new ObjectMapper();
         Iterator<JsonNode> node = ((JsonNode)jp.getCodec().readTree(jp)).elements();
         while(node.hasNext()) {
-            set.add(mapper.readValue(node.next().toString(), Set.class));
+            set.add(mapper.readValue(node.next().toString(), SetImport.class));
         }
-        sets.setSets(set);
+        sets.setSets(set);*/
         return sets;
     }
 }

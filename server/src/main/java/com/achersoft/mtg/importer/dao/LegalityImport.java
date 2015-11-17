@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Ruling {
-    public String date;
-    public String text;
+public class LegalityImport {
+    public String format;
+    public String legality;
 }

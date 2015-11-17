@@ -1,7 +1,7 @@
 package com.achersoft.mtg.importer;
 
-import com.achersoft.mtg.importer.dao.Sets;
+import com.achersoft.mtg.importer.dao.SetsImport;
 
 public interface CardImporterService {
-    public void importSets(Sets sets);
+    public void importSets(SetsImport sets);
 }

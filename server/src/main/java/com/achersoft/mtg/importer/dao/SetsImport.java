@@ -17,6 +17,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @JsonDeserialize(using = SetsDeserializer.class)
-public class Sets {
-    public List<Set> sets;
+public class SetsImport {
+    public List<SetImport> sets;
 }
