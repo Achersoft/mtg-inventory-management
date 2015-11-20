@@ -5,8 +5,9 @@ angular.module('main', [
   'ngRoute',
   'ngTable', 
   'main.sets',
+  'main.cards',
   'main.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/'});
 }]);

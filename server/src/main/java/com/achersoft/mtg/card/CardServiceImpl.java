@@ -13,13 +13,17 @@ public class CardServiceImpl implements CardService {
     private @Inject CardMapper mapper;
     
     @Override
+    public Card getCard(String id) {
+        return mapper.getCard(id);
+    }
+    
+    @Override
     public List<Set> getSets() {
         return mapper.getSets();
     }    
 
     @Override
-    public List<Card> getSet() {
-        return mapper.getSet();
+    public List<Card> getSet(String id) {
+        return mapper.getSet(id);
     }
-
 }
