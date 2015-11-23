@@ -14,30 +14,34 @@ public class CardImporterServiceImpl implements CardImporterService {
     
     @Override
     public void importSets(SetsImport sets) {
-       /* sets.getSets().stream().filter((set) -> !set.onlineOnly).forEach((set) -> {
+        sets.getSets().stream().filter((set) -> !set.onlineOnly).forEach((set) -> {
             set.setId(DigestUtils.sha1Hex(set.name));
             mapper.addSet(set);
-            set.getCards().stream().map((card) -> {
-                if(card.names != null) {
+            set.getCards().stream().filter((card) -> card.layout.equals("normal") || card.layout.equals("split") || 
+                    card.layout.equals("flip") || card.layout.equals("double-faced")
+            ).map((card) -> {
+                if(card.layout.equalsIgnoreCase("split")) {
                     CardImport splitCard = new CardImport();
                     splitCard.setId(DigestUtils.sha1Hex(String.join("", card.names)));
                     splitCard.setSetId(set.getId());
-                    if(card.getType().contains("Instant") || card.getType().contains("Sorcery")) {
-                    if(card.names.size() <= 2)
-                        splitCard.setName(String.join(" // ", card.names));
-                    else
-                        splitCard.setName(String.join("/", card.names));
-                    } else
-                        splitCard.setName(String.join(" | ", card.names));
+                    splitCard.setName(String.join(" // ", card.names));
                     card.setSplitSequence(card.names.indexOf(card.name)+1);
                     card.setSplitId(splitCard.getId());
                     mapper.addCard(splitCard);
+                } else if(card.layout.equalsIgnoreCase("flip") || card.layout.equalsIgnoreCase("double-faced")) {
+                    CardImport flipCard = new CardImport();
+                    flipCard.setId(DigestUtils.sha1Hex(String.join("", card.names)));
+                    flipCard.setSetId(set.getId());
+                    flipCard.setName(String.join(" | ", card.names));
+                    card.setSplitSequence(card.names.indexOf(card.name)+1);
+                    card.setSplitId(flipCard.getId());
+                    mapper.addCard(flipCard);
                 }
                 card.setSetId(set.getId());
                 return card;
             }).forEach((card) -> {
                 mapper.addCard(card);
             });
-        });*/
+        });
     }
 }

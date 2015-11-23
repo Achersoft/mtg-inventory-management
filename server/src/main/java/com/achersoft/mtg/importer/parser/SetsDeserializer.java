@@ -19,12 +19,12 @@ public class SetsDeserializer extends JsonDeserializer<SetsImport> {
     public SetsImport deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         List<SetImport> set = new ArrayList();
         SetsImport sets = new SetsImport();
-    /*    ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         Iterator<JsonNode> node = ((JsonNode)jp.getCodec().readTree(jp)).elements();
         while(node.hasNext()) {
             set.add(mapper.readValue(node.next().toString(), SetImport.class));
         }
-        sets.setSets(set);*/
+        sets.setSets(set);
         return sets;
     }
 }

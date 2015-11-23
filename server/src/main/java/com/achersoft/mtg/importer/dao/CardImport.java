@@ -21,7 +21,6 @@ public class CardImport {
     public String setId;
     public String layout;
     public String type;
-    public String originalType;
     public List<String> types;
     public List<String> colors;
     public String multiverseid;
@@ -38,13 +37,8 @@ public class CardImport {
     public String manaCost;
     public String originalText;
     public String text;
-    public String oracle;
     public String flavor;
-    public String imageName;
     public List<LegalityImport> legalities;
-    public List<String> printings; 
-    public boolean reserved;
-    public List<RulingImport> rulings;
     public Integer splitSequence;
     public String splitId;
 }
