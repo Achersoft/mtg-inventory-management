@@ -25,6 +25,7 @@ public class CardImport {
     public List<String> colors;
     public String multiverseid;
     public String name;
+    public String number;
     public List<String> names;
     public List<String> subtypes;
     public List<String> supertypes;
@@ -38,7 +39,10 @@ public class CardImport {
     public String originalText;
     public String text;
     public String flavor;
+    public String language;
+    public List<ForeignImport> foreignNames;
     public List<LegalityImport> legalities;
     public Integer splitSequence;
     public String splitId;
+    public boolean hasChildren = false;
 }

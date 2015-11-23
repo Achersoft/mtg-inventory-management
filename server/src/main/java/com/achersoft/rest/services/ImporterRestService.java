@@ -2,12 +2,15 @@ package com.achersoft.rest.services;
 
 import com.achersoft.mtg.importer.CardImporterService;
 import com.achersoft.mtg.importer.dao.CardImport;
+import com.achersoft.mtg.importer.dao.ForeignImport;
 import com.achersoft.mtg.importer.dao.SetImport;
 import com.achersoft.mtg.importer.dao.SetsImport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -20,6 +23,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.context.ApplicationContext;
@@ -34,138 +38,71 @@ public class ImporterRestService {
     @Path("/upload")
     @Produces({MediaType.APPLICATION_JSON})	
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public void getCandidates(@FormDataParam("file") InputStream fileInputStream,
+    public void importAllSets(@FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FormDataContentDisposition contentDispositionHeader) throws Exception {
-        cardImporter.importSets(new ObjectMapper().readValue(fileInputStream, SetsImport.class));
-    }
-    
-/*
-    @GET 
-    @Path("/{id}")
-    @Produces({MediaType.APPLICATION_JSON})	
-    public CandidateDTO getCandidate(@PathParam("id")String id) throws Exception {
-        return ctx.getBean(CandidateDTO.class).fromDAO(candidateProvider.getCandidate(id));	
-    }
-    */
-    //@GET 
-   // @Path("/{id}/resume")
-    //@Produces({"*/*"})
-/*    public Response getCandidateResume(@PathParam("id")String id) throws Exception {
-        CandidateResume candidateResume = candidateProvider.getCandidateResume(id);
-        if(candidateResume == null)
-            return null;
-        return Response.ok(candidateResume.getDocument())
-                .type(candidateResume.getContentType())
-                .tag(candidateResume.getFileName())
-                .build();
-    }
-    
-    @POST 
-    @Path("/{id}/highlightedresume")
-    @Produces({MediaType.APPLICATION_JSON})	
-    @Consumes({MediaType.APPLICATION_JSON})
-    public CandidateResumeDTO getCandidateHighlightedResume(@PathParam("id")String id, CandidateListSearch candidateSearch) throws Exception {
-        return CandidateResumeDTO.builder().resume(candidateProvider.getCandidateHighlightedResume(id, candidateSearch)).build();
-    }
+        SetsImport sets = new ObjectMapper().readValue(fileInputStream, SetsImport.class);
+     //   sets.getSets().stream().forEach((set) -> {System.err.println(set.name);});
+        sets.getSets().stream().forEach((set) -> {
+            Map vars = new HashMap();
 
-    @PUT 
-    @Produces({MediaType.APPLICATION_JSON})	
-    @Consumes({MediaType.APPLICATION_JSON})
-    public CandidateDTO addCandidate(CandidateDTO candidate) throws Exception {
-        return ctx.getBean(CandidateDTO.class).fromDAO(candidateProvider.addCandidate(candidate.toDAO(null), null));	 
+            set.setId(DigestUtils.sha1Hex(set.name));
+ //           mapper.addSet(set);
+            set.getCards().stream().filter((card) -> card.layout.equals("normal") || card.layout.equals("split") || 
+                    card.layout.equals("flip") || card.layout.equals("double-faced")
+            ).forEach((card) -> {
+                if(card.getForeignNames() == null || card.getForeignNames().isEmpty())
+                    card.setForeignNames(new ArrayList());
+                card.getForeignNames().add(ForeignImport.builder().language("english").multiverseid(card.multiverseid).build());
+                card.getForeignNames().stream().forEach((lang) -> { 
+                    if(card.getVariations() != null && !card.getVariations().isEmpty()) {
+                        if(card.getNumber() != null)
+                            card.setName(card.getName() + " (#" + card.getNumber() + ")" );
+                        else {
+                            if(!vars.containsKey(card.getName())) 
+                                vars.put(card.getName(), "A");
+                                
+                            card.setName(card.getName() + " (" + vars.get(card.getName()) + ")" );
+                            vars.put(card.getName(), vars.get(card.getName()));
+                        }
+                        card.setSetId(DigestUtils.sha1Hex(card.getName()+set.getId()+lang.getLanguage()));
+                        card.setLanguage(lang.getLanguage());
+                        card.setMultiverseid(lang.getMultiverseid());
+                        System.err.println(card);
+ //                       mapper.addCard(card);
+                    } });/*else {
+                        card.setSetId(DigestUtils.sha1Hex(card.getName()+set.getId()+lang.getLanguage()));
+                        card.setLanguage(lang.getLanguage());
+                        card.setMultiverseid(lang.getMultiverseid());
+                        if(card.layout.equalsIgnoreCase("split")) {
+                            CardImport splitCard = new CardImport();
+                            splitCard.setId(DigestUtils.sha1Hex(String.join("", card.names)+set.getId()+lang.getLanguage()));
+                            splitCard.setSetId(set.getId());
+                            splitCard.setName(String.join(" // ", card.names));
+                            splitCard.setHasChildren(true);
+                            splitCard.setLanguage(lang.getLanguage());
+                            splitCard.setLayout("split");
+                            card.setSplitSequence(card.names.indexOf(card.name)+1);
+                            card.setSplitId(splitCard.getId());
+  //                          mapper.addCard(splitCard);
+                        } else if(card.layout.equalsIgnoreCase("flip") || card.layout.equalsIgnoreCase("double-faced")) {
+                            CardImport flipCard = new CardImport();
+                            flipCard.setId(DigestUtils.sha1Hex(String.join("", card.names)+set.getId()+lang.getLanguage()));
+                            flipCard.setSetId(set.getId());
+                            flipCard.setName(String.join(" | ", card.names));
+                            flipCard.setLayout("flip");
+                            flipCard.setHasChildren(true);
+                            flipCard.setLanguage(lang.getLanguage());
+                            card.setSplitSequence(card.names.indexOf(card.name)+1);
+                            card.setSplitId(flipCard.getId());
+ //                           mapper.addCard(flipCard);
+                        } else {
+
+                        }
+  //                      mapper.addCard(card);
+                    }
+                });*/
+            });
+        });
+     //   cardImporter.importSets(new ObjectMapper().readValue(fileInputStream, SetsImport.class));
     }
-    
-    @RolesAllowed("estaff")
-    @PUT 
-    @Path("/{id}/comments/")
-    @Produces({MediaType.APPLICATION_JSON})	
-    @Consumes({MediaType.APPLICATION_JSON})
-    public List<CandidateCommentDTO> addComment(@PathParam("id")String id, CandidateCommentDTO comment) throws Exception {
-        List<CandidateCommentDTO> dtos = new ArrayList();
-        if(comment != null) {
-            for(CandidateComment dao : candidateProvider.addComment(comment.toDAO(id)))
-                dtos.add(ctx.getBean(CandidateCommentDTO.class).fromDAO(dao));
-        }
-        return dtos;	
-    }
-    
-    @RolesAllowed("estaff")
-    @PUT 
-    @Path("/interviews/{interviewId}/comments/")
-    @Produces({MediaType.APPLICATION_JSON})	
-    @Consumes({MediaType.APPLICATION_JSON})
-    public List<CandidateInterviewCommentDTO> addInterviewComment(@PathParam("interviewId")String interviewId, CandidateInterviewCommentDTO comment) throws Exception {
-        List<CandidateInterviewCommentDTO> dtos = new ArrayList();
-        if(comment != null) {
-            for(CandidateInterviewComment dao : candidateProvider.addInterviewComment(comment.toDAO(interviewId)))
-                dtos.add(ctx.getBean(CandidateInterviewCommentDTO.class).fromDAO(dao));
-        }
-        return dtos;	
-    }
-    
-    @PUT 
-    @Path("/{id}")
-    @Produces({MediaType.APPLICATION_JSON})	
-    @Consumes({MediaType.APPLICATION_JSON})
-    public CandidateDTO editCandidate(@PathParam("id")String id, CandidateDTO candidate) throws Exception {
-        return ctx.getBean(CandidateDTO.class).fromDAO(candidateProvider.editCandidate(candidate.toDAO(id)));	
-    }
-    
-    @RolesAllowed("estaff")
-    @PUT 
-    @Path("/{candidateId}/comments/{commentId}")
-    @Produces({MediaType.APPLICATION_JSON})	
-    @Consumes({MediaType.APPLICATION_JSON})
-    public List<CandidateCommentDTO> editComment(@PathParam("candidateId")String candidateId, 
-            @PathParam("commentId")String commentId, CandidateCommentDTO comment) throws Exception {
-        List<CandidateCommentDTO> dtos = new ArrayList();
-        for(CandidateComment dao : candidateProvider.editComment(comment.toDAO(commentId, candidateId)))
-            dtos.add(ctx.getBean(CandidateCommentDTO.class).fromDAO(dao));
-        return dtos;	
-    }
-    
-    @RolesAllowed("estaff")
-    @PUT 
-    @Path("/interviews/{interviewId}/comments/{commentId}")
-    @Produces({MediaType.APPLICATION_JSON})	
-    @Consumes({MediaType.APPLICATION_JSON})
-    public List<CandidateInterviewCommentDTO> editInterviewComment(@PathParam("interviewId")String interviewId, 
-            @PathParam("commentId")String commentId, CandidateInterviewCommentDTO comment) throws Exception {
-        List<CandidateInterviewCommentDTO> dtos = new ArrayList();
-        for(CandidateInterviewComment dao : candidateProvider.editInterviewComment(comment.toDAO(commentId, interviewId)))
-            dtos.add(ctx.getBean(CandidateInterviewCommentDTO.class).fromDAO(dao));
-        return dtos;	
-    }
-    
-    @DELETE 
-    @Path("/{id}")
-    public void deleteCandidate(@PathParam("id")String id) {
-        candidateProvider.deleteCandidate(id);	
-    }
-    
-    @RolesAllowed("estaff")
-    @DELETE 
-    @Path("/{candidateId}/comments/{commentId}")
-    @Produces({MediaType.APPLICATION_JSON})	
-    @Consumes({MediaType.APPLICATION_JSON})
-    public List<CandidateCommentDTO> deleteComment(@PathParam("candidateId")String candidateId, 
-            @PathParam("commentId")String commentId, CandidateCommentDTO comment) throws Exception {
-        List<CandidateCommentDTO> dtos = new ArrayList();
-        for(CandidateComment dao : candidateProvider.deleteComment(comment.toDAO(commentId, candidateId)))
-            dtos.add(ctx.getBean(CandidateCommentDTO.class).fromDAO(dao));
-        return dtos;	
-    }
-    
-    @RolesAllowed("estaff")
-    @DELETE 
-    @Path("/interviews/{interviewId}/comments/{commentId}")
-    @Produces({MediaType.APPLICATION_JSON})	
-    @Consumes({MediaType.APPLICATION_JSON})
-    public List<CandidateInterviewCommentDTO> deleteInterviewComment(@PathParam("interviewId")String interviewId, 
-            @PathParam("commentId")String commentId, CandidateInterviewCommentDTO comment) throws Exception {
-        List<CandidateInterviewCommentDTO> dtos = new ArrayList();
-        for(CandidateInterviewComment dao : candidateProvider.deleteInterviewComment(comment.toDAO(commentId, interviewId)))
-            dtos.add(ctx.getBean(CandidateInterviewCommentDTO.class).fromDAO(dao));
-        return dtos;	
-    }*/
 }
