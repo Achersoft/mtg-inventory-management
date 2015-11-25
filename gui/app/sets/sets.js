@@ -62,11 +62,11 @@ angular.module('main.sets', ['ngRoute'])
     var setSvc={};
 
     setSvc.getSets = function(){
-        return $http.get('http://localhost:8080/cards/sets');
+        return $http.get('http://localhost:8080/cards/sets?language=English');
     };
     
     setSvc.getCards = function(setId){
-        return $http.get('http://localhost:8080/cards/sets/' + setId);
+        return $http.get('http://localhost:8080/cards/sets/' + setId + '?language=English');
     };
 
     return setSvc;

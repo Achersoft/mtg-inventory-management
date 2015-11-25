@@ -6,6 +6,7 @@ angular.module('main', [
   'ngTable', 
   'main.sets',
   'main.cards',
+  'main.import',
   'main.version'
 ]).
 config(['$routeProvider', function($routeProvider) {

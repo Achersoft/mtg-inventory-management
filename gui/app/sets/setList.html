@@ -16,21 +16,24 @@
             <td data-title="'P/T'">
                 <div ng-show="{{card.power}}">
                     {{card.power}}/{{card.toughness}}
-                </div>                  
+                </div>               
             </td>
             <td data-title="'Rarity'">
                 {{card.rarity}}
             </td>
             <td data-title="'Condition'">
-                {{candidate.lastAction | date: 'MM/dd/yyyy hh:mm:ss a'}}
+                {{cli.condition}}
             </td>
             <td data-title="'Stock'">
-                {{candidate.lastAction | date: 'MM/dd/yyyy hh:mm:ss a'}}
+                <div ng-show="{{cli.qty}}">
+                    {{cli.qty}}
+                </div>
             </td>
             <td data-title="'Price'">
-                {{candidate.lastAction | date: 'MM/dd/yyyy hh:mm:ss a'}}
+                {{cli.price | currency: '$'}}
             </td>
         </tr>
+
     </table>
 </div>
 
