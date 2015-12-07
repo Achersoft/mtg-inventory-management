@@ -41,4 +41,12 @@ public class Card {
     public Date releaseDate;
     public String splitId;
     public Boolean isFront;
+    public int NM;
+    public int SP;
+    public int MP;
+    public int HP;
+    public int FNM;
+    public int FSP;
+    public int FMP;
+    public int FHP;
 }

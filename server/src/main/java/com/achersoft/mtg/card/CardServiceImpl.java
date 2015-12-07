@@ -18,12 +18,12 @@ public class CardServiceImpl implements CardService {
     }
     
     @Override
-    public List<Set> getSets() {
-        return mapper.getSets();
+    public List<Set> getSets(String language) {
+        return mapper.getSets(language);
     }    
 
     @Override
-    public List<Card> getSet(String id) {
-        return mapper.getSet(id);
+    public List<Card> getSet(String id, String language) {
+        return mapper.getSet(id, language);
     }
 }

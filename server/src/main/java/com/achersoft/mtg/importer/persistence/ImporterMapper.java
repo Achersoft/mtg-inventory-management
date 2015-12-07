@@ -6,4 +6,5 @@ import com.achersoft.mtg.importer.dao.SetImport;
 public interface ImporterMapper {
     public void addSet(SetImport set);
     public void addCard(CardImport card);
+    public void addCardToInventory(CardImport card);
 }

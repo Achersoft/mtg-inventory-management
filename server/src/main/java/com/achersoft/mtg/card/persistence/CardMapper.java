@@ -3,9 +3,10 @@ package com.achersoft.mtg.card.persistence;
 import com.achersoft.mtg.card.dao.Card;
 import com.achersoft.mtg.card.dao.Set;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface CardMapper {
     public Card getCard(String id);
-    public List<Set> getSets();
-    public List<Card> getSet(String id);
+    public List<Set> getSets(String language);
+    public List<Card> getSet(@Param("id") String id, @Param("language") String language);
 }

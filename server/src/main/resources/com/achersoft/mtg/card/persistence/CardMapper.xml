@@ -11,25 +11,37 @@
                c.type 'type',
                c.sub_type 'subType',
                c.rarity 'rarity',
-               c.card_text 'originalText',
-               c.oracle_text 'text',
+               c.card_text 'text',
+               c.oracle_text 'oracle',
                c.artist 'artist',
                c.power 'power',
                c.toughness 'toughness',
                c.number 'number',
                c.multiverse_id 'multiverseid',
                c.split_sequence 'splitSequence',
-               c.split_id 'splitId'
+               c.split_id 'splitId',
+               i.NM 'NM',
+               i.SP 'SP',
+               i.MP 'MP',
+               i.HP 'HP',
+               i.FNM 'FNM',
+               i.FSP 'FSP',
+               i.FMP 'FMP',
+               i.FHP 'FHP'
           FROM mtg_card c,
-               mtg_set s
+               mtg_set s,
+        card_inventory i
          WHERE c.id = #{id}
            AND s.id = c.set_id
+           AND c.id = i.id
     </select>
     
     <select id="getSets" resultType="com.achersoft.mtg.card.dao.Set">
-        SELECT id,
-               name
-          FROM mtg_set
+          SELECT distinct s.id,
+                 s.name
+            FROM mtg_set s
+ LEFT OUTER JOIN mtg_card c ON c.set_id = s.id 
+           WHERE c.language = #{language}     
     </select>
     
     <select id="getSet" resultType="com.achersoft.mtg.card.dao.Card">
@@ -41,19 +53,31 @@
                c.type 'type',
                c.sub_type 'subType',
                c.rarity 'rarity',
-               c.card_text 'originalText',
-               c.oracle_text 'text',
+               c.card_text 'text',
+               c.oracle_text 'oracle',
                c.artist 'artist',
                c.power 'power',
                c.toughness 'toughness',
                c.number 'number',
                c.multiverse_id 'multiverseid',
                c.split_sequence 'splitSequence',
-               c.split_id 'splitId'
+               c.split_id 'splitId',
+               i.NM 'NM',
+               i.SP 'SP',
+               i.MP 'MP',
+               i.HP 'HP',
+               i.FNM 'FNM',
+               i.FSP 'FSP',
+               i.FMP 'FMP',
+               i.FHP 'FHP'
           FROM mtg_card c,
-               mtg_set s
+               mtg_set s,
+               card_inventory i
          WHERE s.id = #{id}
            AND s.id = c.set_id
+           AND c.id = i.id
+           AND c.language = #{language}  
+           AND c.has_children = 0
       ORDER BY c.name
     </select>
 </mapper>

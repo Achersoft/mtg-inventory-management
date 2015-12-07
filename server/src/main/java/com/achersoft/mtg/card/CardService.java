@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface CardService {
     public Card getCard(String id);
-    public List<Set> getSets();
-    public List<Card> getSet(String id);
+    public List<Set> getSets(String language);
+    public List<Card> getSet(String id, String language);
 }

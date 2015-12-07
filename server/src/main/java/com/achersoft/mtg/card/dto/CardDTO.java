@@ -43,27 +43,29 @@ public class CardDTO {
     public Date releaseDate;
     public String splitId;
     public Boolean isFront;
+    public List<CardStockDTO> stock;
     
     public static CardDTO fromDAO(Card dao){
         return CardDTO.builder()
-            .id(dao.id)
-            .name(dao.name)
-            .set(dao.set)    
-            .manaCost((dao.manaCost!=null)?Arrays.asList(dao.manaCost.replace("{", "").replace("}", ",").replace("/", "").toLowerCase().split(",")):null)
-            .type(dao.type)
-            .subType(dao.subType)
-            .isCreature(dao.isCreature)
-            .rarity(dao.rarity)
-            .text(dao.text)
-            .oracle(dao.oracle)
-            .artist(dao.artist)
-            .power(dao.power)
-            .toughness(dao.toughness)
-            .number(dao.number)
-            .multiverseId(dao.multiverseId)
-            .releaseDate(dao.releaseDate)
-            .splitId(dao.splitId)
-            .isFront(dao.isFront)
-            .build();
+                .id(dao.id)
+                .name(dao.name)
+                .set(dao.set)    
+                .manaCost((dao.manaCost!=null)?Arrays.asList(dao.manaCost.replace("{", "").replace("}", ",").replace("/", "").toLowerCase().split(",")):null)
+                .type(dao.type)
+                .subType(dao.subType)
+                .isCreature(dao.isCreature)
+                .rarity(dao.rarity)
+                .text(dao.text)
+                .oracle(dao.oracle)
+                .artist(dao.artist)
+                .power(dao.power)
+                .toughness(dao.toughness)
+                .number(dao.number)
+                .multiverseId(dao.multiverseId)
+                .releaseDate(dao.releaseDate)
+                .splitId(dao.splitId)
+                .isFront(dao.isFront)
+                .stock(CardStockDTO.fromDAO(dao))
+                .build();
     }
 }

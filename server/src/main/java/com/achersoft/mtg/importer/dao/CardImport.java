@@ -45,4 +45,37 @@ public class CardImport {
     public Integer splitSequence;
     public String splitId;
     public boolean hasChildren = false;
+    
+    public CardImport copy() {
+        return CardImport.builder()
+                .id(id)
+                .setId(setId)
+                .layout(layout)
+                .type(type)
+                .types(types)
+                .colors(colors)
+                .multiverseid(multiverseid)
+                .name(name)
+                .number(number)
+                .names(names)
+                .subtypes(subtypes)
+                .supertypes(supertypes)
+                .variations(variations)
+                .cmc(cmc)
+                .rarity(rarity)
+                .artist(artist)
+                .power(power)
+                .toughness(toughness)
+                .manaCost(manaCost)
+                .originalText(originalText)
+                .text(text)
+                .flavor(flavor)
+                .language(language)
+                .foreignNames(foreignNames)
+                .legalities(legalities)
+                .splitSequence(splitSequence)
+                .splitId(splitId)
+                .hasChildren(hasChildren)
+                .build();
+    }
 }

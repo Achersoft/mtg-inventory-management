@@ -33,9 +33,11 @@
                               power, 
                               toughness, 
                               number, 
+                              language,
                               multiverse_id, 
                               split_sequence,
-                              split_id)
+                              split_id,
+                              has_children)
                       VALUES (#{id},
                               #{name},
                               #{setId},
@@ -48,10 +50,18 @@
                               #{artist},
                               #{power},
                               #{toughness},
-                              1,
+                              #{number},
+                              #{language},
                               #{multiverseid},
                               #{splitSequence},
-                              #{splitId})
+                              #{splitId},
+                              #{hasChildren})
       ON DUPLICATE KEY UPDATE id=id
+    </insert>
+    
+    <insert id="addCardToInventory">
+        INSERT INTO card_inventory (id) 
+                            VALUES (#{id})
+     ON DUPLICATE KEY UPDATE id=id
     </insert>
 </mapper>
