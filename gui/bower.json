@@ -18,6 +18,8 @@
     "angular-dragdrop": "1.0.x",
     "html5-boilerplate": "~5.2.0",
     "ng-table": "1.0.x",
-    "bootstrap": "3.3.x"
+    "bootstrap": "3.3.6",
+    "ngcart": "1.0.X",
+    "font-awesome": "4.5.0"
   }
 }

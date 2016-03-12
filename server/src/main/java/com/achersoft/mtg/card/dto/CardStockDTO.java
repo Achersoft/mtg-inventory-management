@@ -26,28 +26,29 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CardStockDTO {
+    public String language;
     public String condition;
     public int qty;
-    public String price;
+    public double price;
     
     public static List<CardStockDTO> fromDAO(Card dao){
         List<CardStockDTO> stocks = new ArrayList();
         if(dao.NM > 0)
-            stocks.add(CardStockDTO.builder().condition("NM/M").qty(dao.NM).price("4.45").build());
+            stocks.add(CardStockDTO.builder().condition("NM/M").qty(dao.NM).price(dao.nmp).build());
         if(dao.SP > 0)
-            stocks.add(CardStockDTO.builder().condition("SP").qty(dao.SP).price("4.45").build());
+            stocks.add(CardStockDTO.builder().condition("SP").qty(dao.SP).price(dao.spp).build());
         if(dao.MP > 0)
-            stocks.add(CardStockDTO.builder().condition("MP").qty(dao.MP).price("4.45").build());
+            stocks.add(CardStockDTO.builder().condition("MP").qty(dao.MP).price(dao.mpp).build());
         if(dao.HP > 0)
-            stocks.add(CardStockDTO.builder().condition("HP").qty(dao.HP).price("4.45").build());
+            stocks.add(CardStockDTO.builder().condition("HP").qty(dao.HP).price(dao.hpp).build());
         if(dao.FNM > 0)
-            stocks.add(CardStockDTO.builder().condition("FNM").qty(dao.FNM).price("4.45").build());
+            stocks.add(CardStockDTO.builder().condition("FNM").qty(dao.FNM).price(dao.fnmp).build());
         if(dao.FSP > 0)
-            stocks.add(CardStockDTO.builder().condition("FSP").qty(dao.FSP).price("4.45").build());
+            stocks.add(CardStockDTO.builder().condition("FSP").qty(dao.FSP).price(dao.fspp).build());
         if(dao.FMP > 0)
-            stocks.add(CardStockDTO.builder().condition("FMP").qty(dao.FMP).price("4.45").build());
+            stocks.add(CardStockDTO.builder().condition("FMP").qty(dao.FMP).price(dao.fmpp).build());
         if(dao.FHP > 0)
-            stocks.add(CardStockDTO.builder().condition("FHP").qty(dao.FHP).price("4.45").build());
+            stocks.add(CardStockDTO.builder().condition("FHP").qty(dao.FHP).price(dao.fhpp).build());
         if(stocks.isEmpty())
             stocks.add(CardStockDTO.builder().condition("Out of Stock").build());
         return stocks;

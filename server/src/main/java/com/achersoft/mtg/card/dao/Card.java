@@ -42,11 +42,19 @@ public class Card {
     public String splitId;
     public Boolean isFront;
     public int NM;
+    public double nmp;
     public int SP;
+    public double spp;
     public int MP;
+    public double mpp;
     public int HP;
+    public double hpp;
     public int FNM;
+    public double fnmp;
     public int FSP;
+    public double fspp;
     public int FMP;
+    public double fmpp;
     public int FHP;
+    public double fhpp;
 }

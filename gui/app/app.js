@@ -4,9 +4,12 @@
 angular.module('main', [
   'ngRoute',
   'ngTable', 
+  'ngCart',
+  'main.home',
   'main.sets',
   'main.cards',
   'main.import',
+  'main.checkout',
   'main.version'
 ]).
 config(['$routeProvider', function($routeProvider) {

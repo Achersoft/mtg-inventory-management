@@ -2,25 +2,34 @@ package com.achersoft.init;
 
 import com.achersoft.mtg.card.CardService;
 import com.achersoft.mtg.card.CardServiceImpl;
+import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.persistence.CardMapper;
 import com.achersoft.mtg.importer.CardImporterService;
 import com.achersoft.mtg.importer.CardImporterServiceImpl;
 import com.achersoft.mtg.importer.persistence.ImporterMapper;
+import com.achersoft.mtg.price.MTGPriceSync;
+import com.achersoft.mtg.price.persistence.PriceMapper;
 import com.achersoft.rest.services.ImporterRestService;
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.sql.DataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
+@EnableScheduling
 @MapperScan(basePackageClasses = { ImporterMapper.class,
-                                   CardMapper.class } )
+                                   CardMapper.class,
+                                   PriceMapper.class} )
 public class SpringConfig {
     
     // <editor-fold defaultstate="collapsed" desc="REST Gateways"> 
@@ -63,6 +72,28 @@ public class SpringConfig {
         sessionFactory.setDataSource(dataSource());
         return sessionFactory;
     }
+    
+    @Bean(name = "setList")
+    public  Map<String, List<Set>> setList(CardMapper mapper) {
+        Map<String, List<Set>> setLists = new HashMap();
+        setLists.put("English", mapper.getSets("English"));
+        setLists.put("Russian", mapper.getSets("Russian"));
+        setLists.put("Japanese", mapper.getSets("Japanese"));
+        setLists.put("Korean", mapper.getSets("Korean"));
+        setLists.put("Spanish", mapper.getSets("Spanish"));
+        setLists.put("German", mapper.getSets("German"));
+        setLists.put("Portuguese", mapper.getSets("Portuguese (Brazil)"));
+        setLists.put("French", mapper.getSets("French"));
+        setLists.put("Italian", mapper.getSets("Italian"));
+        return setLists;
+    }
+    
+    @Bean
+    public MTGPriceSync MTGPriceSync() {
+        return new MTGPriceSync();
+    }
+
+    
     
     /*@Bean
     public EstaffPropertiesManager estaffPropertiesManager(ConfigurationMapper mapper) {

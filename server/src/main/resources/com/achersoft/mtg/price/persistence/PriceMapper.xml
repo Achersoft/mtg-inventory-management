@@ -1,0 +1,32 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.achersoft.mtg.price.persistence.PriceMapper">
+    <select id="getSets" resultType="com.achersoft.mtg.price.dao.PriceSet">
+        SELECT id 'id',
+	       mtg_price_code 'code'
+          FROM mtg_set
+         WHERE mtg_price_code is not null 
+    </select>
+    
+    <select id="getCardId" resultType="java.lang.String">
+        SELECT id 
+          FROM mtg_card
+         WHERE name = #{cardName}
+           AND set_id = #{setId}
+           AND language = #{language}
+    </select>
+    
+    <update id="updatePrice">
+     UPDATE card_inventory ci SET
+            ci.nm_price = #{nm},
+            ci.sp_price = #{sp},
+            ci.mp_price = #{mp},
+            ci.hp_price = #{hp},
+            ci.fnm_price = #{fnm},
+            ci.fsp_price = #{fsp},
+            ci.fmp_price = #{fmp},
+            ci.fhp_price = #{fhp}
+      WHERE ci.id = #{cardId}
+    </update>
+</mapper>

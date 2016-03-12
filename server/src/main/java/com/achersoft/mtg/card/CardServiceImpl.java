@@ -4,6 +4,8 @@ import com.achersoft.mtg.card.dao.Card;
 import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.persistence.CardMapper;
 import java.util.List;
+import java.util.Map;
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CardServiceImpl implements CardService {
 
     private @Inject CardMapper mapper;
+    private @Resource(name="setList") Map<String, List<Set>> setList;
     
     @Override
     public Card getCard(String id) {
@@ -19,7 +22,7 @@ public class CardServiceImpl implements CardService {
     
     @Override
     public List<Set> getSets(String language) {
-        return mapper.getSets(language);
+        return setList.get(language);
     }    
 
     @Override
