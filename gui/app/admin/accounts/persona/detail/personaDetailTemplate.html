@@ -1,0 +1,32 @@
+<div esi-static-enum-list></div>
+
+<form name="personaForm" novalidate>
+    <div class="row esi-row-offset-md">
+        <div class="col-md-4" ng-class="{'has-error':personaForm.personaName.$invalid && personaForm.personaName.$dirty}">
+            <label uib-tooltip="Persona Name is required" tooltip-trigger="mouseenter" tooltip-popup-delay='500' for="personaName">Persona Name<span class="esi-alert fa fa-flag"></span></label>
+            <input ng-model="personaContext.persona.name" type="text" class="form-control" id="personaName" name="personaName" placeholder="Persona Name" required ng-maxlength="255" ng-readonly="!personaContext.editMode"/>
+            <span class="help-block has-error" ng-show="personaForm.personaName.$error && personaForm.personaName.$dirty"
+                ng-messages="personaForm.personaName.$error">
+                <span ng-message="required">Persona name is required</span>
+                <span ng-message="maxlength">Persona name must be less than 255 characters</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="row esi-row-offset-md">
+        <div class="col-md-12">
+            <label>Description</label>
+            <textarea class="form-control" rows="3" ng-model="personaContext.persona.description" id="personaDescription" ng-readonly="!personaContext.editMode"></textarea>
+        </div>
+    </div>
+
+    <privilege-selection 
+        model="personaContext.persona.privileges"
+        edit-mode="personaContext.editMode"
+        select-ng-options="privileges"
+        >
+    </privilege-selection>
+</form>
+
+
+

@@ -1,10 +1,12 @@
 package com.achersoft.init;
 
+import com.achersoft.security.features.RequiresPrivilegeDynamicFeature;
+import com.achersoft.security.filters.AuthenticationFilter;
+import com.achersoft.security.filters.UserContextFilter;
 import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.springframework.web.filter.RequestContextFilter;
 
 @ApplicationPath("/*")
@@ -15,8 +17,8 @@ public class JerseyConfig extends ResourceConfig {
         
         // register filters
         register(RequestContextFilter.class);
-        //register(AuthenticationFilter.class);
-        //register(UserContextFilter.class);
+        register(AuthenticationFilter.class);
+        register(UserContextFilter.class);
         
         // register exception handlers
         //register(UncheckedExceptionMapper.class);
@@ -26,7 +28,7 @@ public class JerseyConfig extends ResourceConfig {
         
         // register features
         register(JacksonFeature.class);
-        register(RolesAllowedDynamicFeature.class);
+        register(RequiresPrivilegeDynamicFeature.class);
         register(MultiPartFeature.class);
     }
 }

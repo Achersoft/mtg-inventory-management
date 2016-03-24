@@ -9,8 +9,7 @@ angular.module('main', [
   'main.sets',
   'main.cards',
   'main.import',
-  'main.checkout',
-  'main.version'
+  'main.checkout'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/'});

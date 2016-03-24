@@ -1,0 +1,17 @@
+<div>
+    <persona-detail-template></persona-detail-template>
+   
+    <div class="text-right">
+        <button ng-show="personaContext.editMode" class="btn btn-primary" ng-click="save(personaForm.$valid)">
+            <span class="fa fa-save" ></span> Save 
+        </button>
+        <button ng-show="!personaContext.editMode" class="btn btn-primary" ng-click="edit()">
+            <span class="fa fa-edit" ></span> Edit 
+        </button>
+        <button  ng-show="personaContext.editMode" class="btn btn-default" ui-sref="admin.persona.list">
+            <span class="fa fa-ban"></span> Cancel
+        </button>
+    </div>
+</div>
+
+

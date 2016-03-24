@@ -5,7 +5,7 @@ module.exports = function (grunt) {
             build:{
                 cwd:'app',
                 src:['**'],
-                dest:'/Program Files (x86)/Apache Software Foundation/Apache Tomcat/webapps/titan/',
+                dest:'/Users/shaun/AppData/Roaming/NetBeans/8.1/apache-tomcat-8.0.27.0_base/webapps/titan/',
                 expand:true
             }
         },
