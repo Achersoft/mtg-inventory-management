@@ -2,6 +2,7 @@ package com.achersoft.rest.services;
 
 import com.achersoft.user.UserService;
 import com.achersoft.user.dao.User;
+import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,13 @@ public class UserRestService {
 
     private @Inject UserService userProvider; 
 
+    @GET 
+    @Path("/")
+    @Produces({MediaType.APPLICATION_JSON})	
+    public List<User> getUsers() throws Exception {
+        return userProvider.getUsers();	
+    }
+    
     @GET 
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})	

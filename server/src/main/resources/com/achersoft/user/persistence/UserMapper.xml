@@ -16,13 +16,17 @@
     <sql id="userSelection">
         SELECT u.id 'id', 
                u.user_name 'username', 
-               u.user_first_name 'firstName', 
-               u.user_last_name 'lastName', 
+               u.first_name 'firstName', 
+               u.last_name 'lastName', 
                u.locked 'locked',  
-               u.login_attempt 'loginAttempts',  
+               u.login_attempts 'loginAttempts',  
                u.last_login 'lastAccessed'
           FROM user u
     </sql>
+    
+    <select id="getUsers" resultType="com.achersoft.user.dao.User"> 
+        <include refid="userSelection"/>
+    </select>
     
     <select id="getUser" resultType="com.achersoft.user.dao.User"> 
         <include refid="userSelection"/>

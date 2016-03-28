@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserMapper {   
     public void createUser(User user);
+    public List<User> getUsers();
     public User getUser(int id);
     public User getUserFromName(String userName);
     public List<Privilege> getUserPrivileges(int id);

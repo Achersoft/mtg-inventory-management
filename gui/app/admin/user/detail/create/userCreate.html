@@ -2,12 +2,14 @@
     <user-detail-template></user-detail-template>
    
     <div class="text-right">
-        <button class="btn btn-primary" ng-click="userForm.userName.$dirty=true;userForm.firstName.$dirty=true;userForm.lastName.$dirty=true;userForm.email.$dirty=true;userForm.authenticator.$dirty=true;create(userForm.$valid)">
+        <button class="btn btn-primary" ng-click="userForm.userName.$dirty=true;userForm.firstName.$dirty=true;userForm.lastName.$dirty=true;create(userForm.$valid)">
             <span class="fa fa-save" ></span> Add 
         </button>
-        <button class="btn btn-default" ui-sref="accounts.user.list">
+        <a href="#/users/viewAll"> 
+            <button class="btn btn-default">
             <span class="fa fa-ban"></span> Cancel
         </button>
+        </a>
     </div>
 </div>
 

@@ -1,7 +1,10 @@
 package com.achersoft.user;
 
+import com.achersoft.exception.InvalidDataException;
+import com.achersoft.security.helpers.PasswordHelper;
 import com.achersoft.user.dao.User;
 import com.achersoft.user.persistence.UserMapper;
+import java.util.List;
 import javax.inject.Inject;
 
 public class UserServiceImpl implements UserService {
@@ -10,8 +13,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
+        if(user.getPassword() == null || user.getPassword().isEmpty())
+            throw new InvalidDataException("A user password must be provided.");
+            
+        // Salt the user password before storage
+        user.setPassword(PasswordHelper.generatePasswordHash(user.getPassword()));
+        
         userMapper.createUser(user);
         return userMapper.getUserFromName(user.getUsername());
+    }
+    
+    @Override
+    public List<User> getUsers() {
+        return userMapper.getUsers();
     }
 
     @Override
@@ -29,6 +43,4 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(int id) {
         userMapper.deleteUser(id);
     }
-    
-
 }

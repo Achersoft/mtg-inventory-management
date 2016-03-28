@@ -5,6 +5,7 @@ angular.module('main', [
   'ngRoute',
   'ngTable', 
   'ngCart',
+  'main.users',
   'main.home',
   'main.sets',
   'main.cards',

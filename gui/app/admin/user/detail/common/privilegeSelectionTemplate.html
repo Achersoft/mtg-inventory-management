@@ -1,0 +1,55 @@
+<dual-list-box
+    model="model"
+    help-label="Privilege Details"
+    help-modal="privilegeHelpModal"
+    element-id="privilege"
+    edit-mode="editMode"
+    label="Privileges"
+    options="item.id as item.value for item in selectNgOptions"
+    select-ng-options="selectNgOptions"
+    get-text="getText"
+    >
+</dual-list-box> 
+
+<div id="privilegeHelpModal" class="modal fade" role="dialog">  
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Privilege Details</h4>
+            </div>
+            <div class="modal-body">
+                 <!-- "Table" Column Headers -->
+                <div class="row esi-row-offset-md" >
+                    <div class="col-md-4" style="font-weight:bold;">Name</div>
+                    <div class="col-md-8" style="font-weight:bold;">Description</div>
+                </div>
+                <div class="row">
+                    <hr style="background-color:grey;border-color:grey;color:grey;margin-top:2px;margin-bottom:2px;padding-left:0px;padding-right:0px;">
+                </div>
+                <!-- "Table" contents -->
+                <!-- standard row contents -->
+                <div class="row" ng-repeat-start="privilege in privileges" ng-class-odd="'esi-row-alt'" style="padding-top:6px;padding-bottom:6px;">
+                    <div class="col-md-4">
+                        {{privilege.value}}
+                    </div>
+                    <div class="col-md-8">
+                        {{privilege.description}}
+                    </div>
+                </div>
+                <div class="row" ng-repeat-end>
+                    <div class="col-md-12" style="padding-left:0;padding-right:0;">
+                        <hr style="background-color:grey;border-color:grey;color:grey;margin-top:0px;margin-bottom:0px;padding-left:0px;padding-right:0px;">
+                    </div>
+                </div>
+            </div>            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-save"></span> 
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>   
+

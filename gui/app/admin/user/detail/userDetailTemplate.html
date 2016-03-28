@@ -1,9 +1,7 @@
-<div esi-static-enum-list/>
-
 <form name="userForm" novalidate>
     <div class="row esi-row-offset-md">
         <div class="col-md-4" ng-class="{'has-error':userForm.userName.$invalid && userForm.userName.$dirty}">
-            <label uib-popover="User Name is required" popover-trigger="mouseenter" for="userName">User Name<span class="esi-alert fa fa-flag"></span></label>
+            <label uib-popover="User Name is required" popover-trigger="mouseenter" for="userName">User Name <span class="esi-alert fa fa-flag"></span></label>
             <input ng-model="userContext.user.username" type="text" class="form-control" id="userName" name="userName" placeholder="User Name" required ng-maxlength="255" ng-readonly="!userContext.editMode"/>
             <span class="help-block has-error" ng-show="userForm.userName.$error && userForm.userName.$dirty"
                 ng-messages="userForm.userName.$error">
@@ -12,8 +10,8 @@
             </span>
         </div>
         
-        <div class="col-md-3" ng-class="{'has-error':userForm.firstName.$invalid && userForm.firstName.$dirty}">
-            <label uib-popover="First Name is required" popover-trigger="mouseenter" for="firstName">First Name<span class="esi-alert fa fa-flag"></span></label>
+        <div class="col-md-4" ng-class="{'has-error':userForm.firstName.$invalid && userForm.firstName.$dirty}">
+            <label uib-popover="First Name is required" popover-trigger="mouseenter" for="firstName">First Name <span class="esi-alert fa fa-flag"></span></label>
             <input ng-model="userContext.user.firstName" type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required ng-maxlength="255" ng-readonly="!userContext.editMode"/>
             <span class="help-block has-error" ng-show="userForm.firstName.$error && userForm.firstName.$dirty"
                 ng-messages="userForm.firstName.$error">
@@ -22,13 +20,8 @@
             </span>
         </div>
         
-        <div class="col-md-2" >
-            <label for="middleInitial">Middle Initial</span></label>
-            <input ng-model="userContext.user.middleInitial" type="text" class="form-control" id="middleInitial" name="middleInitial" placeholder="" ng-maxlength="255" ng-readonly="!userContext.editMode"/>
-        </div>
-        
-        <div class="col-md-3" ng-class="{'has-error':userForm.lastName.$invalid && userForm.lastName.$dirty}">
-            <label uib-popover="Last Name is required" popover-trigger="mouseenter" for="lastName">Last Name<span class="esi-alert fa fa-flag"></span></label>
+        <div class="col-md-4" ng-class="{'has-error':userForm.lastName.$invalid && userForm.lastName.$dirty}">
+            <label uib-popover="Last Name is required" popover-trigger="mouseenter" for="lastName">Last Name <span class="esi-alert fa fa-flag"></span></label>
             <input ng-model="userContext.user.lastName" type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required ng-maxlength="255" ng-readonly="!userContext.editMode"/>
             <span class="help-block has-error" ng-show="userForm.lastName.$error && userForm.lastName.$dirty"
                 ng-messages="userForm.lastName.$error">
@@ -39,72 +32,34 @@
     </div>
     
     <div class="row esi-row-offset-md">
-        <div class="col-md-4" ng-class="{'has-error':userForm.email.$invalid && userForm.email.$dirty}">
-            <label uib-popover="User Name is required" popover-trigger="mouseenter" for="email">Email Address<span class="esi-alert fa fa-flag"></span></label>
-            <input ng-model="userContext.user.email" type="email" class="form-control" id="email" name="email" placeholder="Email" required ng-maxlength="255" ng-readonly="!userContext.editMode"/>
-            <span class="help-block has-error" ng-show="userForm.email.$error && userForm.email.$dirty"
-                ng-messages="userForm.email.$error">
-                <span ng-message="required">Email address is required</span>
-                <span ng-message="email">Email address format not valid</span>
-                <span ng-message="maxlength">Email address must be less than 255 characters</span>
-            </span>
-        </div>
-        
         <div class="col-md-4">
             <label for="userPassword">Password</label>
             <input ng-model="userContext.user.password" type="password" class="form-control" id="userPassword" name="userPassword" placeholder="Password" ng-maxlength="255" ng-readonly="!userContext.editMode"/>
         </div> 
         
-        <div class="col-md-4" ng-class="{'has-error':userForm.authenticator.$invalid && userForm.authenticator.$dirty}">
-            <label uib-popover="Authenticator is required" popover-trigger="mouseenter" for="authenticator">Authenticator<span class="esi-alert fa fa-flag"></span></label>
-            <select id="authenticator" name="authenticator" ng-readonly="!userContext.editMode" class="form-control" required ng-model="userContext.user.authenticatorId" ng-options="auth.id as auth.value for auth in authenticators"></select>
-            <span class="help-block has-error" ng-show="userForm.authenticator.$error && userForm.authenticator.$dirty"
-                ng-messages="userForm.authenticator.$error">
-                <span ng-message="required">Authenticator is required</span>
-            </span>
-        </div>   
-    </div>
-    
-    <div class="row esi-row-offset-md">
-        <div class="col-md-4">
-            <label>User is a Manager? </label>
-            <esi-on-off-switch switch-inline="true" ng-model="userContext.user.manager" switch-disabled="{{!userContext.editMode}}"></esi-on-off-switch>
-        </div>      
         <div class="col-md-4">
             <label>User is Locked? </label>
             <esi-on-off-switch switch-inline="true" ng-model="userContext.user.locked" switch-disabled="{{!userContext.editMode}}"></esi-on-off-switch>
         </div> 
-        <div class="col-md-4">
-            <label>User is Disabled? </label>
-            <esi-on-off-switch switch-inline="true" ng-model="userContext.user.disabled" switch-disabled="{{!userContext.editMode}}"></esi-on-off-switch>
-        </div>          
-    </div> 
-    
-    <div class="row esi-row-offset-md">
-        <div class="col-md-4" >
-            <label>Failed Login Attempts</label>
-            <input ng-model="userContext.user.loginAttempts" type="text" class="form-control" ng-readonly="true"/>
-        </div>          
+        
         <div class="col-md-4" >
             <label>Last Accessed</label>
             <input value="{{userContext.user.lastAccessed | date: 'MM/dd/yyyy hh:mm:ss a'}}" type="text" class="form-control" ng-readonly="true"/>
-        </div>  
-        <div class="col-md-4" >
-            <label>Password Expiration</label>
-            <input value="{{userContext.user.expires | date: 'MM/dd/yyyy hh:mm:ss a'}}" type="text" class="form-control" ng-readonly="true"/>
-        </div>  
-    </div> 
+        </div>
+    </div>
     
     <div class="row esi-row-offset-md">
         <div class="col-md-12" >
-            <persona-selection 
-                model="userContext.user.personas"
+            <privilege-selection 
+                model="userContext.user.privileges"
                 edit-mode="userContext.editMode"
-                select-ng-options="personas"
+                select-ng-options="privileges"
                 >
-            </persona-selection>
+            </privilege-selection>
         </div>
-    </div> 
+    </div>
+    
+    <p></p>
 </form>
 
 

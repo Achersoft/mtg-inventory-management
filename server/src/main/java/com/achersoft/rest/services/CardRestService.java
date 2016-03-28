@@ -1,14 +1,11 @@
 package com.achersoft.rest.services;
 
 import com.achersoft.mtg.card.CardService;
-import com.achersoft.mtg.card.dao.Card;
 import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.dto.CardDTO;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
