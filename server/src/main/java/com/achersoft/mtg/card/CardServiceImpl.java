@@ -1,11 +1,13 @@
 package com.achersoft.mtg.card;
 
 import com.achersoft.mtg.card.dao.Card;
+import com.achersoft.mtg.card.dao.CardListItem;
 import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.persistence.CardMapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +29,10 @@ public class CardServiceImpl implements CardService {
     }    
 
     @Override
-    public List<Card> getSet(String id, String language) {
-        return mapper.getSet(id, language);
+    public List<CardListItem> getSet(String id, String language) {
+        return mapper.getSet(id, language).stream().map((card) -> {
+            return CardListItem.fromCard(card);
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -40,6 +44,7 @@ public class CardServiceImpl implements CardService {
         setLists.put("Korean", mapper.getSets("Korean"));
         setLists.put("Spanish", mapper.getSets("Spanish"));
         setLists.put("German", mapper.getSets("German"));
+        setLists.put("Chinese", mapper.getSets("Chinese Simplified"));
         setLists.put("Portuguese", mapper.getSets("Portuguese (Brazil)"));
         setLists.put("French", mapper.getSets("French"));
         setLists.put("Italian", mapper.getSets("Italian"));

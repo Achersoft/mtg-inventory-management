@@ -58,6 +58,7 @@
                c.name 'name',
                c.set_id 'setId',
                s.name 'set',
+               c.language 'language',
                c.mana_cost 'manaCost',
                c.type 'type',
                c.sub_type 'subType',

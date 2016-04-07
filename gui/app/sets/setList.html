@@ -13,24 +13,27 @@
             <td data-title="'Type'">
                 {{card.type}}
             </td>
-            <td data-title="'P/T'">
-                <div ng-show="{{card.power}}">
-                    {{card.power}}/{{card.toughness}}
-                </div>               
-            </td>
             <td data-title="'Rarity'">
                 {{card.rarity}}
             </td>
             <td data-title="'Condition'">
-                {{cli.condition}}
+                {{card.condition}}
             </td>
             <td data-title="'Stock'">
-                <div ng-show="{{cli.qty}}">
-                    {{cli.qty}}
+                <div ng-show="{{card.qty}} > 0">
+                    {{card.qty}}
+                </div>
+                <div ng-show="{{card.qty}} === 0">
+                    Out of Stock
                 </div>
             </td>
             <td data-title="'Price'">
-                {{cli.price | currency: '$'}}
+                {{card.price | currency: '$'}}
+            </td>
+            <td data-title="">
+                <div ng-show="{{card.qty}} > 0">
+                    <ngcart-addtocart id="{{card.id}}{{card.setId}}{{card.condition}}" name="{{card.name}} - {{card.condition}}" price="{{card.price}}" quantity="1" quantity-max="{{card.qty}}" data="card">Add to Cart</ngcart-addtocart>
+                </div>
             </td>
         </tr>
 

@@ -141,6 +141,7 @@ public class SpringConfig {
         setLists.put("Korean", mapper.getSets("Korean"));
         setLists.put("Spanish", mapper.getSets("Spanish"));
         setLists.put("German", mapper.getSets("German"));
+        setLists.put("Chinese", mapper.getSets("Chinese Simplified"));
         setLists.put("Portuguese", mapper.getSets("Portuguese (Brazil)"));
         setLists.put("French", mapper.getSets("French"));
         setLists.put("Italian", mapper.getSets("Italian"));

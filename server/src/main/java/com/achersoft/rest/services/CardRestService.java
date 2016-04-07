@@ -3,6 +3,7 @@ package com.achersoft.rest.services;
 import com.achersoft.mtg.card.CardService;
 import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.dto.CardDTO;
+import com.achersoft.mtg.card.dto.CardListItemDTO;
 import com.achersoft.mtg.card.dto.SetDTO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -48,8 +49,8 @@ public class CardRestService {
     @GET 
     @Path("/sets/{id}")
     @Produces({MediaType.APPLICATION_JSON})	
-    public List<CardDTO> getSet(@PathParam("id") String id, @QueryParam("language") String language) throws Exception {
-        return cardService.getSet(id, language).stream().map((dao) -> {return CardDTO.fromDAO(dao);}).collect(Collectors.toList());	
+    public List<CardListItemDTO> getSet(@PathParam("id") String id, @QueryParam("language") String language) throws Exception {
+        return cardService.getSet(id, language).stream().map((dao) -> {return CardListItemDTO.fromDAO(dao);}).collect(Collectors.toList());	
     }
     
     @GET 

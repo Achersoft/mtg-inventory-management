@@ -26,6 +26,7 @@ public class Card {
     public String name;
     public String setId;
     public String set;
+    public String language;
     public String manaCost;
     public String type;
     public String subType;
