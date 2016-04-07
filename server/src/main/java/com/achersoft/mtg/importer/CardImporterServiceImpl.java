@@ -1,16 +1,17 @@
 package com.achersoft.mtg.importer;
 
+import com.achersoft.mtg.card.CardService;
 import com.achersoft.mtg.importer.dao.CardImport;
 import com.achersoft.mtg.importer.dao.ForeignImport;
 import com.achersoft.mtg.importer.dao.SetsImport;
 import com.achersoft.mtg.importer.persistence.ImporterMapper;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -18,13 +19,28 @@ import javax.inject.Inject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
-public class CardImporterServiceImpl implements CardImporterService {
-    
+public class CardImporterServiceImpl implements CardImporterService, Runnable { 
+
+    private @Inject CardService cardService; 
     private @Inject ImporterMapper mapper;
+    private @Inject ThreadPoolExecutor threadPoolExecutor;
+    private SetsImport sets;
     
     @Override
     public void importSets(SetsImport sets) {
+        if(!threadPoolExecutor.getQueue().contains(this)) {
+            this.sets = sets;
+            threadPoolExecutor.execute(this);
+        }
+    }
+
+    @Override
+    public void run() {
+        importSets();
+    }
+    
+    @Transactional
+    private void importSets() {
         sets.getSets().stream().forEach((set) -> {
             Map vars = new HashMap();
             set.setId(DigestUtils.sha1Hex(set.name));
@@ -101,6 +117,7 @@ public class CardImporterServiceImpl implements CardImporterService {
                 });
             });
         });
+        cardService.refreshSets();
     }
     
     private void importImage(String id, String multiverseId) {
@@ -116,11 +133,13 @@ public class CardImporterServiceImpl implements CardImporterService {
             if(image != null) {
                 ImageIO.write(image, "jpeg", f2);
             } else {
-                image = ImageIO.read(new File(f, "blank.jpeg"));
+                image = ImageIO.read(new File(new File(System.getProperty("catalina.base"), "webapps/titan/images"), "blank.jpeg"));
                 ImageIO.write(image, "jpeg", f2);
             }
         } catch (Exception ex) {
             Logger.getLogger(CardImporterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
 }

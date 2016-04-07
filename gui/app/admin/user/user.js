@@ -14,20 +14,25 @@ angular.module('main.users', ['ngRoute'])
     });
 }])
 
-.controller('UserCtrl', ['$scope', '$routeParams', 'NgTableParams', 'UserSvc', 'UserState', function ($scope, $routeParams, NgTableParams, userSvc, userState) {
+.controller('UserCtrl', ['$scope', '$location', '$route', '$routeParams', 'NgTableParams', 'UserSvc', 'UserState', function ($scope, $location, $route, $routeParams, NgTableParams, userSvc, userState) {
     $scope.userContext = userState.get();
     
-    $scope.edit = function() {
-        userState.get().editMode = true;
+    
+    $scope.edit = function(userId) {
+        $scope.userContext.editMode = true;
+        $scope.userContext.user = userSvc.getUser(userId);
+        $location.path("/users/add");
     }; 
     
     $scope.create = function(isValid) {
-        userSvc.createUser($scope.userContext.user);
+        userSvc.createUser($scope.userContext.user).then(function() {
+            $location.path("/users/viewAll");
+        });
     }; 
     
     $scope.delete = function(userId) {
         userSvc.deleteUser(userId).then(function() {
-            location.reload();
+            $route.reload();
         });
     }; 
     
@@ -81,6 +86,10 @@ angular.module('main.users', ['ngRoute'])
 
     userSvc.getUsers = function(){
         return $http.get('http://localhost:8080/users/');
+    };
+    
+    userSvc.getUser = function(userId){
+        return $http.get('http://localhost:8080/users/' + userId);
     };
     
     userSvc.createUser = function(user){

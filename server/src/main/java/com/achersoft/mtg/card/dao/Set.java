@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Set {
-    public String id;
-    public String name;
+    private String id;
+    private String name;
+    private String language;
 }

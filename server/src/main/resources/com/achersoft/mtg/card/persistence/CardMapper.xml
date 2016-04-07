@@ -46,7 +46,8 @@
     
     <select id="getSets" resultType="com.achersoft.mtg.card.dao.Set">
           SELECT distinct s.id,
-                 s.name
+                 s.name,
+                 c.language
             FROM mtg_set s
  LEFT OUTER JOIN mtg_card c ON c.set_id = s.id 
            WHERE c.language = #{language}     

@@ -4,11 +4,11 @@ angular.module('main.sets', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
-    .when('/setSelection', {
+    .when('/setSelection/:language', {
         templateUrl: 'sets/setSelection.html',
         controller: 'SetCtrl'
     })
-    .when('/setList/:setId', {
+    .when('/setList/:setId/:language', {
         templateUrl: 'sets/setList.html',
         controller: 'SetCtrl'
     });
@@ -17,11 +17,23 @@ angular.module('main.sets', ['ngRoute'])
 .controller('SetCtrl', ['$scope', '$routeParams', 'NgTableParams', 'SetSvc', function ($scope, $routeParams, NgTableParams, setSvc) {
     $scope.sets;
     
-    setSvc.getSets().success(function (data) {
+    setSvc.getSets($routeParams.language).success(function (data) {
         $scope.sets = data;
     });
 
     $scope.headerLinks = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+    
+    $scope.hasAnchor = function (start) {
+        for(var set in $scope.sets) {
+            
+           // console.log($scope.sets[set].name);
+           // console.log(start.toLowerCase());
+          //  console.log(set.toLowerCase().indexOf(start.toLowerCase()));
+            if($scope.sets[set].name.toLowerCase().indexOf(start) === 0)
+                return true;
+        }
+        return false;
+    };
 
     $scope.startsWith = function (actual, expected) {
         var lowerStr = (actual + "").toLowerCase();
@@ -48,7 +60,7 @@ angular.module('main.sets', ['ngRoute'])
     {   total: 0, 
         counts: [], 
         getData: function ($defer, params) {
-            setSvc.getCards($routeParams.setId).success(function (result) {
+            setSvc.getCards($routeParams.setId, $routeParams.language).success(function (result) {
                 params.total(result.length);
                 $defer.resolve(result.slice((params.page() - 1) * params.count(), params.page() * params.count()));
             }).error(function(error){
@@ -61,12 +73,12 @@ angular.module('main.sets', ['ngRoute'])
 .factory('SetSvc',['$http', function($http){    
     var setSvc={};
 
-    setSvc.getSets = function(){
-        return $http.get('http://localhost:8080/cards/sets?language=English');
+    setSvc.getSets = function(lang){
+        return $http.get('http://localhost:8080/cards/sets?language=' + lang);
     };
     
-    setSvc.getCards = function(setId){
-        return $http.get('http://localhost:8080/cards/sets/' + setId + '?language=English');
+    setSvc.getCards = function(setId, lang){
+        return $http.get('http://localhost:8080/cards/sets/' + setId + '?language=' + lang);
     };
 
     return setSvc;
