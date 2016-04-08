@@ -10,9 +10,12 @@
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topNav/navBarDir.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/user/detail/view/userView.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/user/detail/userDetailDir.js</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/cards/cardDetails.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/accounts/persona/common/privilegeSelectionDir.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/user/user.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/accounts/accountsNav.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/template/ngCart/addtocart.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topHeader/navHeader.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/Gruntfile.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/index.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/user/detail/common/privilegeSelectionTemplate.html</file>
@@ -23,13 +26,14 @@
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/accounts/user/UserCtrl.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/onOffSwitch/onOffSwitchTemplate.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/user/detail/common/privilegeSelectionDir.js</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topHeader/navHeaderDir.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/import/allSets.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/sets/sets.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/cards/cards.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/user/list/userList.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/accounts/user/UserSvc.js</file>
-            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topNav/navBar.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/sets/setList.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topNav/navBar.html</file>
         </group>
     </open-files>
 </project-private>

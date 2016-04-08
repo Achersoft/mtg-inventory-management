@@ -2,58 +2,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="com.achersoft.mtg.card.persistence.CardMapper">
-    <select id="getCard" resultType="com.achersoft.mtg.card.dao.Card">
-        SELECT c.id 'id',
-               c.name 'name',
-               c.set_id 'setId',
-               s.name 'set',
-               c.mana_cost 'manaCost',
-               c.type 'type',
-               c.sub_type 'subType',
-               c.rarity 'rarity',
-               c.card_text 'text',
-               c.oracle_text 'oracle',
-               c.artist 'artist',
-               c.power 'power',
-               c.toughness 'toughness',
-               c.number 'number',
-               c.multiverse_id 'multiverseid',
-               c.split_sequence 'splitSequence',
-               c.split_id 'splitId',
-               i.NM 'NM',
-               i.nm_price 'nmp',
-               i.SP 'SP',
-               i.sp_price 'spp',
-               i.MP 'MP',
-               i.mp_price 'mpp',
-               i.HP 'HP',
-               i.hp_price 'hpp',
-               i.FNM 'FNM',
-               i.fnm_price 'fnmp',
-               i.FSP 'FSP',
-               i.fsp_price 'fspp',
-               i.FMP 'FMP',
-               i.fmp_price 'fmpp',
-               i.FHP 'FHP',
-               i.fhp_price 'fhpp'
-          FROM mtg_card c,
-               mtg_set s,
-        card_inventory i
-         WHERE c.id = #{id}
-           AND s.id = c.set_id
-           AND c.id = i.id
-    </select>
-    
-    <select id="getSets" resultType="com.achersoft.mtg.card.dao.Set">
-          SELECT distinct s.id,
-                 s.name,
-                 c.language
-            FROM mtg_set s
- LEFT OUTER JOIN mtg_card c ON c.set_id = s.id 
-           WHERE c.language = #{language}     
-    </select>
-    
-    <select id="getSet" resultType="com.achersoft.mtg.card.dao.Card">
+    <sql id="cardSelection">
         SELECT c.id 'id',
                c.name 'name',
                c.set_id 'setId',
@@ -91,6 +40,34 @@
           FROM mtg_card c,
                mtg_set s,
                card_inventory i
+    </sql>
+
+    <select id="getCard" resultType="com.achersoft.mtg.card.dao.Card">
+        <include refid="cardSelection"/>
+         WHERE c.id = #{id}
+           AND s.id = c.set_id
+           AND c.id = i.id
+    </select>
+    
+    <select id="getAdditionalPrintings" resultType="com.achersoft.mtg.card.dao.Card">
+        <include refid="cardSelection"/>
+         WHERE c.id != #{id}
+           AND c.name = #{name}
+           AND s.id = c.set_id
+           AND c.id = i.id
+    </select>
+    
+    <select id="getSets" resultType="com.achersoft.mtg.card.dao.Set">
+          SELECT distinct s.id,
+                 s.name,
+                 c.language
+            FROM mtg_set s
+ LEFT OUTER JOIN mtg_card c ON c.set_id = s.id 
+           WHERE c.language = #{language}     
+    </select>
+    
+    <select id="getSet" resultType="com.achersoft.mtg.card.dao.Card">
+        <include refid="cardSelection"/>
          WHERE s.id = #{id}
            AND s.id = c.set_id
            AND c.id = i.id

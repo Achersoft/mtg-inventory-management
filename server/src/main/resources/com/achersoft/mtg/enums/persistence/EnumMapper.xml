@@ -1,0 +1,10 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.achersoft.mtg.enums.persistence.EnumMapper">
+    <select id="getSets" resultType="com.achersoft.mtg.enums.dao.EnumAPI">
+          SELECT distinct s.id 'id',
+                          s.name 'value'
+            FROM mtg_set s
+    </select>
+</mapper>

@@ -1,7 +1,9 @@
 package com.achersoft.mtg.card;
 
 import com.achersoft.mtg.card.dao.Card;
+import com.achersoft.mtg.card.dao.CardDetails;
 import com.achersoft.mtg.card.dao.CardListItem;
+import com.achersoft.mtg.card.dao.CardStock;
 import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.persistence.CardMapper;
 import java.util.HashMap;
@@ -19,8 +21,12 @@ public class CardServiceImpl implements CardService {
     private @Resource(name="setList") Map<String, List<Set>> setList;
     
     @Override
-    public Card getCard(String id) {
-        return mapper.getCard(id);
+    public CardDetails getCard(String id) {
+        CardDetails cardDetails = CardDetails.fromCard(mapper.getCard(id));
+        mapper.getAdditionalPrintings(id, cardDetails.getName()).forEach((card) -> {
+            cardDetails.getAdditionalPrintings().addAll(CardStock.fromDAO(card));
+        });
+        return cardDetails;
     }
     
     @Override
@@ -35,6 +41,11 @@ public class CardServiceImpl implements CardService {
         }).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Card> getSetInventory(String id, String language) {
+        return mapper.getSet(id, language);
+    }
+    
     @Override
     public void refreshSets() {
         Map<String, List<Set>> setLists = new HashMap();

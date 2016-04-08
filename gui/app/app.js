@@ -10,6 +10,7 @@ angular.module('main', [
   'main.sets',
   'main.cards',
   'main.import',
+  'main.inventory',
   'main.checkout'
 ]).
 config(['$routeProvider', function($routeProvider) {

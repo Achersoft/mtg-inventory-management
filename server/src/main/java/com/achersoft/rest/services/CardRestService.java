@@ -1,6 +1,7 @@
 package com.achersoft.rest.services;
 
 import com.achersoft.mtg.card.CardService;
+import com.achersoft.mtg.card.dao.Card;
 import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.dto.CardDTO;
 import com.achersoft.mtg.card.dto.CardListItemDTO;
@@ -52,6 +53,19 @@ public class CardRestService {
     public List<CardListItemDTO> getSet(@PathParam("id") String id, @QueryParam("language") String language) throws Exception {
         return cardService.getSet(id, language).stream().map((dao) -> {return CardListItemDTO.fromDAO(dao);}).collect(Collectors.toList());	
     }
+    
+    @GET 
+    @Path("/setinventory/{id}")
+    @Produces({MediaType.APPLICATION_JSON})	
+    public List<Card> getSetInventory(@PathParam("id") String id, @QueryParam("language") String language) throws Exception {
+        return cardService.getSetInventory(id, language);	
+    }
+    
+    
+    
+    
+    
+    
     
     @GET 
     @Path("/test/")

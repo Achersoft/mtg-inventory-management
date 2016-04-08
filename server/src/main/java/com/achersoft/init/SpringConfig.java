@@ -5,6 +5,9 @@ import com.achersoft.mtg.card.CardService;
 import com.achersoft.mtg.card.CardServiceImpl;
 import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.persistence.CardMapper;
+import com.achersoft.mtg.enums.EnumService;
+import com.achersoft.mtg.enums.EnumServiceImpl;
+import com.achersoft.mtg.enums.persistence.EnumMapper;
 import com.achersoft.mtg.importer.CardImporterService;
 import com.achersoft.mtg.importer.CardImporterServiceImpl;
 import com.achersoft.mtg.importer.persistence.ImporterMapper;
@@ -45,6 +48,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan(basePackageClasses = { UserMapper.class,
                                    ImporterMapper.class,
                                    CardMapper.class,
+                                   EnumMapper.class,
                                    PriceMapper.class} )
 public class SpringConfig {
     
@@ -78,6 +82,10 @@ public class SpringConfig {
         return new UserServiceImpl();
     }
     
+    @Bean
+    public EnumService enumService() {
+        return new EnumServiceImpl();
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="System"> 
