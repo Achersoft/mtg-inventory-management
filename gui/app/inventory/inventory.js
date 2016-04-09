@@ -7,7 +7,11 @@ angular.module('main.inventory', ['ngRoute'])
     .when('/bulkAdd/', {
         templateUrl: 'inventory/bulkAdd.html',
         controller: 'InventoryCtrl'
-    });
+    })
+    .when('/adjustInventory/', {
+        templateUrl: 'inventory/adjustInventory.html',
+        controller: 'InventoryCtrl'
+    });;
 }])
 
 .controller('InventoryCtrl', ['$scope', '$routeParams', 'NgTableParams', 'InventorySvc', function ($scope, $routeParams, NgTableParams, inventorySvc) {
@@ -25,16 +29,27 @@ angular.module('main.inventory', ['ngRoute'])
         $scope.languages = response.data;
     });
     
-    $scope.updateSetList = function(){
-        inventorySvc.getCards($scope.selectedSet, $scope.selectedLanguage).then(function(response) {
-            console.log(response.data);
+    $scope.updateSetList = function(clearQty){
+        inventorySvc.getCards($scope.selectedSet, $scope.selectedLanguage, clearQty).then(function(response) {
             $scope.data = response.data;
         });
     };
     
-    //cardSvc.getCardDetails($routeParams.cardId).success(function (data) {
-   //     $scope.card = data;
-  //  });
+    $scope.addToInventory = function(){
+        inventorySvc.addToInventory($scope.data).then(function() {
+            $scope.data = null;
+            $scope.selectedSet = null;
+            $scope.selectedLanguage = null;
+        });
+    };
+    
+    $scope.adjustInventory = function(){
+        inventorySvc.adjustInventory($scope.data).then(function() {
+            $scope.data = null;
+            $scope.selectedSet = null;
+            $scope.selectedLanguage = null;
+        });
+    };
 }])
 
 .factory('InventorySvc',['$http', function($http){    
@@ -48,8 +63,16 @@ angular.module('main.inventory', ['ngRoute'])
         return $http.get('http://localhost:8080/enums/languages');
     };
     
-    inventorySvc.getCards = function(setId, lang){
-        return $http.get('http://localhost:8080/cards/setinventory/' + setId + '?language=' + lang);
+    inventorySvc.getCards = function(setId, lang, clearQty){
+        return $http.get('http://localhost:8080/cards/setinventory/' + setId + '?language=' + lang + "&clearQty=" + clearQty);
+    };
+    
+    inventorySvc.addToInventory = function(data){
+        return $http.put('http://localhost:8080/cards/setinventory', data);
+    };
+    
+    inventorySvc.adjustInventory = function(data){
+        return $http.put('http://localhost:8080/cards/adjustinventory', data);
     };
 
     return inventorySvc;

@@ -2,26 +2,21 @@ package com.achersoft.rest.services;
 
 import com.achersoft.mtg.card.CardService;
 import com.achersoft.mtg.card.dao.Card;
-import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.dto.CardDTO;
 import com.achersoft.mtg.card.dto.CardListItemDTO;
 import com.achersoft.mtg.card.dto.SetDTO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @Path("/cards")
 public class CardRestService {
@@ -57,38 +52,34 @@ public class CardRestService {
     @GET 
     @Path("/setinventory/{id}")
     @Produces({MediaType.APPLICATION_JSON})	
-    public List<Card> getSetInventory(@PathParam("id") String id, @QueryParam("language") String language) throws Exception {
+    public List<Card> getSetInventory(@PathParam("id") String id, @QueryParam("language") String language, @QueryParam("clearQty") boolean clearQty) throws Exception {
+        if(clearQty)
+            return cardService.getSetInventory(id, language).stream().map((card) -> {
+                card.FHP = 0;
+                card.FMP = 0;
+                card.FSP = 0;
+                card.FNM = 0;
+                card.HP = 0;
+                card.MP = 0;
+                card.SP = 0;
+                card.NM = 0;
+                return card;
+            }).collect(Collectors.toList());
         return cardService.getSetInventory(id, language);	
     }
     
+    @PUT 
+    @Path("/setinventory")
+    @Consumes({MediaType.APPLICATION_JSON})	
+    public void addInventory(List<Card> cards) throws Exception {
+	cardService.addInventory(cards);
+    }
     
-    
-    
-    
-    
-    
-    @GET 
-    @Path("/test/")
-    @Produces("image/png")	
-    public Response getSetss() throws Exception {
-        URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=240017&type=card");
-        BufferedImage image = ImageIO.read(url);
-        File f = new File(System.getProperty("catalina.base"), "webapps/static/images");
-        if(!f.exists())
-            f.mkdirs();
-        File f2 = new File(f, "dfdbdb.png");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "png", f2);
-        ImageIO.write(image, "png", baos);
-        byte[] imageData = baos.toByteArray();
-
-        // uncomment line below to send non-streamed
-        return Response.ok(imageData).build();
-
-        // uncomment line below to send streamed
-        // return Response.ok(new ByteArrayInputStream(imageData)).build();
- 
-       // return cardService.getSets(language);	
+    @PUT 
+    @Path("/adjustinventory")
+    @Consumes({MediaType.APPLICATION_JSON})	
+    public void adjustInventory(List<Card> cards) throws Exception {
+	cardService.adjustInventory(cards);
     }
 }
 

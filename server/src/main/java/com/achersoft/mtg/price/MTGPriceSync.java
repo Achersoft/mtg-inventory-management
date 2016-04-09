@@ -20,10 +20,11 @@ public class MTGPriceSync {
     private static final String API_URL = "http://www.mtgprice.com/api";
     private @Inject PriceMapper mapper;
     
-    @Scheduled(cron="0 0 * * * *")
+    @Scheduled(fixedRate=21600000)
     public void sync() {
-        for(PriceSet set : mapper.getSets()) {
-          //  System.err.println("Get Set: " + set.getCode());
+        System.err.println("Start Price Sync");
+        mapper.getSets().stream().forEach((set) -> {
+            System.err.println("Get Set: " + set.getCode());
             try {
                 for(CardPrice card : getSetPriceList(set.getCode()).getCards()) {
                     String cardId = mapper.getCardId(set.getId(), card.getName(), "English");
@@ -32,9 +33,9 @@ public class MTGPriceSync {
                 }
             } catch (Exception ex) {
                 System.err.println("Get Set: " + set.getCode());
-          //      Logger.getLogger(MTGPriceSync.class.getName()).log(Level.SEVERE, null, ex);
+                //      Logger.getLogger(MTGPriceSync.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        });
     }
     
     @Transactional

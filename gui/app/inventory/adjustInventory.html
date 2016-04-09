@@ -2,14 +2,14 @@
     <div class="row">
         <div class="col-md-4">
             <label uib-tooltip="" tooltip-trigger="mouseenter" tooltip-popup-delay='500' for="setSelect">Set</label>
-            <select class="form-control" id="setSelect" name="setSelect" ng-change="updateSetList(true)" ng-model="selectedSet" ng-options="set.id as set.value for set in sets"></select>
+            <select class="form-control" id="setSelect" name="setSelect" ng-change="updateSetList(false)" ng-model="selectedSet" ng-options="set.id as set.value for set in sets"></select>
         </div>
         <div class="col-md-4">
             <label uib-tooltip="" tooltip-trigger="mouseenter" tooltip-popup-delay='500' for="langSelect">Language</label>
-            <select class="form-control" id="langSelect" name="langSelect" ng-change="updateSetList(true)" ng-model="selectedLanguage" ng-options="language.id as language.value for language in languages"></select>
+            <select class="form-control" id="langSelect" name="langSelect" ng-change="updateSetList(false)" ng-model="selectedLanguage" ng-options="language.id as language.value for language in languages"></select>
         </div>
     </div>
-    <h2 style="border-bottom:1pt solid black;">Add Inventory</h2>
+    <h2 style="border-bottom:1pt solid black;">Adjust Inventory</h2>
     <table ng-table="tableParams" class="table table-striped table-hover table-bordered table-condensed" ng-show="data.length">
         <tr ng-repeat-start="card in data" ng-repeat-end="" class="form-inline">
             <td data-title="'Cards'">
@@ -42,8 +42,8 @@
         </tr>
     </table>
     <div class="text-right" ng-show="data.length" style="margin-bottom: 15px">
-        <button class="btn btn-primary" ng-click="addToInventory()">
-            <span class="fa fa-plus-circle" ></span> Add Inventory 
+        <button class="btn btn-primary" ng-click="adjustInventory()">
+            <span class="fa fa-save" ></span> Adjust Inventory 
         </button>
     </div>
 </div>

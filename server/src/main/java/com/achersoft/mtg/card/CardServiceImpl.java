@@ -21,6 +21,20 @@ public class CardServiceImpl implements CardService {
     private @Resource(name="setList") Map<String, List<Set>> setList;
     
     @Override
+    public void addInventory(List<Card> cards) {
+       cards.stream().forEach((card) -> {
+           mapper.addInventory(card);
+       });
+    }
+    
+    @Override
+    public void adjustInventory(List<Card> cards) {
+       cards.stream().forEach((card) -> {
+           mapper.adjustInventory(card);
+       });
+    }
+    
+    @Override
     public CardDetails getCard(String id) {
         CardDetails cardDetails = CardDetails.fromCard(mapper.getCard(id));
         mapper.getAdditionalPrintings(id, cardDetails.getName()).forEach((card) -> {

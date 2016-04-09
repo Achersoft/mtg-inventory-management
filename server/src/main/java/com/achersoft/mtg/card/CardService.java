@@ -7,6 +7,8 @@ import com.achersoft.mtg.card.dao.Set;
 import java.util.List;
 
 public interface CardService {
+    public void addInventory(List<Card> cards);
+    public void adjustInventory(List<Card> cards);
     public CardDetails getCard(String id);
     public List<Set> getSets(String language);
     public List<CardListItem> getSet(String id, String language);

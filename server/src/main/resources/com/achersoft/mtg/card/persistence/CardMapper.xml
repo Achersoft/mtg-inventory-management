@@ -75,4 +75,30 @@
            AND c.has_children = 0
       ORDER BY c.name
     </select>
+    
+    <update id="addInventory">
+        UPDATE card_inventory SET 
+                NM = NM + #{NM},
+                SP = SP + #{SP},
+                MP = MP + #{MP},
+                HP = HP + #{HP},
+                FNM = FNM + #{FNM},
+                FSP = FSP + #{FSP},
+                FMP = FMP + #{FMP},
+                FHP = FHP + #{FHP}
+         WHERE id = #{id}
+    </update>
+    
+    <update id="adjustInventory">
+        UPDATE card_inventory SET 
+                NM = #{NM},
+                SP = #{SP},
+                MP = #{MP},
+                HP = #{HP},
+                FNM = #{FNM},
+                FSP = #{FSP},
+                FMP = #{FMP},
+                FHP = #{FHP}
+         WHERE id = #{id}
+    </update>
 </mapper>
