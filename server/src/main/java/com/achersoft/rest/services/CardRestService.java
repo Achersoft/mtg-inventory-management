@@ -5,6 +5,8 @@ import com.achersoft.mtg.card.dao.Card;
 import com.achersoft.mtg.card.dto.CardDTO;
 import com.achersoft.mtg.card.dto.CardListItemDTO;
 import com.achersoft.mtg.card.dto.SetDTO;
+import com.achersoft.security.annotations.RequiresPrivilege;
+import com.achersoft.security.type.Privilege;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +33,7 @@ public class CardRestService {
         return CardDTO.fromDAO(cardService.getCard(id));
     }
     
+    @RequiresPrivilege(Privilege.ADMIN)
     @GET 
     @Path("/sets/")
     @Produces({MediaType.APPLICATION_JSON})	
@@ -42,6 +45,7 @@ public class CardRestService {
         return sets;	
     }
 
+    @RequiresPrivilege({Privilege.VIEW_INVENTORY,Privilege.EDIT_INVENTORY})
     @GET 
     @Path("/sets/{id}")
     @Produces({MediaType.APPLICATION_JSON})	

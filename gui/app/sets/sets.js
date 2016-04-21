@@ -1,6 +1,4 @@
-'use strict';
-
-angular.module('main.sets', ['ngRoute'])
+angular.module('main')
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
@@ -70,15 +68,15 @@ angular.module('main.sets', ['ngRoute'])
     });
 }])
 
-.factory('SetSvc',['$http', function($http){    
+.factory('SetSvc',['$http', 'RESOURCES', function($http, RESOURCES){    
     var setSvc={};
 
     setSvc.getSets = function(lang){
-        return $http.get('http://localhost:8080/cards/sets?language=' + lang);
+        return $http.get(RESOURCES.REST_BASE_URL + '/cards/sets?language=' + lang);
     };
     
     setSvc.getCards = function(setId, lang){
-        return $http.get('http://localhost:8080/cards/sets/' + setId + '?language=' + lang);
+        return $http.get(RESOURCES.REST_BASE_URL + '/cards/sets/' + setId + '?language=' + lang);
     };
 
     return setSvc;

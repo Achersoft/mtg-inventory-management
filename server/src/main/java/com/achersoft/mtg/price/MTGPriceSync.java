@@ -22,6 +22,11 @@ public class MTGPriceSync {
     
     @Scheduled(fixedRate=21600000)
     public void sync() {
+        updatePrice();
+    }
+    
+    @Transactional
+    private void updatePrice(){
         System.err.println("Start Price Sync");
         mapper.getSets().stream().forEach((set) -> {
             System.err.println("Get Set: " + set.getCode());
@@ -29,18 +34,12 @@ public class MTGPriceSync {
                 for(CardPrice card : getSetPriceList(set.getCode()).getCards()) {
                     String cardId = mapper.getCardId(set.getId(), card.getName(), "English");
                     Double price = Double.valueOf(card.getFairPrice().replace("$", ""));
-                    updatePrice(cardId, price);
+                    mapper.updatePrice(cardId, price, price, price, price, price, price, price, price);
                 }
             } catch (Exception ex) {
                 System.err.println("Get Set: " + set.getCode());
-                //      Logger.getLogger(MTGPriceSync.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-    }
-    
-    @Transactional
-    private void updatePrice(String cardId, Double price){
-        mapper.updatePrice(cardId, price, price, price, price, price, price, price, price);
     }
     
     private PriceSetList getSetPriceList(String set) throws Exception{

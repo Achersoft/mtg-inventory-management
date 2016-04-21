@@ -44,11 +44,11 @@
          WHERE user_id = #{id}
     </select>
     
-    <update id="editUser">
+    <update id="editUser">      
         UPDATE user SET
                user_name = #{username},
-               user_first_name = #{firstName},
-               user_last_name = #{lastName}, 
+               first_name = #{firstName},
+               last_name = #{lastName}, 
                <if test="password != null">
                password = #{password}, 
                </if>
@@ -56,7 +56,7 @@
                last_login = #{lastAccessed}, 
                </if>
                <if test="loginAttempts != null">
-               login_attempt = #{loginAttempts}, 
+               login_attempts = #{loginAttempts}, 
                </if>
                locked = #{locked}
          WHERE id = #{id}
@@ -82,7 +82,7 @@
     <select id="validateCredentials" resultType="boolean"> 
         SELECT CASE WHEN count(*) > 0 THEN 1 ELSE 0 END 
           FROM user u 
-         WHERE u.login_id =  #{userId}
+         WHERE u.user_name =  #{userName}
            AND u.password = #{password}
     </select> 
 </mapper>
