@@ -2,7 +2,7 @@ package com.achersoft.security.authenticator;
 
 import com.achersoft.configuration.PropertiesManager;
 import com.achersoft.exception.AuthenticationException;
-import com.achersoft.exception.EstaffError;
+import com.achersoft.exception.SystemError;
 import com.achersoft.security.helpers.PasswordHelper;
 import com.achersoft.user.dao.User;
 import com.achersoft.security.dto.UserLoginRequest;
@@ -22,7 +22,7 @@ public class Authenticator {
                 user.setLocked(Boolean.TRUE);
             user.setLoginAttempts(user.getLoginAttempts()+1);
             userMapper.editUser(user);
-            throw new AuthenticationException(EstaffError.USER_BAD_CREDENTIALS, "Invalid credentials.");
+            throw new AuthenticationException(SystemError.USER_BAD_CREDENTIALS, "Invalid credentials.");
         }
         user.setLoginAttempts(0);
         userMapper.editUser(user);

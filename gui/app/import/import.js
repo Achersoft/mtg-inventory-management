@@ -10,8 +10,8 @@ angular.module('main.import', ['ngRoute'])
     });
 }])
 
-.controller('ImportCtrl', ['$scope', '$routeParams', 'ImportSvc', function ($scope, $routeParams, importSvc) {
-
+.controller('ImportCtrl', ['$scope', '$routeParams', 'RESOURCES', 'ImportSvc', function ($scope, $routeParams, RESOURCES, importSvc) {
+    $scope.restBaseURL = RESOURCES.REST_BASE_URL;
 }])
 
 .factory('ImportSvc',['$http', function($http){    

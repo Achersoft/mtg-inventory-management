@@ -2,6 +2,8 @@ package com.achersoft.rest.services;
 
 import com.achersoft.mtg.importer.CardImporterService;
 import com.achersoft.mtg.importer.dao.SetsImport;
+import com.achersoft.security.annotations.RequiresPrivilege;
+import com.achersoft.security.type.Privilege;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import javax.inject.Inject;
@@ -17,8 +19,8 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 public class ImporterRestService {
 
     private @Inject CardImporterService cardImporter; 
-    //private @Inject ApplicationContext ctx;
 
+    @RequiresPrivilege({Privilege.ADMIN})
     @POST 
     @Path("/upload")
     @Produces({MediaType.APPLICATION_JSON})	

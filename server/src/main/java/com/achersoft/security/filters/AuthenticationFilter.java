@@ -1,7 +1,7 @@
 package com.achersoft.security.filters;
 
 import com.achersoft.exception.AuthenticationException;
-import com.achersoft.exception.EstaffError;
+import com.achersoft.exception.SystemError;
 import com.achersoft.security.UserAuthenticationService;
 import com.achersoft.security.context.CustomSecurityContext;
 import com.achersoft.security.type.Privilege;
@@ -38,12 +38,12 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
                     setAuthenticationToken(userAuthenticationServiceProvider.authenticate(getAuthenticationToken()));
                     return getUserPrincipal().getPrivileges().contains(privilege);
                 }
-                throw new AuthenticationException(EstaffError.INVALID_SESSION, "Invalid session.");
+                throw new AuthenticationException(SystemError.INVALID_SESSION, "Invalid session.");
             }
 
             @Override
             public boolean isUserInRole(String role) {
-                throw new AuthenticationException(EstaffError.INVALID_SESSION, "Invalid session.");
+                throw new AuthenticationException(SystemError.INVALID_SESSION, "Invalid session.");
             }
 
             @Override
@@ -63,9 +63,11 @@ public class AuthenticationFilter implements ContainerRequestFilter, ContainerRe
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
         if(requestContext.getSecurityContext() instanceof CustomSecurityContext){
-            String authenticationToken = ((CustomSecurityContext)requestContext.getSecurityContext()).getAuthenticationToken();
-            if(authenticationToken != null)
-                responseContext.getHeaders().putSingle(AUTH_HEADER, TOKEN_AUTH + " " + authenticationToken);
+            if(!requestContext.getUriInfo().getPath().equals("logout")) {
+                String authenticationToken = ((CustomSecurityContext)requestContext.getSecurityContext()).getAuthenticationToken();
+                if(authenticationToken != null)
+                    responseContext.getHeaders().putSingle(AUTH_HEADER, TOKEN_AUTH + " " + authenticationToken);
+            }
         }
     }
     

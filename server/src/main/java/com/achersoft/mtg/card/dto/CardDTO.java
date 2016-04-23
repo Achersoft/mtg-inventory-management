@@ -21,6 +21,7 @@ public class CardDTO {
     public String name;
     public String setId;
     public String set;
+    public String language;
     public List<String> manaCost;
     public String type;
     public String subType;
@@ -44,7 +45,8 @@ public class CardDTO {
                 .id(dao.getId())
                 .name(dao.getName())
                 .setId(dao.getSetId())
-                .set(dao.getSet())    
+                .set(dao.getSet())  
+                .language(dao.getLanguage())
                 .manaCost((dao.getManaCost()!=null)?Arrays.asList(dao.getManaCost().replace("{", "").replace("}", ",").replace("/", "").toLowerCase().split(",")):null)
                 .type(dao.getType())
                 .subType(dao.getSubType())

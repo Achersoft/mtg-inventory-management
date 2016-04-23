@@ -2,9 +2,9 @@ package com.achersoft.exception;
 
 public class EstaffException extends RuntimeException {
     
-    public final EstaffError error;
+    public final SystemError error;
    
-    public EstaffException(EstaffError error) {
+    public EstaffException(SystemError error) {
         this.error = error;
     }
 }

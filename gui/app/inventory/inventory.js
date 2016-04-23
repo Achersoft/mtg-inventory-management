@@ -52,27 +52,27 @@ angular.module('main.inventory', ['ngRoute'])
     };
 }])
 
-.factory('InventorySvc',['$http', function($http){    
+.factory('InventorySvc',['$http', 'RESOURCES', function($http, RESOURCES){    
     var inventorySvc={};
 
     inventorySvc.getSets = function(){
-        return $http.get('http://localhost:8080/enums/sets');
+        return $http.get(RESOURCES.REST_BASE_URL + '/enums/sets');
     };
     
     inventorySvc.getLanguages = function(){
-        return $http.get('http://localhost:8080/enums/languages');
+        return $http.get(RESOURCES.REST_BASE_URL + '/enums/languages');
     };
     
     inventorySvc.getCards = function(setId, lang, clearQty){
-        return $http.get('http://localhost:8080/cards/setinventory/' + setId + '?language=' + lang + "&clearQty=" + clearQty);
+        return $http.get(RESOURCES.REST_BASE_URL + '/cards/setinventory/' + setId + '?language=' + lang + "&clearQty=" + clearQty);
     };
     
     inventorySvc.addToInventory = function(data){
-        return $http.put('http://localhost:8080/cards/setinventory', data);
+        return $http.put(RESOURCES.REST_BASE_URL + '/cards/setinventory', data);
     };
     
     inventorySvc.adjustInventory = function(data){
-        return $http.put('http://localhost:8080/cards/adjustinventory', data);
+        return $http.put(RESOURCES.REST_BASE_URL + '/cards/adjustinventory', data);
     };
 
     return inventorySvc;

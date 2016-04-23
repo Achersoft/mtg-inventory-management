@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>eStaff Login</title>
-    </head>
-
-    <body >
-      <div id="loginPage" class="container">
-        <div id="outermost" class="center-block" >
-            <div id="header" class="center-block">  <!--  class="text-center" -->
-                    <img src="/estaffui/images/esiLogoWhite.png" style="margin-left:2em;margin-right:4em;" class="pull-left"/>
-                    <h4>eStaff Login</h4>
-            </div>
-            
-            <!-- class="container" -->
-            <div id="loginBody" class="text-center">
-                <p>
-                    You are now logged out of the eStaff application.
-                </p>
-                <p>
-                    <button class="btn btn-md btn-primary" type="button" ui-sref="dashboard">Log in</button>
-                </p>
-            </div>
-        </div>
+<div class="wrapper col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">   
+      <div id="header" class="form-signin-heading center"> 
+          <img src="images/logo.png" height="150px" style="display:block;margin-left:auto;margin-right:auto;"/>
       </div>
-    </body>
-</html>
+      <button class="btn btn-primary btn-block" ng-click="logout()">Logout</button>   
+</div>

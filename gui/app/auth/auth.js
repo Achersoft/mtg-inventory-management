@@ -2,22 +2,24 @@ angular.module('main.auth', ['ngRoute'])
         
 .config(['$httpProvider',
     function($httpProvider) {
-        $httpProvider.interceptors.push(['$q', '$injector', 'AuthorizationState',
-                                         function($q, $injector, AuthorizationState) {
+        $httpProvider.interceptors.push(['$q', '$injector', 'AuthorizationState', '$rootScope',
+                                         function($q, $injector, AuthorizationState, $rootScope) {
             return {
                 // Intercept all requests and add saved Token Auth header
                 request: function(config) {
                     // Set the `Authorization` header for every outgoing REST HTTP request
                     // (don't set on static UI requests)
-                    if ( (config.url.substring( config.url.length - '.html'.length, config.url.length ) !== '.html') &&
-                         (config.url.substring( config.url.length - '.js'.length, config.url.length ) !== '.js') &&
-                         (config.url.substring( config.url.length - '.css'.length, config.url.length ) !== '.css') ) {
-                        // We add Auth. hdr to global $http config, but after a refresh, it may be missing
-                        // until after 1st http response (after refresh) is intercepted and latest token is
-                        // added back into global config
-                        if ( config.headers.Authorization === undefined ) {
-                             AuthorizationState.addAuthorization(config.headers);
-                         }
+                    if($rootScope.loginRequired === true) {
+                        if ( (config.url.substring( config.url.length - '.html'.length, config.url.length ) !== '.html') &&
+                             (config.url.substring( config.url.length - '.js'.length, config.url.length ) !== '.js') &&
+                             (config.url.substring( config.url.length - '.css'.length, config.url.length ) !== '.css') ) {
+                            // We add Auth. hdr to global $http config, but after a refresh, it may be missing
+                            // until after 1st http response (after refresh) is intercepted and latest token is
+                            // added back into global config
+                            if ( config.headers.Authorization === undefined ) {
+                                 AuthorizationState.addAuthorization(config.headers);
+                             }
+                        }
                     }
                     return config;
                 },

@@ -25,30 +25,30 @@
             <li><a href="#/setSelection/Italian"><b>Italian</b></a></li>
           </ul>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" ng-if="privilegeCheck.isUserAuthorized('ADMIN') || privilegeCheck.isUserAuthorized('EMPLOYEE')">
             <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Inventory Management </b><span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#/bulkAdd"><b>Add Inventory</b></a></li>
             <li><a href="#/adjustInventory"><b>Adjust Inventory</b></a></li>
           </ul>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" ng-if="privilegeCheck.isUserAuthorized('ADMIN')">
             <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Import </b><span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#/import/allSets">All Sets</a></li>
           </ul>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" ng-if="privilegeCheck.isUserAuthorized('ADMIN')">
             <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Admin </b><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#/users/viewAll">User Management</a></li>
+              <li><a href="#/users/viewAll">User Management</a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#/checkout"><li><ngcart-summary></ngcart-summary></a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li ng-if="privilegeCheck.isLoginRequired()"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li ng-if="!privilegeCheck.isLoginRequired()"><a href="#/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>

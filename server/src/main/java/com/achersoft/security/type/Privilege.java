@@ -3,8 +3,8 @@ package com.achersoft.security.type;
 public enum Privilege {
     //ADMIN operations
     ADMIN("Admin", "Allows access to system administrative functions"),
-    EDIT_INVENTORY("Admin", "Allows access to system administrative functions"),
-    VIEW_INVENTORY("Admin", "Allows access to system administrative functions");
+    CUSTOMER("CUSTOMER", "Allows access to system administrative functions"),
+    EMPLOYEE("EMPLOYEE", "Allows access to system administrative functions");
     
     private final String text;
     private final String description;

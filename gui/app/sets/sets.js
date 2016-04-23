@@ -12,8 +12,9 @@ angular.module('main')
     });
 }])
 
-.controller('SetCtrl', ['$scope', '$routeParams', 'NgTableParams', 'SetSvc', function ($scope, $routeParams, NgTableParams, setSvc) {
+.controller('SetCtrl', ['$scope', '$routeParams', 'RESOURCES', 'NgTableParams', 'SetSvc', function ($scope, $routeParams, RESOURCES, NgTableParams, setSvc) {
     $scope.sets;
+    $scope.imgBaseURL = RESOURCES.IMG_BASE_URL;
     
     setSvc.getSets($routeParams.language).success(function (data) {
         $scope.sets = data;

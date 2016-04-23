@@ -1,5 +1,9 @@
 package com.achersoft.init;
 
+import com.achersoft.exception.handlers.AccessDeniedExceptionHandler;
+import com.achersoft.exception.handlers.AuthenticationExceptionHandler;
+import com.achersoft.exception.handlers.InvalidDataExceptionHandler;
+import com.achersoft.exception.handlers.UncheckedExceptionHandler;
 import com.achersoft.security.features.RequiresPrivilegeDynamicFeature;
 import com.achersoft.security.filters.AuthenticationFilter;
 import com.achersoft.security.filters.UserContextFilter;
@@ -21,10 +25,10 @@ public class JerseyConfig extends ResourceConfig {
         register(UserContextFilter.class);
         
         // register exception handlers
-        //register(UncheckedExceptionMapper.class);
-     /*   register(AuthenticationExceptionHandler.class);
+     //   register(UncheckedExceptionHandler.class);
+        register(AuthenticationExceptionHandler.class);
         register(AccessDeniedExceptionHandler.class);
-        register(InvalidDataExceptionHandler.class);*/
+        register(InvalidDataExceptionHandler.class);
         
         // register features
         register(JacksonFeature.class);

@@ -1,7 +1,7 @@
 package com.achersoft.security.helpers;
 
 import com.achersoft.exception.AuthenticationException;
-import com.achersoft.exception.EstaffError;
+import com.achersoft.exception.SystemError;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.SecretKeyFactory;
@@ -21,7 +21,7 @@ public class PasswordHelper {
             
             return toHex(skf.generateSecret(spec).getEncoded());
         } catch (Exception ex) {
-            throw new AuthenticationException(EstaffError.UNKNOWN_EXCEPTION, "Password hash error.");
+            throw new AuthenticationException(SystemError.UNKNOWN_EXCEPTION, "Password hash error.");
         }
     }
      

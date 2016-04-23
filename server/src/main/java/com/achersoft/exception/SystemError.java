@@ -3,7 +3,7 @@ package com.achersoft.exception;
 import lombok.Builder;
 
 @Builder
-public class EstaffError {
+public class SystemError {
     
     public static final int UNKNOWN_EXCEPTION = 1;
     public static final int USER_BAD_CREDENTIALS = 1;

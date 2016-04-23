@@ -22,6 +22,14 @@ public class AuthenticationRestService {
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
     
+    @POST 
+    @Path("/logout")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response logout() {
+        userAuthenticationProvider.logout();
+        return Response.status(Response.Status.OK.getStatusCode()).build();
+    }
+    
  /*   @POST 
     @Path("/changepassword")
     @Consumes({MediaType.APPLICATION_JSON})

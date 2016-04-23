@@ -8,7 +8,7 @@
                  <a ng-href="#/setList/{{card.setId}}/{{card.setId}}">{{card.set}}</a>
             </td>
             <td data-title="'Mana Cost'">
-                <img src="http://localhost:8080/titan/images/{{mana}}.png" border="0" width="17" height="17" alt="1" ng-repeat="mana in card.manaCost track by $index">
+                <img src="{{imgBaseURL}}/titan/images/{{mana}}.png" border="0" width="17" height="17" alt="1" ng-repeat="mana in card.manaCost track by $index">
             </td>
             <td data-title="'Type'">
                 {{card.type}}

@@ -5,10 +5,15 @@ angular.module('main')
         .when('/login/', {
             templateUrl: 'login/login.html',
             controller: 'LoginCtrl'
+        }),
+    $routeProvider
+        .when('/logout/', {
+            templateUrl: 'login/logout.html',
+            controller: 'LoginCtrl'
         });
 }])
-.controller('LoginCtrl',['$scope', 'AuthorizationSvc', 'AuthorizationState',
-    function($scope, AuthorizationSvc, AuthorizationState){
+.controller('LoginCtrl',['$scope', '$location', '$rootScope', 'AuthorizationSvc', 'AuthorizationState',
+    function($scope, $location, $rootScope, AuthorizationSvc, AuthorizationState){
         $scope.loginPrompt = { username : '',
                                password : '',
                                invalidMsg : ''};
@@ -16,7 +21,7 @@ angular.module('main')
         $scope.login = function(){
             AuthorizationSvc.authenticate($scope.loginPrompt.username, $scope.loginPrompt.password)
                     .then(function(response) {
-                            //console.log("LOGGED IN SUCCESSFULLY!");
+                        $location.path("/setSelection/English");
                         },
                           function(response) {
                             // Wipe out password to allow re-entry
@@ -36,8 +41,8 @@ angular.module('main')
         $scope.logout = function() {
             AuthorizationSvc.release()
                     .then(function(response) {
-                            //console.log("LOGGED OUT SUCCESSFULLY!");
-                            $state.go('logout');
+                            $rootScope.loginRequired = true;
+                            $location.path("/login");
                         });
         };
         

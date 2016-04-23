@@ -22,12 +22,15 @@ import com.achersoft.security.providers.UserPrincipalProvider;
 import com.achersoft.user.UserService;
 import com.achersoft.user.UserServiceImpl;
 import com.achersoft.user.persistence.UserMapper;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
@@ -188,6 +191,13 @@ public class SpringConfig {
     @Bean
     public PropertiesManager propertiesManager() {
         return new PropertiesManager();
+    }
+    
+    @Bean(name = "userMap")
+    public Cache<String, String> userMap() {
+        return CacheBuilder.newBuilder()
+            .expireAfterAccess(1, TimeUnit.HOURS)
+            .build();
     }
     // </editor-fold>
     

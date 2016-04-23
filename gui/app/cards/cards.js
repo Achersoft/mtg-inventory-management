@@ -10,19 +10,20 @@ angular.module('main.cards', ['ngRoute'])
     });
 }])
 
-.controller('CardCtrl', ['$scope', '$routeParams', 'CardSvc', function ($scope, $routeParams, cardSvc) {
+.controller('CardCtrl', ['$scope', '$routeParams', 'CardSvc', 'RESOURCES', function ($scope, $routeParams, cardSvc, RESOURCES) {
     $scope.card;
+    $scope.imgBaseURL = RESOURCES.IMG_BASE_URL;
     
     cardSvc.getCardDetails($routeParams.cardId).success(function (data) {
         $scope.card = data;
     });
 }])
 
-.factory('CardSvc',['$http', function($http){    
+.factory('CardSvc',['$http', 'RESOURCES', function($http, RESOURCES){    
     var cardSvc={};
 
     cardSvc.getCardDetails = function(cardId){
-        return $http.get('http://localhost:8080/cards/' + cardId);
+        return $http.get(RESOURCES.REST_BASE_URL + '/cards/' + cardId);
     };
 
     return cardSvc;

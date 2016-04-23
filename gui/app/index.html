@@ -17,9 +17,11 @@
   <script src="components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-  <nav-bar></nav-bar>
-  <div ng-view class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12"></div>
-
+  <div ng-controller="PrivilegeCtrl as privilegeCheck">
+    <nav-bar ng-show="!privilegeCheck.isLoginRequired()"></nav-bar>
+    <div ng-view class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12"></div>
+  </div>
+    
   <script src="components/angular/angular.js"></script>
   <script src="components/angular-route/angular-route.js"></script>
   <script src="components/ng-table/dist/ng-table.js"></script>

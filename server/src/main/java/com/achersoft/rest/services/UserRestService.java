@@ -1,5 +1,7 @@
 package com.achersoft.rest.services;
 
+import com.achersoft.security.annotations.RequiresPrivilege;
+import com.achersoft.security.type.Privilege;
 import com.achersoft.user.UserService;
 import com.achersoft.user.dao.User;
 import java.util.List;
@@ -21,6 +23,7 @@ public class UserRestService {
 
     private @Inject UserService userProvider; 
 
+    @RequiresPrivilege({Privilege.ADMIN})
     @GET 
     @Path("/")
     @Produces({MediaType.APPLICATION_JSON})	
@@ -28,6 +31,7 @@ public class UserRestService {
         return userProvider.getUsers();	
     }
     
+    @RequiresPrivilege({Privilege.ADMIN})
     @GET 
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})	
@@ -35,6 +39,7 @@ public class UserRestService {
         return userProvider.getUser(id);	
     }
 
+    @RequiresPrivilege({Privilege.ADMIN})
     @POST 
     @Path("/create")
     @Produces({MediaType.APPLICATION_JSON})	
@@ -43,6 +48,7 @@ public class UserRestService {
         return userProvider.createUser(user);
     }
     
+    @RequiresPrivilege({Privilege.ADMIN})
     @PUT 
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})	
@@ -51,6 +57,7 @@ public class UserRestService {
         return userProvider.editUser(user);
     }
     
+    @RequiresPrivilege({Privilege.ADMIN})
     @DELETE 
     @Path("/{id}")
     public void deleteUser(@PathParam("id")int id) throws Exception {

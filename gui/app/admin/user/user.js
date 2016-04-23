@@ -81,19 +81,19 @@ angular.module('main.users', ['ngRoute'])
         };
     }])
 
-.factory('UserSvc',['$http', function($http){    
+.factory('UserSvc',['$http', 'RESOURCES', function($http, RESOURCES){    
     var userSvc={};
 
     userSvc.getUsers = function(){
-        return $http.get('http://localhost:8080/users/');
+        return $http.get(RESOURCES.REST_BASE_URL + '/users/');
     };
     
     userSvc.getUser = function(userId){
-        return $http.get('http://localhost:8080/users/' + userId);
+        return $http.get(RESOURCES.REST_BASE_URL + '/users/' + userId);
     };
     
     userSvc.createUser = function(user){
-        return $http.post("http://localhost:8080/users/create",
+        return $http.post(RESOURCES.REST_BASE_URL + "/users/create",
                           user, {silentHttpErrors : true})
                      .catch(function(rejection) {
                         /* errorDialogSvc.showHttpError('Unable to Create User',
@@ -104,7 +104,7 @@ angular.module('main.users', ['ngRoute'])
     };
      
     userSvc.deleteUser = function(id){
-        return $http.delete("http://localhost:8080/users/" + id,
+        return $http.delete(RESOURCES.REST_BASE_URL + "/users/" + id,
                             {silentHttpErrors : true})
                     .catch(function(rejection) {
 
