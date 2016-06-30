@@ -60,7 +60,9 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
     
     @Override
     public void logout() {
-        userMap.invalidate(userPrincipalProvider.getUserPrincipal().getUserName());
+        if(userPrincipalProvider.getUserPrincipal() != null && userPrincipalProvider.getUserPrincipal().getUserName() != null) {
+            userMap.invalidate(userPrincipalProvider.getUserPrincipal().getUserName()); 
+        }
     }
     
    /* 

@@ -20,12 +20,12 @@ public class MTGPriceSync {
     private static final String API_URL = "http://www.mtgprice.com/api";
     private @Inject PriceMapper mapper;
     
-    @Scheduled(fixedRate=21600000)
+   // @Scheduled(fixedRate=21600000)
     public void sync() {
         updatePrice();
     }
     
-    @Transactional
+  //  @Transactional
     private void updatePrice(){
         System.err.println("Start Price Sync");
         mapper.getSets().stream().forEach((set) -> {

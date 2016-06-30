@@ -96,13 +96,19 @@ public class SpringConfig {
     public DataSource dataSource() {
         DataSource datasource = new DataSource();
         PoolProperties p = new PoolProperties();
+       /* p.setUrl("jdbc:" + "mysql" + 
+                 "://" + "titangamesandhobbies.com" +
+                 ":" + "3306" +
+                 "/" + "titan_mtg");*/
         p.setUrl("jdbc:" + "mysql" + 
                  "://" + "localhost" +
                  ":" + "3306" +
                  "/" + "titan");
         p.setDriverClassName("com.mysql.jdbc.Driver");
-        p.setUsername("root");
-        p.setPassword("zxcxcv");
+      //  p.setUsername("titan_mtg_rest");
+p.setUsername("root");
+       // p.setPassword("bonerfart");
+p.setPassword("zxcxcv");
         p.setJmxEnabled(true);
         p.setTestWhileIdle(false);
         p.setTestOnBorrow(true);

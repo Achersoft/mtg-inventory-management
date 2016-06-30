@@ -194,8 +194,8 @@ angular.module('main.auth', ['ngRoute'])
         return AuthorizationSvc;
     }
 ])
-.controller('PrivilegeCtrl',['$rootScope', 'AuthorizationSvc',
-    function($rootScope, authorizationSvc){
+.controller('PrivilegeCtrl',['$rootScope', 'AuthorizationSvc', 'AuthorizationState',
+    function($rootScope, authorizationSvc, authorizationState){
 
         this.isUserAuthorized = function(privilege) {
             return authorizationSvc.isUserAuthorized(privilege);
@@ -204,8 +204,8 @@ angular.module('main.auth', ['ngRoute'])
             return authorizationSvc.isUserAuthorized(privilege, startsWith);
         };
 
-        this.isLoggedInUser = function(userSubjectId) {
-            return authorizationSvc.isLoggedInUser(userSubjectId);
+        this.isLoggedIn = function() {
+            return (authorizationState.getLoggedInUserId() !== '');
         };
 
         // loginRequired flag is used to "communicate" when a 401 error response occurs and 

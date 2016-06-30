@@ -30,13 +30,12 @@
             <td data-title="'Price'">
                 {{card.price | currency: '$'}}
             </td>
-            <td data-title="">
+            <td data-title="" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')">
                 <div ng-show="{{card.qty}} > 0">
-                    <ngcart-addtocart id="{{card.id}}{{card.setId}}{{card.condition}}" name="{{card.name}} - {{card.condition}}" price="{{card.price}}" quantity="1" quantity-max="{{card.qty}}" data="card">Add to Cart</ngcart-addtocart>
+                    <ngcart-addtocart id="{{card.id}}{{card.condition}}" name="{{card.name}}" price="{{card.price}}" quantity="1" quantity-max="{{card.qty}}" data="card">Add to Cart</ngcart-addtocart>
                 </div>
             </td>
         </tr>
-
     </table>
 </div>
 

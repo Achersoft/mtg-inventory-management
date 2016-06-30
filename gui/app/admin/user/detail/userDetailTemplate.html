@@ -1,4 +1,5 @@
 <form name="userForm" novalidate>
+    {{userContext}}
     <div class="row esi-row-offset-md">
         <div class="col-md-4" ng-class="{'has-error':userForm.userName.$invalid && userForm.userName.$dirty}">
             <label uib-popover="User Name is required" popover-trigger="mouseenter" for="userName">User Name <span class="esi-alert fa fa-flag"></span></label>

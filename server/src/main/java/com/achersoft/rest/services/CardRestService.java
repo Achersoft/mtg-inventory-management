@@ -24,9 +24,7 @@ import javax.ws.rs.core.MediaType;
 public class CardRestService {
 
     private @Inject CardService cardService; 
-    //private @Inject ApplicationContext ctx;
 
-    @RequiresPrivilege({Privilege.ADMIN,Privilege.CUSTOMER,Privilege.EMPLOYEE})
     @GET 
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})	
@@ -34,7 +32,6 @@ public class CardRestService {
         return CardDTO.fromDAO(cardService.getCard(id));
     }
     
-    @RequiresPrivilege({Privilege.ADMIN,Privilege.CUSTOMER,Privilege.EMPLOYEE})
     @GET 
     @Path("/sets/")
     @Produces({MediaType.APPLICATION_JSON})	
@@ -46,7 +43,6 @@ public class CardRestService {
         return sets;	
     }
 
-    @RequiresPrivilege({Privilege.ADMIN,Privilege.CUSTOMER,Privilege.EMPLOYEE})
     @GET 
     @Path("/sets/{id}")
     @Produces({MediaType.APPLICATION_JSON})	

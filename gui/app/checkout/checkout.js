@@ -10,8 +10,11 @@ angular.module('main.checkout', ['ngRoute'])
     });
 }])
 
-.controller('CheckoutCtrl', ['$scope', '$routeParams', 'CheckoutSvc', function ($scope, $routeParams, checkoutSvc) {
-
+.controller('CheckoutCtrl', ['$scope', '$routeParams', 'CheckoutSvc', 'ngCart', function ($scope, $routeParams, checkoutSvc, ngCart) {
+    console.log(ngCart);
+    $scope.checkout = function(){
+       console.log(ngCart.$cart.items);
+    };
 }])
 
 .factory('CheckoutSvc',['$http', function($http){    

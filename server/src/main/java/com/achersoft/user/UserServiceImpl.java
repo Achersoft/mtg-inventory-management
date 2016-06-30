@@ -18,9 +18,13 @@ public class UserServiceImpl implements UserService {
             
         // Salt the user password before storage
         user.setPassword(PasswordHelper.generatePasswordHash(user.getPassword()));
-        
+       
         userMapper.createUser(user);
-        return userMapper.getUserFromName(user.getUsername());
+        User userFromName = userMapper.getUserFromName(user.getUsername());
+        userMapper.addUserPrivileges(userFromName.getId(), user.getPrivileges());
+        userFromName.setPrivileges(userMapper.getUserPrivileges(userFromName.getId()));
+        
+        return userFromName;
     }
     
     @Override
@@ -30,7 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(int id) {
-        return userMapper.getUser(id);
+        User user = userMapper.getUser(id);
+        user.setPrivileges(userMapper.getUserPrivileges(id));
+        return user;
     }
 
     @Override

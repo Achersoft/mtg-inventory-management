@@ -40,8 +40,8 @@
             <td data-title="'Price'">
                 {{cli.price | currency: '$'}}
             </td>
-            <td data-title="'Add to Cart'">
-                <ngcart-addtocart id="{{card.id}}{{card.setId}}{{cli.condition}}" name="{{card.name}} - {{cli.condition}}" price="{{cli.price}}" quantity="1" quantity-max="{{cli.qty}}" data="cli">Add to Cart</ngcart-addtocart>
+            <td data-title="'Add to Cart'" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')">
+                <ngcart-addtocart id="{{card.id}}{{cli.condition}}" name="{{card.name}}" price="{{cli.price}}" quantity="1" quantity-max="{{cli.qty}}" data="cli">Add to Cart</ngcart-addtocart>
             </td>
         </tr>
     </table>
@@ -70,8 +70,8 @@
             <td data-title="'Price'">
                 {{cli.price | currency: '$'}}
             </td>
-            <td data-title="'Add to Cart'">
-                <ngcart-addtocart id="{{card.id}}{{card.setId}}{{cli.condition}}{{cli.language}}" name="{{card.name}} - {{cli.condition}} {{cli.language}}" price="{{cli.price}}" quantity="1" quantity-max="{{cli.qty}}" data="cli">Add to Cart</ngcart-addtocart>
+            <td data-title="'Add to Cart'" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')">
+                <ngcart-addtocart id="{{card.id}}{{cli.condition}}" name="{{card.name}}" price="{{cli.price}}" quantity="1" quantity-max="{{cli.qty}}" data="cli">Add to Cart</ngcart-addtocart>
             </td>
         </tr>
     </table>

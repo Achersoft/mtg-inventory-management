@@ -46,9 +46,9 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#/checkout"><li><ngcart-summary></ngcart-summary></a></li>
-        <li ng-if="privilegeCheck.isLoginRequired()"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        <li ng-if="!privilegeCheck.isLoginRequired()"><a href="#/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <li><a href="#/checkout" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')"><li><ngcart-summary></ngcart-summary></a></li> 
+        <li ng-if="!privilegeCheck.isLoggedIn()"><a href="#/login"><span class="fa fa-sign-in"></span>Login</a></li>
+        <li ng-if="privilegeCheck.isLoggedIn()"><a href="#/logout"><span class="fa fa-sign-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>

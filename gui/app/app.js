@@ -38,7 +38,7 @@ angular.module('main', [
     // If angular-http-auth inteceptor fires "requires login" event, we need to display login "view"
     $rootScope.$on('event:auth-loginRequired', function() {
         $rootScope.loginRequired = true;
-        $location.path( "/login" );
+        $location.path("/setSelection/English");
     });
     
     $rootScope.$on('event:auth-loginConfirmed', function() {

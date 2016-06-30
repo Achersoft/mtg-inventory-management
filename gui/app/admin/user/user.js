@@ -17,11 +17,16 @@ angular.module('main.users', ['ngRoute'])
 .controller('UserCtrl', ['$scope', '$location', '$route', '$routeParams', 'NgTableParams', 'UserSvc', 'UserState', function ($scope, $location, $route, $routeParams, NgTableParams, userSvc, userState) {
     $scope.userContext = userState.get();
     
+    $scope.add = function() {
+        userState.setUser({}, true);
+        $location.path("/users/add");
+    };
     
     $scope.edit = function(userId) {
-        $scope.userContext.editMode = true;
-        $scope.userContext.user = userSvc.getUser(userId);
-        $location.path("/users/add");
+        userSvc.getUser(userId).then(function (result) {
+            userState.setUser(result.data, true);
+            $location.path("/users/add");
+        });
     }; 
     
     $scope.create = function(isValid) {
@@ -66,6 +71,7 @@ angular.module('main.users', ['ngRoute'])
         }
 
         function setUser(data, editMode) {
+            console.log(data);
             userState.user = data;
             userState.editMode = editMode;
         }

@@ -63,11 +63,11 @@
     </update>  
     
     <insert id="addUserPrivileges">
-        INSERT INTO persona_privilege (persona_id, 
-                                       privilege) 
-                               values
+        INSERT INTO user_privilege (user_id, 
+                                    privilege) 
+                             values
             <foreach item="element" index="index" collection="privileges" separator=",">
-                                      (UNHEX(#{id}),
+                                      (#{id}),
                                        #{element})
             </foreach>
     </insert>
