@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -23,7 +22,6 @@ public class ImporterRestService {
     @RequiresPrivilege({Privilege.ADMIN})
     @POST 
     @Path("/upload")
-    @Produces({MediaType.APPLICATION_JSON})	
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public void importAllSets(@FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FormDataContentDisposition contentDispositionHeader) throws Exception {

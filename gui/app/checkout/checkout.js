@@ -11,9 +11,15 @@ angular.module('main.checkout', ['ngRoute'])
 }])
 
 .controller('CheckoutCtrl', ['$scope', '$routeParams', 'CheckoutSvc', 'ngCart', function ($scope, $routeParams, checkoutSvc, ngCart) {
-    console.log(ngCart);
+    $scope.cartSize = ngCart.$cart.items.length;
+        
     $scope.checkout = function(){
-       console.log(ngCart.$cart.items);
+        var index;
+        var order = [];
+        for (index = 0; index < ngCart.$cart.items.length; ++index) {
+            order.push({'id':ngCart.$cart.items[index]._data.id,'condition':ngCart.$cart.items[index]._data.condition,'qty':ngCart.$cart.items[index]._quantity});
+        }
+        console.log(order);
     };
 }])
 

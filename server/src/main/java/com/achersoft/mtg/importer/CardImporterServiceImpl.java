@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.transaction.annotation.Transactional;
 
 public class CardImporterServiceImpl implements CardImporterService, Runnable { 
 
@@ -39,9 +38,10 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
         importSets();
     }
     
-    @Transactional
     private void importSets() {
+        Logger.getLogger(CardImporterServiceImpl.class.getName()).log(Level.INFO, "Started Card Import");
         sets.getSets().stream().forEach((set) -> {
+            Logger.getLogger(CardImporterServiceImpl.class.getName()).log(Level.INFO, "Import Set: {0}", set.getName());
             Map vars = new HashMap();
             set.setId(DigestUtils.sha1Hex(set.name));
             mapper.addSet(set);

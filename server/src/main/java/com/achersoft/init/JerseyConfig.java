@@ -25,7 +25,7 @@ public class JerseyConfig extends ResourceConfig {
         register(UserContextFilter.class);
         
         // register exception handlers
-     //   register(UncheckedExceptionHandler.class);
+        register(UncheckedExceptionHandler.class);
         register(AuthenticationExceptionHandler.class);
         register(AccessDeniedExceptionHandler.class);
         register(InvalidDataExceptionHandler.class);
