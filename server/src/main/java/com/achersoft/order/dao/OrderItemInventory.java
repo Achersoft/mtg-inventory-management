@@ -11,9 +11,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItem {
-    public String id;
-    public String condition;
+public class OrderItemInventory {
     public int qty;
     public double price;
 }

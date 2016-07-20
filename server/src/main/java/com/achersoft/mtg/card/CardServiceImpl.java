@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class CardServiceImpl implements CardService {
 
     private @Inject CardMapper mapper;

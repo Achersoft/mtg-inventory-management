@@ -7,7 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class EnumServiceImpl implements EnumService {
 
     private @Inject EnumMapper mapper;

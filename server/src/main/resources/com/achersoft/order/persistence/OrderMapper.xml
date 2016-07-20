@@ -1,0 +1,96 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.achersoft.order.persistence.OrderMapper">
+    <insert id="createOrder">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            SELECT UUID()
+        </selectKey>
+        INSERT INTO orders (id,
+                            customer_name,
+                            created_at) 
+                    VALUES (#{id},
+                            #{customerName},
+                            #{createdAt})
+    </insert>
+    
+    <update id="removeItemFromInventory">
+        UPDATE card_inventory SET
+            <if test="condition == 'NM'">
+               NM = NM - #{qty}
+            </if>        
+            <if test="condition == 'SP'">
+               SP = SP - #{qty}
+            </if>
+            <if test="condition == 'MP'">
+               MP = MP - #{qty}
+            </if>        
+            <if test="condition == 'HP'">
+               HP = HP - #{qty}
+            </if>
+            <if test="condition == 'FNM'">
+               FNM = FNM - #{qty}
+            </if>        
+            <if test="condition == 'FSP'">
+               FSP = FSP - #{qty}
+            </if>
+            <if test="condition == 'FMP'">
+               FMP = FMP - #{qty}
+            </if>        
+            <if test="condition == 'FHP'">
+               FHP = FHP - #{qty}
+            </if>
+         WHERE id = #{id}
+    </update>
+
+    <select id="getItemInventory" resultType="com.achersoft.order.dao.OrderItemInventory">
+          SELECT 
+            <if test="condition == 'NM'">
+               NM 'qty',
+               nm_price 'price'
+            </if>        
+            <if test="condition == 'SP'">
+               SP 'qty',
+               sp_price 'price'
+            </if>
+            <if test="condition == 'MP'">
+               MP 'qty',
+               mp_price 'price'
+            </if>        
+            <if test="condition == 'HP'">
+               HP 'qty',
+               hp_price 'price'
+            </if>
+            <if test="condition == 'FNM'">
+               FNM 'qty',
+               fnm_price 'price'
+            </if>        
+            <if test="condition == 'FSP'">
+               FSP 'qty',
+               fsp_price 'price'
+            </if>
+            <if test="condition == 'FMP'">
+               FMP 'qty',
+               fmp_price 'price'
+            </if>        
+            <if test="condition == 'FHP'">
+               FHP 'qty',
+               fhp_price 'price'
+            </if>
+            FROM card_inventory 
+           WHERE id = #{id}
+    </select>
+    
+    <insert id="addOrderItem">
+        INSERT INTO order_items (id,
+                                 order_id,
+                                 con,
+                                 qty,
+                                 price) 
+                         VALUES (#{orderItem.id},
+                                 #{orderId},
+                                 #{orderItem.condition},
+                                 #{orderItem.qty},
+                                 #{orderItem.price})
+    </insert>
+</mapper>

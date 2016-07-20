@@ -13,6 +13,9 @@ import com.achersoft.mtg.importer.CardImporterServiceImpl;
 import com.achersoft.mtg.importer.persistence.ImporterMapper;
 import com.achersoft.mtg.price.MTGPriceSync;
 import com.achersoft.mtg.price.persistence.PriceMapper;
+import com.achersoft.order.OrderService;
+import com.achersoft.order.OrderServiceImpl;
+import com.achersoft.order.persistence.OrderMapper;
 import com.achersoft.rest.services.ImporterRestService;
 import com.achersoft.security.UserAuthenticationService;
 import com.achersoft.security.UserAuthenticationServiceImpl;
@@ -52,6 +55,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
                                    ImporterMapper.class,
                                    CardMapper.class,
                                    EnumMapper.class,
+                                   OrderMapper.class,
                                    PriceMapper.class} )
 public class SpringConfig {
     
@@ -89,6 +93,11 @@ public class SpringConfig {
     public EnumService enumService() {
         return new EnumServiceImpl();
     }
+    
+    @Bean
+    public OrderService orderService() {
+        return new OrderServiceImpl();
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="System"> 
@@ -96,19 +105,19 @@ public class SpringConfig {
     public DataSource dataSource() {
         DataSource datasource = new DataSource();
         PoolProperties p = new PoolProperties();
-       /* p.setUrl("jdbc:" + "mysql" + 
-                 "://" + "titangamesandhobbies.com" +
-                 ":" + "3306" +
-                 "/" + "titan_mtg");*/
         p.setUrl("jdbc:" + "mysql" + 
                  "://" + "localhost" +
                  ":" + "3306" +
+                 "/" + "mtg_inventory");
+        p.setUsername("titan_mtg");
+        p.setPassword("bonerfart");
+      /*  p.setUrl("jdbc:" + "mysql" + 
+                 "://" + "localhost" +
+                 ":" + "3306" +
                  "/" + "titan");
+        p.setUsername("root");
+        p.setPassword("zxcxcv");*/
         p.setDriverClassName("com.mysql.jdbc.Driver");
-      //  p.setUsername("titan_mtg_rest");
-p.setUsername("root");
-       // p.setPassword("bonerfart");
-p.setPassword("zxcxcv");
         p.setJmxEnabled(true);
         p.setTestWhileIdle(false);
         p.setTestOnBorrow(true);

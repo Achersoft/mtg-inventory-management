@@ -31,7 +31,7 @@ angular.module('main', [
     };
 })())        
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/'});
+  $routeProvider.otherwise({redirectTo: '/setSelection/English'});
 }])
 .run(['$rootScope', '$location', 'RESOURCES', function($rootScope, $location, RESOURCES) {
 

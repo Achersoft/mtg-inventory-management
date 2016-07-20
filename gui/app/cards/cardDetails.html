@@ -1,5 +1,8 @@
 <div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-sm-push-6">
+        <img src="{{imgBaseURL}}/static/images/{{card.id}}" border="0" alt="1" style="display:block;margin:auto;">
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-sm-pull-6">
         <h2 style="margin-top: 10px;font-size:26px"><strong>{{card.name}}</strong></h2>
         <h3 style="margin-top: 10px;font-size:16px;"><a ng-href="#/setList/{{card.setId}}/{{card.language}}">{{card.set}}</a></h3>
         <div class="body">
@@ -13,9 +16,6 @@
             <p><strong>Artist: </strong>{{card.artist}}</p>
             <p><strong>Rarity: </strong>{{card.rarity}}</p>
         </div>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <img src="{{imgBaseURL}}/static/images/{{card.id}}" border="0" alt="1" style="display:block;margin:auto;">
     </div>
 </div>
 <div class="row col-lg-10 col-md-10 col-sm-10 col-xs-10" style="margin-top:10px;">
@@ -41,7 +41,7 @@
                 {{cli.price | currency: '$'}}
             </td>
             <td data-title="'Add to Cart'" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')">
-                <ngcart-addtocart id="{{card.id}}{{cli.condition}}" name="{{card.name}}" price="{{cli.price}}" quantity="1" quantity-max="{{cli.qty}}" data="cli">Add to Cart</ngcart-addtocart>
+                <ngcart-addtocart id="{{cli.cardId}}{{cli.condition}}" name="{{card.name}}" price="{{cli.price}}" quantity="1" quantity-max="{{cli.qty}}" data="cli">Add to Cart</ngcart-addtocart>
             </td>
         </tr>
     </table>
@@ -71,7 +71,7 @@
                 {{cli.price | currency: '$'}}
             </td>
             <td data-title="'Add to Cart'" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')">
-                <ngcart-addtocart id="{{card.id}}{{cli.condition}}" name="{{card.name}}" price="{{cli.price}}" quantity="1" quantity-max="{{cli.qty}}" data="cli">Add to Cart</ngcart-addtocart>
+                <ngcart-addtocart id="{{cli.cardId}}{{cli.condition}}" name="{{card.name}}" price="{{cli.price}}" quantity="1" quantity-max="{{cli.qty}}" data="cli">Add to Cart</ngcart-addtocart>
             </td>
         </tr>
     </table>

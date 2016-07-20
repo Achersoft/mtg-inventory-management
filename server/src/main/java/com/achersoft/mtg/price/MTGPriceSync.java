@@ -1,31 +1,26 @@
 package com.achersoft.mtg.price;
 
 import com.achersoft.mtg.price.dao.CardPrice;
-import com.achersoft.mtg.price.dao.PriceSet;
 import com.achersoft.mtg.price.dao.PriceSetList;
 import com.achersoft.mtg.price.persistence.PriceMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
 
 public class MTGPriceSync {
     private static final String API_KEY = "brianDOTseippATgmailDOTcom-FriJan0804-37-57UTC2016";
     private static final String API_URL = "http://www.mtgprice.com/api";
     private @Inject PriceMapper mapper;
     
-   // @Scheduled(fixedRate=21600000)
+    @Scheduled(fixedRate=21600000)
     public void sync() {
         updatePrice();
     }
     
-  //  @Transactional
     private void updatePrice(){
         System.err.println("Start Price Sync");
         mapper.getSets().stream().forEach((set) -> {

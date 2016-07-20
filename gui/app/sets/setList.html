@@ -28,7 +28,9 @@
                 </div>
             </td>
             <td data-title="'Price'">
-                {{card.price | currency: '$'}}
+                <div ng-show="{{card.qty}} > 0">
+                    {{card.price | currency: '$'}}
+                </div>
             </td>
             <td data-title="" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')">
                 <div ng-show="{{card.qty}} > 0">
