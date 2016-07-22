@@ -20,11 +20,9 @@ public class MTGPriceSync {
     public void sync() {
         updatePrice();
     }
-    
+
     private void updatePrice(){
-        System.err.println("Start Price Sync");
         mapper.getSets().stream().forEach((set) -> {
-            System.err.println("Get Set: " + set.getCode());
             try {
                 for(CardPrice card : getSetPriceList(set.getCode()).getCards()) {
                     String cardId = mapper.getCardId(set.getId(), card.getName(), "English");

@@ -13,42 +13,48 @@
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Magic Singles </b><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#/setSelection/English"><b>English</b></a></li>
-            <li><a href="#/setSelection/Russian"><b>Russian</b></a></li>
-            <li><a href="#/setSelection/Japanese"><b>Japanese</b></a></li>
-            <li><a href="#/setSelection/Korean"><b>Korean</b></a></li>
-            <li><a href="#/setSelection/Spanish"><b>Spanish</b></a></li>
-            <li><a href="#/setSelection/German"><b>German</b></a></li>
-            <li><a href="#/setSelection/Chinese"><b>Chinese</b></a></li>
-            <li><a href="#/setSelection/Portuguese"><b>Portuguese</b></a></li>
-            <li><a href="#/setSelection/French"><b>French</b></a></li>
-            <li><a href="#/setSelection/Italian"><b>Italian</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/English"><b>English</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/Russian"><b>Russian</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/Japanese"><b>Japanese</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/Korean"><b>Korean</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/Spanish"><b>Spanish</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/German"><b>German</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/Chinese"><b>Chinese</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/Portuguese"><b>Portuguese</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/French"><b>French</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/Italian"><b>Italian</b></a></li>
+          </ul>
+        </li>
+        <li class="dropdown" ng-if="privilegeCheck.isUserAuthorized('ADMIN') || privilegeCheck.isUserAuthorized('EMPLOYEE')">
+            <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Orders </b><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/orders"><b>Unfulfilled </b></a></li>
           </ul>
         </li>
         <li class="dropdown" ng-if="privilegeCheck.isUserAuthorized('ADMIN') || privilegeCheck.isUserAuthorized('EMPLOYEE')">
             <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Inventory Management </b><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#/bulkAdd"><b>Add Inventory</b></a></li>
-            <li><a href="#/adjustInventory"><b>Adjust Inventory</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/bulkAdd"><b>Add Inventory</b></a></li>
+            <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/adjustInventory"><b>Adjust Inventory</b></a></li>
           </ul>
         </li>
         <li class="dropdown" ng-if="privilegeCheck.isUserAuthorized('ADMIN')">
             <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Import </b><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#/import/allSets">All Sets</a></li>
+              <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/import/allSets"><b>All Sets</b></a></li>
           </ul>
         </li>
         <li class="dropdown" ng-if="privilegeCheck.isUserAuthorized('ADMIN')">
             <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Admin </b><span class="caret"></span></a>
           <ul class="dropdown-menu">
-              <li><a href="#/users/viewAll">User Management</a></li>
+              <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/users/viewAll"><b>User Management</b></a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#/checkout" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')"><li><ngcart-summary></ngcart-summary></a></li> 
-        <li ng-if="!privilegeCheck.isLoggedIn()"><a href="#/login"><span class="fa fa-sign-in"></span>Login</a></li>
-        <li ng-if="privilegeCheck.isLoggedIn()"><a href="#/logout"><span class="fa fa-sign-out"></span> Logout</a></li>
+        <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/checkout" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')"><li><ngcart-summary></ngcart-summary></a></li> 
+        <li ng-if="!privilegeCheck.isLoggedIn()"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/login"><span class="fa fa-sign-in"></span><b>Login</b></a></li>
+        <li ng-if="privilegeCheck.isLoggedIn()"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/logout"><span class="fa fa-sign-out"></span><b>Logout</b></a></li>
       </ul>
     </div>
   </div>

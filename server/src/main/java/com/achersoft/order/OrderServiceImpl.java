@@ -1,7 +1,6 @@
 package com.achersoft.order;
 
 import com.achersoft.mtg.card.dao.Set;
-import com.achersoft.mtg.card.persistence.CardMapper;
 import com.achersoft.order.dao.Order;
 import com.achersoft.order.dao.OrderItem;
 import com.achersoft.order.dao.OrderItemInventory;
@@ -32,6 +31,24 @@ public class OrderServiceImpl implements OrderService {
             mapper.addOrderItem(order.getId(), item);
         }
     }
-    
 
+    @Override
+    public List<Order> getOrders() {
+        List<Order> unfulfilledOrders = mapper.getUnfulfilledOrders();
+        unfulfilledOrders.stream().forEach((order) -> {
+            order.setItems(mapper.getOrderItems(order.getId()));
+        });
+        return unfulfilledOrders;
+    }
+
+    @Override
+    public Order getOrder(String id) {
+        Order order = mapper.getOrder(id);
+        order.setItems(mapper.getOrderItems(id));
+        order.getItems().stream().map((item) -> {
+            item.setMaxQty(item.getQty() + mapper.getItemInventory(item.getId(), item.getCondition()).getQty());
+            return item;                
+        });
+        return order;
+    }
 }

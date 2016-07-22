@@ -15,7 +15,8 @@ angular.module('main', [
   'main.cards',
   'main.import',
   'main.inventory',
-  'main.checkout'
+  'main.checkout',
+  'main.orders'
 ])
 .constant('RESOURCES', (function() {
     'use strict';
@@ -46,15 +47,8 @@ angular.module('main', [
     });
     
     $rootScope.$on('event:auth-forbidden', function(event, rejection) {
-        console.log(rejection);
-       // errorDialogSvc.showHttpError('Unauthorized Request',
-        //                             'You are not authorized for this operation.',
-        //                             rejection);
-    });
-
-    $rootScope.$on(RESOURCES.ESI_EVENT_GEN_ERROR, function(event, message) {
-        //errorDialogSvc.showError('Application Error Occurred',
-        //                         message);
+        $rootScope.loginRequired = true;
+        $location.path("/setSelection/English");
     });
 
     // Handles HTTP errors that are not specifically handled by the application services/controllers
@@ -69,7 +63,6 @@ angular.module('main', [
             } else {
                 errstr = 'An unexpected error occurred while comunicating with the server.';
             }
-            //errorDialogSvc.showHttpError('Server Error', errstr, rejection);
         }
     });
 }]);

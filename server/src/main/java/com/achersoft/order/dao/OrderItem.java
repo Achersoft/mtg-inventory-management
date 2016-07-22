@@ -13,7 +13,10 @@ import lombok.ToString;
 @AllArgsConstructor
 public class OrderItem {
     public String id;
+    public String name;
+    public String set;
     public String condition;
     public int qty;
+    public int maxQty;
     public double price;
 }

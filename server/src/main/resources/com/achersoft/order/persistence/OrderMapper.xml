@@ -93,4 +93,39 @@
                                  #{orderItem.qty},
                                  #{orderItem.price})
     </insert>
+    
+    <select id="getUnfulfilledOrders" resultType="com.achersoft.order.dao.Order">
+        SELECT id 'id',
+               customer_name 'customerName',
+               fulfilled_by 'fulfilledBy',
+               created_at 'createdAt',
+               discount 'discount',
+               total 'total'
+          FROM orders
+         WHERE fulfilled_by is null
+    </select>
+    
+    <select id="getOrder" resultType="com.achersoft.order.dao.Order">
+        SELECT id 'id',
+               customer_name 'customerName',
+               fulfilled_by 'fulfilledBy',
+               created_at 'createdAt',
+               discount 'discount',
+               total 'total'
+          FROM orders
+         WHERE id = #{id}
+    </select>
+
+    <select id="getOrderItems" resultType="com.achersoft.order.dao.OrderItem">
+        SELECT oi.id 'id',
+               c.name 'name',
+               s.name 'set',
+               oi.con 'condition',
+               oi.qty 'qty',
+               oi.price 'price'
+          FROM order_items oi
+    LEFT OUTER JOIN mtg_card c ON c.id = oi.id     
+    LEFT OUTER JOIN mtg_set s ON c.set_id = s.id      
+         WHERE oi.order_id = #{id} 
+    </select>
 </mapper>
