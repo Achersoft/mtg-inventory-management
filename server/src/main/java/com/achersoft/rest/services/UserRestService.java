@@ -4,7 +4,9 @@ import com.achersoft.security.annotations.RequiresPrivilege;
 import com.achersoft.security.type.Privilege;
 import com.achersoft.user.UserService;
 import com.achersoft.user.dao.User;
+import com.achersoft.user.dto.UserDTO;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -27,16 +29,18 @@ public class UserRestService {
     @GET 
     @Path("/")
     @Produces({MediaType.APPLICATION_JSON})	
-    public List<User> getUsers() throws Exception {
-        return userProvider.getUsers();	
+    public List<UserDTO> getUsers() throws Exception {
+        return userProvider.getUsers().stream().map((user) -> {
+            return UserDTO.fromDAO(user);
+        }).collect(Collectors.toList());	
     }
     
     @RequiresPrivilege({Privilege.ADMIN})
     @GET 
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})	
-    public User getUser(@PathParam("id")int id) throws Exception {
-        return userProvider.getUser(id);	
+    public UserDTO getUser(@PathParam("id")int id) throws Exception {
+        return UserDTO.fromDAO(userProvider.getUser(id));	
     }
 
     @RequiresPrivilege({Privilege.ADMIN})
@@ -44,8 +48,8 @@ public class UserRestService {
     @Path("/create")
     @Produces({MediaType.APPLICATION_JSON})	
     @Consumes({MediaType.APPLICATION_JSON})
-    public User createUser(@Valid @NotNull User user) throws Exception {
-        return userProvider.createUser(user);
+    public UserDTO createUser(@Valid @NotNull UserDTO user) throws Exception {
+        return UserDTO.fromDAO(userProvider.createUser(user.toDAO()));
     }
     
     @RequiresPrivilege({Privilege.ADMIN})
@@ -53,8 +57,8 @@ public class UserRestService {
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})	
     @Consumes({MediaType.APPLICATION_JSON})
-    public User editUser(@PathParam("id")String id, @Valid @NotNull User user) throws Exception {
-        return userProvider.editUser(user);
+    public UserDTO editUser(@PathParam("id")String id, @Valid @NotNull UserDTO user) throws Exception {
+        return UserDTO.fromDAO(userProvider.editUser(user.toDAO()));
     }
     
     @RequiresPrivilege({Privilege.ADMIN})

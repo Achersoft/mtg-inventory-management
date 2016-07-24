@@ -6,7 +6,9 @@ import com.achersoft.user.dao.User;
 import com.achersoft.user.persistence.UserMapper;
 import java.util.List;
 import javax.inject.Inject;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
     private @Inject UserMapper userMapper;
@@ -21,7 +23,9 @@ public class UserServiceImpl implements UserService {
        
         userMapper.createUser(user);
         User userFromName = userMapper.getUserFromName(user.getUsername());
-        userMapper.addUserPrivileges(userFromName.getId(), user.getPrivileges());
+        user.getPrivileges().stream().forEach((priv) -> {
+            userMapper.addUserPrivilege(userFromName.getId(), priv);
+        });
         userFromName.setPrivileges(userMapper.getUserPrivileges(userFromName.getId()));
         
         return userFromName;
@@ -42,7 +46,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User editUser(User user) {
         userMapper.editUser(user);
-        return userMapper.getUser(user.getId());
+        userMapper.removeUserPrivileges(user.getId());
+        user.getPrivileges().stream().forEach((priv) -> {
+            userMapper.addUserPrivilege(user.getId(), priv);
+        });
+        return getUser(user.getId());
     }
 
     @Override

@@ -62,17 +62,17 @@
          WHERE id = #{id}
     </update>  
     
-    <insert id="addUserPrivileges">
+    <insert id="addUserPrivilege">
         INSERT INTO user_privilege (user_id, 
                                     privilege) 
-                             values
-            <foreach item="element" index="index" collection="privileges" separator=",">
-                                      (#{id}),
-                                       #{element})
-            </foreach>
+                            values (#{id},
+                                    #{privilege})
     </insert>
     
-
+    <delete id="removeUserPrivileges">
+        DELETE FROM user_privilege WHERE user_id = #{id}
+    </delete>
+    
     <delete id="deleteUser">
         DELETE 
           FROM user

@@ -12,7 +12,8 @@ public interface UserMapper {
     public User getUser(int id);
     public User getUserFromName(String userName);
     public List<Privilege> getUserPrivileges(int id);
-    public void addUserPrivileges(@Param("id") int id, @Param("privileges")List<Privilege> privileges);
+    public void addUserPrivilege(@Param("id") int id, @Param("privilege")Privilege privilege);
+    public void removeUserPrivileges(@Param("id") int id);
     public void editUser(User user);
     public void deleteUser(int id);
     public boolean validateCredentials(UserLoginRequest request);

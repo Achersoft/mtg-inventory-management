@@ -1,14 +1,13 @@
 package com.achersoft.order;
 
-import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.order.dao.Order;
 import com.achersoft.order.dao.OrderItem;
 import com.achersoft.order.dao.OrderItemInventory;
 import com.achersoft.order.persistence.OrderMapper;
+import com.achersoft.security.providers.UserPrincipalProvider;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
 import javax.inject.Inject;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderServiceImpl implements OrderService {
 
     private @Inject OrderMapper mapper;
-    private @Resource(name="setList") Map<String, List<Set>> setList;
+    private @Inject UserPrincipalProvider userPrincipalProvider;
 
     @Override
     public void createOrder(Order order) throws Exception {
@@ -37,8 +36,27 @@ public class OrderServiceImpl implements OrderService {
         List<Order> unfulfilledOrders = mapper.getUnfulfilledOrders();
         unfulfilledOrders.stream().forEach((order) -> {
             order.setItems(mapper.getOrderItems(order.getId()));
+            order.setItemCount(0);
+            order.setTotal(0);
+            order.getItems().stream().forEach((item) -> {
+                order.setItemCount(order.getItemCount() + item.getQty());
+                order.setTotal(order.getTotal() + (item.getQty()*item.getPrice()));
+            });
         });
         return unfulfilledOrders;
+    }
+    
+    @Override
+    public List<Order> getCompletedOrders() {
+        List<Order> completedOrders = mapper.getCompletedOrders();
+        completedOrders.stream().forEach((order) -> {
+            order.setItems(mapper.getOrderItems(order.getId()));
+            order.setItemCount(0);
+            order.getItems().stream().forEach((item) -> {
+                order.setItemCount(order.getItemCount() + item.getQty());
+            });
+        });
+        return completedOrders;
     }
 
     @Override
@@ -50,5 +68,27 @@ public class OrderServiceImpl implements OrderService {
             return item;                
         });
         return order;
+    }
+
+    @Override
+    public void fulfillOrder(Order order) throws Exception {
+        order.setTotal(0);
+        order.setFulfilledBy(userPrincipalProvider.getUserPrincipal().getName());
+        mapper.getOrderItems(order.getId()).stream().forEach((item) -> {
+            mapper.addItemToInventory(item.getId(), item.getCondition(), item.getQty());
+        });
+        mapper.removeOrderItems(order.getId());
+        for(OrderItem item : order.getItems()) {
+            mapper.removeItemFromInventory(item.getId(), item.getCondition(), item.getQty());
+            OrderItemInventory itemInventory = mapper.getItemInventory(item.getId(), item.getCondition());
+            if(itemInventory.getQty() < 0)
+                throw new Exception();
+            mapper.addOrderItem(order.getId(), item);
+            order.setTotal(order.getTotal() + (item.getQty()*item.getPrice()));
+        }
+        if(order.getDiscount() > 0)
+            order.setTotal(order.getTotal() - order.getTotal()*(order.getDiscount()/100.0));
+        order.setTotal(new BigDecimal(order.getTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+        mapper.updateOrder(order);
     }
 }

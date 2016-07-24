@@ -14,6 +14,43 @@
                             #{createdAt})
     </insert>
     
+    <update id="updateOrder">
+        UPDATE orders SET
+            fulfilled_by = #{fulfilledBy},
+            discount = #{discount},
+            total = #{total}
+        WHERE id = #{id}
+    </update>
+    
+    <update id="addItemToInventory">
+        UPDATE card_inventory SET
+            <if test="condition == 'NM'">
+               NM = NM + #{qty}
+            </if>        
+            <if test="condition == 'SP'">
+               SP = SP + #{qty}
+            </if>
+            <if test="condition == 'MP'">
+               MP = MP + #{qty}
+            </if>        
+            <if test="condition == 'HP'">
+               HP = HP + #{qty}
+            </if>
+            <if test="condition == 'FNM'">
+               FNM = FNM + #{qty}
+            </if>        
+            <if test="condition == 'FSP'">
+               FSP = FSP + #{qty}
+            </if>
+            <if test="condition == 'FMP'">
+               FMP = FMP + #{qty}
+            </if>        
+            <if test="condition == 'FHP'">
+               FHP = FHP + #{qty}
+            </if>
+         WHERE id = #{id}
+    </update>
+    
     <update id="removeItemFromInventory">
         UPDATE card_inventory SET
             <if test="condition == 'NM'">
@@ -94,6 +131,10 @@
                                  #{orderItem.price})
     </insert>
     
+    <delete id="removeOrderItems">
+        DELETE FROM order_items WHERE order_id = #{orderId}
+    </delete>
+    
     <select id="getUnfulfilledOrders" resultType="com.achersoft.order.dao.Order">
         SELECT id 'id',
                customer_name 'customerName',
@@ -103,6 +144,18 @@
                total 'total'
           FROM orders
          WHERE fulfilled_by is null
+    </select>
+    
+    <select id="getCompletedOrders" resultType="com.achersoft.order.dao.Order">
+        SELECT id 'id',
+               customer_name 'customerName',
+               fulfilled_by 'fulfilledBy',
+               created_at 'createdAt',
+               discount 'discount',
+               total 'total'
+          FROM orders
+         WHERE fulfilled_by is not null
+      ORDER BY created_at DESC 
     </select>
     
     <select id="getOrder" resultType="com.achersoft.order.dao.Order">

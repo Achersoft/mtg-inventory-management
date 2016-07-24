@@ -5,11 +5,11 @@ angular.module('main.users', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
     .when('/users/viewAll', {
-        templateUrl: 'admin/user/list/userList.html',
+        templateUrl: 'admin/user/userList.html',
         controller: 'UserCtrl'
     })
     .when('/users/add', {
-        templateUrl: 'admin/user/detail/create/userCreate.html',
+        templateUrl: 'admin/user/userDetails.html',
         controller: 'UserCtrl'
     });
 }])
@@ -18,21 +18,31 @@ angular.module('main.users', ['ngRoute'])
     $scope.userContext = userState.get();
     
     $scope.add = function() {
-        userState.setUser({}, true);
+        userState.setUser({}, true, true);
         $location.path("/users/add");
     };
     
     $scope.edit = function(userId) {
         userSvc.getUser(userId).then(function (result) {
-            userState.setUser(result.data, true);
+            userState.setUser(result.data, true, false);
             $location.path("/users/add");
         });
     }; 
     
     $scope.create = function(isValid) {
-        userSvc.createUser($scope.userContext.user).then(function() {
-            $location.path("/users/viewAll");
-        });
+        if(isValid) {
+            userSvc.createUser($scope.userContext.user).then(function() {
+                $location.path("/users/viewAll");
+            });
+        }
+    }; 
+    
+    $scope.editUser = function(isValid) {
+        if(isValid) {
+            userSvc.editUser($scope.userContext.user.id, $scope.userContext.user).then(function() {
+                $location.path("/users/viewAll");
+            });
+        }
     }; 
     
     $scope.delete = function(userId) {
@@ -63,17 +73,18 @@ angular.module('main.users', ['ngRoute'])
         var userState = {
             user: {},
             users: {},
-            editMode: false
+            editMode: false,
+            addMode: false
         };
 
         function setUsers(data) {
             userState.users = data;
         }
 
-        function setUser(data, editMode) {
-            console.log(data);
+        function setUser(data, editMode, addMode) {
             userState.user = data;
             userState.editMode = editMode;
+            userState.addMode = addMode;
         }
 
         function get() {
@@ -100,21 +111,17 @@ angular.module('main.users', ['ngRoute'])
     
     userSvc.createUser = function(user){
         return $http.post(RESOURCES.REST_BASE_URL + "/users/create",
-                          user, {silentHttpErrors : true})
-                     .catch(function(rejection) {
-                        /* errorDialogSvc.showHttpError('Unable to Create User',
-                             'Failed to add User "' + user.username + '".',
-                             rejection);
-                         return $q.reject(rejection);*/
-                     });
+                          user, {silentHttpErrors : true});
+    };
+    
+    userSvc.editUser = function(userId, user){
+        return $http.put(RESOURCES.REST_BASE_URL + "/users/" + userId,
+                          user, {silentHttpErrors : true});
     };
      
     userSvc.deleteUser = function(id){
         return $http.delete(RESOURCES.REST_BASE_URL + "/users/" + id,
-                            {silentHttpErrors : true})
-                    .catch(function(rejection) {
-
-                     });
+                            {silentHttpErrors : true});
     };
         
     return userSvc;

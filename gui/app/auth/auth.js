@@ -4,6 +4,7 @@ angular.module('main.auth', ['ngRoute'])
     function($httpProvider) {
         $httpProvider.interceptors.push(['$q', '$injector', 'AuthorizationState', '$rootScope',
                                          function($q, $injector, AuthorizationState, $rootScope) {
+            AuthorizationState.addAuthorization($httpProvider.defaults.headers.common);
             return {
                 // Intercept all requests and add saved Token Auth header
                 request: function(config) {

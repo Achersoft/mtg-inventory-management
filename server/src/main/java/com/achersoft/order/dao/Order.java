@@ -20,5 +20,6 @@ public class Order {
     public Date createdAt;
     public int discount;
     public double total;
+    public int itemCount;
     public List<OrderItem> items;
 }

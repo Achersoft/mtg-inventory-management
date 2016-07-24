@@ -35,11 +35,12 @@ angular.module('main', [
   $routeProvider.otherwise({redirectTo: '/setSelection/English'});
 }])
 .run(['$rootScope', '$location', 'RESOURCES', function($rootScope, $location, RESOURCES) {
+    $rootScope.loginRequired = false;
 
     // If angular-http-auth inteceptor fires "requires login" event, we need to display login "view"
     $rootScope.$on('event:auth-loginRequired', function() {
         $rootScope.loginRequired = true;
-        $location.path("/setSelection/English");
+        $location.path("/login");
     });
     
     $rootScope.$on('event:auth-loginConfirmed', function() {
@@ -48,7 +49,7 @@ angular.module('main', [
     
     $rootScope.$on('event:auth-forbidden', function(event, rejection) {
         $rootScope.loginRequired = true;
-        $location.path("/setSelection/English");
+        $location.path("/login");
     });
 
     // Handles HTTP errors that are not specifically handled by the application services/controllers
