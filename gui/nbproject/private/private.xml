@@ -4,8 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/images/u.png</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/settings/settings.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/checkout/checkout.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/images/ur.png</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topNav/navBarDir.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/cards/cardDetails.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/template/ngCart/summary.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/import/allSets.html</file>
@@ -22,6 +24,7 @@
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/images/pu.png</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/inventory/adjustInventory.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/checkout/checkout.js</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topNav/navBar.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/app.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/inventory/bulkAdd.html</file>
         </group>

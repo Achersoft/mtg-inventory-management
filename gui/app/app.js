@@ -4,6 +4,7 @@
 angular.module('main', [
   'ngRoute',
   'ngTable', 
+  'ui.bootstrap', 
   'ngCart',
   'angular-storage',
   'angular-jwt',

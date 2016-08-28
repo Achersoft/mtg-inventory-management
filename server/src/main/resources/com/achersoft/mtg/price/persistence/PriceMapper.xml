@@ -2,6 +2,18 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="com.achersoft.mtg.price.persistence.PriceMapper">
+    <select id="getPriceScale" resultType="com.achersoft.mtg.price.dao.PriceScale">
+        SELECT nm,
+               sp,
+               mp,
+               hp,
+               fnm,
+               fsp,
+               fmp,
+               fhp
+          FROM price_scale
+    </select>
+    
     <select id="getSets" resultType="com.achersoft.mtg.price.dao.PriceSet">
         SELECT id 'id',
 	       mtg_price_code 'code'

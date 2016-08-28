@@ -54,6 +54,13 @@ public class CardServiceImpl implements CardService {
             return CardListItem.fromCard(card);
         }).collect(Collectors.toList());
     }
+    
+    @Override
+    public List<CardListItem> search(String name) {
+        return mapper.search(name + "%").stream().map((card) -> {
+            return CardListItem.fromCard(card);
+        }).collect(Collectors.toList());
+    }
 
     @Override
     public List<Card> getSetInventory(String id, String language) {

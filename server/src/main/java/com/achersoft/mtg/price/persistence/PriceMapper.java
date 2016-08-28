@@ -1,10 +1,12 @@
 package com.achersoft.mtg.price.persistence;
 
+import com.achersoft.mtg.price.dao.PriceScale;
 import com.achersoft.mtg.price.dao.PriceSet;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface PriceMapper {
+    public PriceScale getPriceScale();
     public List<PriceSet> getSets();
     public String getCardId(
             @Param("setId") String setId, 

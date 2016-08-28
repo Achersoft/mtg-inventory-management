@@ -22,4 +22,8 @@ public class User {
     private Integer loginAttempts;
     private Date lastAccessed;
     private List<Privilege> privileges;
+    
+    public String getName() {
+        return firstName + " " + lastName;
+    }
 }

@@ -1,6 +1,7 @@
 package com.achersoft.mtg.price;
 
 import com.achersoft.mtg.price.dao.CardPrice;
+import com.achersoft.mtg.price.dao.PriceScale;
 import com.achersoft.mtg.price.dao.PriceSetList;
 import com.achersoft.mtg.price.persistence.PriceMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,12 +23,21 @@ public class MTGPriceSync {
     }
 
     private void updatePrice(){
+        PriceScale priceScale = mapper.getPriceScale();
         mapper.getSets().stream().forEach((set) -> {
             try {
                 for(CardPrice card : getSetPriceList(set.getCode()).getCards()) {
                     String cardId = mapper.getCardId(set.getId(), card.getName(), "English");
                     Double price = Double.valueOf(card.getFairPrice().replace("$", ""));
-                    mapper.updatePrice(cardId, price, price, price, price, price, price, price, price);
+                    mapper.updatePrice(cardId, 
+                                       price * priceScale.getNm(), 
+                                       price * priceScale.getSp(), 
+                                       price * priceScale.getMp(), 
+                                       price * priceScale.getHp(), 
+                                       price * priceScale.getFnm(), 
+                                       price * priceScale.getFsp(), 
+                                       price * priceScale.getFmp(), 
+                                       price * priceScale.getFhp());
                 }
             } catch (Exception ex) {
                 System.err.println("Get Set: " + set.getCode());

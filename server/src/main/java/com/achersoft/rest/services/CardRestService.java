@@ -70,6 +70,14 @@ public class CardRestService {
         return cardService.getSetInventory(id, language);	
     }
     
+    @GET 
+    @Path("/search")
+    @Consumes({MediaType.APPLICATION_JSON})	
+    @Produces({MediaType.APPLICATION_JSON})	
+    public List<CardListItemDTO> search(@QueryParam("name") String name) throws Exception {
+	return cardService.search(name).stream().map((dao) -> {return CardListItemDTO.fromDAO(dao);}).collect(Collectors.toList());
+    }
+    
     @RequiresPrivilege({Privilege.ADMIN,Privilege.EMPLOYEE})
     @PUT 
     @Path("/setinventory")

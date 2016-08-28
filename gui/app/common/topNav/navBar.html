@@ -52,11 +52,18 @@
           </ul>
         </li>
       </ul>
+      <div class="col-sm-3 col-md-3">
+        <form class="navbar-form" style="margin:0px;padding-top:20px;padding-bottom:20px" role="search">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="topNavCtrl.selectedCard" uib-typeahead="state for state in topNavCtrl.states | filter: $viewValue">
+            </div>
+        </form>
+      </div>
       <ul class="nav navbar-nav navbar-right">
         <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/checkout" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')"><li><ngcart-summary></ngcart-summary></a></li> 
         <li ng-if="!privilegeCheck.isLoggedIn()"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/login"><span class="fa fa-sign-in"></span><b>Login</b></a></li>
         <li ng-if="privilegeCheck.isLoggedIn()"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/logout"><span class="fa fa-sign-out"></span><b>Logout</b></a></li>
       </ul>
-    </div>
+    </div> 
   </div>
 </nav>

@@ -76,6 +76,15 @@
       ORDER BY c.name
     </select>
     
+    <select id="search" resultType="com.achersoft.mtg.card.dao.Card">
+        <include refid="cardSelection"/>
+         WHERE c.name like #{name}
+           AND s.id = c.set_id
+           AND c.id = i.id
+           AND c.has_children = 0
+      GROUP BY c.name
+    </select>
+    
     <update id="addInventory">
         UPDATE card_inventory SET 
                 NM = NM + #{NM},

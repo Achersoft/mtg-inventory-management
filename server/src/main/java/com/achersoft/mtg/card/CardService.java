@@ -12,6 +12,7 @@ public interface CardService {
     public CardDetails getCard(String id);
     public List<Set> getSets(String language);
     public List<CardListItem> getSet(String id, String language);
+    public List<CardListItem> search(String name);
     public List<Card> getSetInventory(String id, String language);
     public void refreshSets();
 }
