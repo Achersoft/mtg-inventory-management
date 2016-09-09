@@ -3,6 +3,7 @@ package com.achersoft.mtg.card;
 import com.achersoft.mtg.card.dao.Card;
 import com.achersoft.mtg.card.dao.CardDetails;
 import com.achersoft.mtg.card.dao.CardListItem;
+import com.achersoft.mtg.card.dao.CardSearch;
 import com.achersoft.mtg.card.dao.CardStock;
 import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.persistence.CardMapper;
@@ -56,8 +57,8 @@ public class CardServiceImpl implements CardService {
     }
     
     @Override
-    public List<CardListItem> search(String name) {
-        return mapper.search(name + "%").stream().map((card) -> {
+    public List<CardListItem> search(CardSearch search) {
+        return mapper.search(search).stream().map((card) -> {
             return CardListItem.fromCard(card);
         }).collect(Collectors.toList());
     }

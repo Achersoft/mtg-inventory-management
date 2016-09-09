@@ -3,6 +3,7 @@ package com.achersoft.mtg.card;
 import com.achersoft.mtg.card.dao.Card;
 import com.achersoft.mtg.card.dao.CardDetails;
 import com.achersoft.mtg.card.dao.CardListItem;
+import com.achersoft.mtg.card.dao.CardSearch;
 import com.achersoft.mtg.card.dao.Set;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface CardService {
     public CardDetails getCard(String id);
     public List<Set> getSets(String language);
     public List<CardListItem> getSet(String id, String language);
-    public List<CardListItem> search(String name);
+    public List<CardListItem> search(CardSearch search);
     public List<Card> getSetInventory(String id, String language);
     public void refreshSets();
 }

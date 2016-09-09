@@ -78,11 +78,23 @@
     
     <select id="search" resultType="com.achersoft.mtg.card.dao.Card">
         <include refid="cardSelection"/>
-         WHERE c.name like #{name}
-           AND s.id = c.set_id
+         WHERE s.id = c.set_id
            AND c.id = i.id
            AND c.has_children = 0
+        <if test="id != null">
+           AND c.id = #{id}
+        </if>
+        <if test="name != null">
+           AND c.name = #{name}
+      ORDER BY s.name, c.language
+        </if>
+        <if test="like != null">
+           AND c.name like #{like}
       GROUP BY c.name
+        </if>
+        <if test="limit">
+           LIMIT 10
+        </if>
     </select>
     
     <update id="addInventory">

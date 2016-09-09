@@ -31,3 +31,9 @@ and open the template in the editor.
 .navbar-brand {
     padding: 0px;
 }
+
+.nowrap-truncate {
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
