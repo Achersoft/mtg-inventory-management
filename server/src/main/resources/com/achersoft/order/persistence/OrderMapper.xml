@@ -173,6 +173,7 @@
         SELECT oi.id 'id',
                c.name 'name',
                s.name 'set',
+               c.language 'language',
                oi.con 'condition',
                oi.qty 'qty',
                oi.price 'price'

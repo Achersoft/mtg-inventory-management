@@ -15,6 +15,7 @@ public class OrderItem {
     public String id;
     public String name;
     public String set;
+    public String language;
     public String condition;
     public int qty;
     public int maxQty;
