@@ -30,9 +30,9 @@ angular.module('main.orders', ['ngRoute'])
     {   total: 0, 
         counts: [], 
         getData: function ($defer, params) {
-            orderSvc.getOrders().success(function (result) {
-                params.total(result.length);
-                $defer.resolve(result.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+            orderSvc.getOrders(params.page(), params.count()).success(function (result) {
+                params.total(result.count);
+                $defer.resolve(result.orders);
             });
         }
     });
@@ -46,9 +46,9 @@ angular.module('main.orders', ['ngRoute'])
     {   total: 0, 
         counts: [], 
         getData: function ($defer, params) {
-            orderSvc.getCompletedOrders().success(function (result) {
-                params.total(result.length);
-                $defer.resolve(result.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+            orderSvc.getCompletedOrders(params.page(), params.count()).success(function (result) {
+                params.total(result.count);
+                $defer.resolve(result.orders);
             });
         }
     });
@@ -113,12 +113,12 @@ angular.module('main.orders', ['ngRoute'])
 .factory('OrderSvc',['$http', 'RESOURCES', function($http, RESOURCES){    
     var orderSvc={};
 
-    orderSvc.getOrders = function(){
-        return $http.get(RESOURCES.REST_BASE_URL + '/orders');
+    orderSvc.getOrders = function(page, size){
+        return $http.get(RESOURCES.REST_BASE_URL + '/orders?page=' + page + '&size=' + size);
     };
     
-    orderSvc.getCompletedOrders = function(){
-        return $http.get(RESOURCES.REST_BASE_URL + '/orders/completed');
+    orderSvc.getCompletedOrders = function(page, size){
+        return $http.get(RESOURCES.REST_BASE_URL + '/orders/completed?page=' + page + '&size=' + size);
     };
     
     orderSvc.getOrder = function(id){

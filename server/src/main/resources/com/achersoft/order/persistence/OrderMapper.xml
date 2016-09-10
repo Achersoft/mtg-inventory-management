@@ -135,6 +135,12 @@
         DELETE FROM order_items WHERE order_id = #{orderId}
     </delete>
     
+    <select id="getUnfulfilledOrdersCount" resultType="java.lang.Integer">
+        SELECT count(*)
+          FROM orders
+         WHERE fulfilled_by is null
+    </select>
+    
     <select id="getUnfulfilledOrders" resultType="com.achersoft.order.dao.Order">
         SELECT id 'id',
                customer_name 'customerName',
@@ -145,6 +151,13 @@
           FROM orders
          WHERE fulfilled_by is null
       ORDER BY created_at
+         LIMIT #{startLimit}, #{offsetLimit}
+    </select>
+    
+    <select id="getCompletedOrdersCount" resultType="java.lang.Integer">
+        SELECT count(*)
+          FROM orders
+         WHERE fulfilled_by is not null
     </select>
     
     <select id="getCompletedOrders" resultType="com.achersoft.order.dao.Order">
@@ -157,6 +170,7 @@
           FROM orders
          WHERE fulfilled_by is not null
       ORDER BY created_at DESC 
+         LIMIT #{startLimit}, #{offsetLimit}
     </select>
     
     <select id="getOrder" resultType="com.achersoft.order.dao.Order">

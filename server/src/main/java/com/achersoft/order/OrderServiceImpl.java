@@ -3,6 +3,7 @@ package com.achersoft.order;
 import com.achersoft.order.dao.Order;
 import com.achersoft.order.dao.OrderItem;
 import com.achersoft.order.dao.OrderItemInventory;
+import com.achersoft.order.dao.OrderList;
 import com.achersoft.order.persistence.OrderMapper;
 import com.achersoft.security.providers.UserPrincipalProvider;
 import com.achersoft.user.persistence.UserMapper;
@@ -36,9 +37,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrders() {
-        List<Order> unfulfilledOrders = mapper.getUnfulfilledOrders();
-        unfulfilledOrders.stream().forEach((order) -> {
+    public OrderList getOrders(int page, int size) {
+        OrderList orderList = OrderList.builder().count(mapper.getUnfulfilledOrdersCount()).orders(mapper.getUnfulfilledOrders((page-1)*size, size)).build();
+        orderList.getOrders().stream().forEach((order) -> {
             order.setItems(mapper.getOrderItems(order.getId()));
             order.setItemCount(0);
             order.setTotal(0);
@@ -47,13 +48,13 @@ public class OrderServiceImpl implements OrderService {
                 order.setTotal(order.getTotal() + (item.getQty()*item.getPrice()));
             });
         });
-        return unfulfilledOrders;
+        return orderList;
     }
     
     @Override
-    public List<Order> getCompletedOrders() {
-        List<Order> completedOrders = mapper.getCompletedOrders();
-        completedOrders.stream().forEach((order) -> {
+    public OrderList getCompletedOrders(int page, int size) {
+        OrderList orderList = OrderList.builder().count(mapper.getCompletedOrdersCount()).orders(mapper.getCompletedOrders((page-1)*size, size)).build();
+        orderList.getOrders().stream().forEach((order) -> {
             order.setFulfilledBy(userMapper.getUser(Integer.parseInt(order.getFulfilledBy())).getName());
             order.setItems(mapper.getOrderItems(order.getId()));
             order.setItemCount(0);
@@ -61,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
                 order.setItemCount(order.getItemCount() + item.getQty());
             });
         });
-        return completedOrders;
+        return orderList;
     }
 
     @Override

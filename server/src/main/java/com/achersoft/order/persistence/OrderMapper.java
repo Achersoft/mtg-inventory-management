@@ -14,8 +14,10 @@ public interface OrderMapper {
     public OrderItemInventory getItemInventory(@Param("id") String id, @Param("condition") String condition);
     public void addOrderItem(@Param("orderId") String orderId, @Param("orderItem") OrderItem orderItem);
     public void removeOrderItems(@Param("orderId") String orderId);
-    public List<Order> getUnfulfilledOrders();
-    public List<Order> getCompletedOrders();
+    public int getUnfulfilledOrdersCount();
+    public List<Order> getUnfulfilledOrders(@Param("startLimit") int startLimit, @Param("offsetLimit") int offsetLimit);
+    public int getCompletedOrdersCount();
+    public List<Order> getCompletedOrders(@Param("startLimit") int startLimit, @Param("offsetLimit") int offsetLimit);
     public Order getOrder(String id);
     public List<OrderItem> getOrderItems(String id);
     public void removeOrder(String id);
