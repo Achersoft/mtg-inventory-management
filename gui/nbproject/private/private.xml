@@ -3,26 +3,32 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/settings/settings.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/checkout/checkout.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/search/search.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topNav/navBarDir.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/cards/cardDetails.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/import/import.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/images/2u.png</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/images/wb.png</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/template/ngCart/addtocart.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/user/user.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/template/ngCart/cart.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/orders/completedOrders.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/index.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/bower.json</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/search/searchList.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/orders/completedOrderDetails.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/sets/setSelection.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/app.js</file>
-            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/settings/settingsDetails.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/images/u.png</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/images/ur.png</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/css/titan.css</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topNav/template.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/admin/user/userDetails.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/template/ngCart/summary.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topHeader/navHeaderDir.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/import/allSets.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/sets/sets.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/inventory/inventory.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/images/gw.png</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/cards/cards.js</file>
@@ -30,9 +36,11 @@
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/orders/orders.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/auth/auth.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/template/ngCart/checkout.html</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/orders/orderDetails.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/images/pu.png</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/inventory/adjustInventory.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/orders/orders.js</file>
+            <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/css/custom.css</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/checkout/checkout.js</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/common/topNav/navBar.html</file>
             <file>file:/C:/Users/shaun/Repositories/mtg-inventory-management/gui/app/inventory/bulkAdd.html</file>

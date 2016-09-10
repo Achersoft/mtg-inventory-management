@@ -72,6 +72,20 @@ angular.module('main.orders', ['ngRoute'])
         }
     });
     
+    $scope.removeItem = function(index){
+        $scope.order.items.splice(index, 1);
+        console.log(index);
+    };
+    
+    $scope.changeQty = function(card, decrease){
+        if(card.orgQty === undefined)
+            card.orgQty = card.qty;
+        if(decrease && card.qty > 1)
+            card.qty = card.qty - 1;
+        else if(!decrease && card.qty < card.orgQty)
+            card.qty = card.qty + 1;
+    };
+    
     $scope.getTotal = function(){
         var total = 0;
         for(var i = 0; i < $scope.order.items.length; i++){
@@ -79,6 +93,13 @@ angular.module('main.orders', ['ngRoute'])
             total += (product.price * product.qty);
         }
         return (($scope.order.discount)?total - (($scope.order.discount/100)*total):total).toFixed(2);
+    };
+    
+    $scope.cancel = function(){
+        orderSvc.cancelOrder($scope.order).success(function (result) {
+            $location.path("/orders");
+            $route.reload();
+        }); 
     };
     
     $scope.fulfill = function(){
@@ -102,6 +123,10 @@ angular.module('main.orders', ['ngRoute'])
     
     orderSvc.getOrder = function(id){
         return $http.get(RESOURCES.REST_BASE_URL + '/orders/' + id);
+    };
+    
+    orderSvc.cancelOrder = function(order){
+        return $http.post(RESOURCES.REST_BASE_URL + '/orders/cancel', order);
     };
     
     orderSvc.fulfillOrder = function(order){

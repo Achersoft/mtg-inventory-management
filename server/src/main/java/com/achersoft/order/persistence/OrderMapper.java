@@ -18,4 +18,5 @@ public interface OrderMapper {
     public List<Order> getCompletedOrders();
     public Order getOrder(String id);
     public List<OrderItem> getOrderItems(String id);
+    public void removeOrder(String id);
 }

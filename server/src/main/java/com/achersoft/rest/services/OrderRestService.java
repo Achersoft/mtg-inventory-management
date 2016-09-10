@@ -2,6 +2,7 @@ package com.achersoft.rest.services;
 
 import com.achersoft.order.OrderService;
 import com.achersoft.order.dao.Order;
+import com.achersoft.order.dto.OrderDTO;
 import com.achersoft.security.annotations.RequiresPrivilege;
 import com.achersoft.security.type.Privilege;
 import java.util.List;
@@ -53,10 +54,18 @@ public class OrderRestService {
     
     @RequiresPrivilege({Privilege.ADMIN,Privilege.EMPLOYEE})
     @POST 
+    @Path("cancel")
+    @Produces({MediaType.APPLICATION_JSON})	
+    public void cancelOrder(OrderDTO order) throws Exception {
+	orderService.cancelOrder(order.getId());
+    }
+    
+    @RequiresPrivilege({Privilege.ADMIN,Privilege.EMPLOYEE})
+    @POST 
     @Path("fulfill")
     @Produces({MediaType.APPLICATION_JSON})	
-    public void fulfillOrder(Order order) throws Exception {
-	orderService.fulfillOrder(order);
+    public void fulfillOrder(OrderDTO order) throws Exception {
+	orderService.fulfillOrder(order.toDao());
     }
 }
 

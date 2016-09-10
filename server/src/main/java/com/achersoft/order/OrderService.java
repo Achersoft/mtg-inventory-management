@@ -9,4 +9,5 @@ public interface OrderService {
     public List<Order> getCompletedOrders();
     public Order getOrder(String id);
     public void fulfillOrder(Order order) throws Exception;
+    public void cancelOrder(String id);
 }

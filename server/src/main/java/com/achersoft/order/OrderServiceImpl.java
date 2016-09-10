@@ -8,7 +8,9 @@ import com.achersoft.security.providers.UserPrincipalProvider;
 import com.achersoft.user.persistence.UserMapper;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,23 +77,31 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void fulfillOrder(Order order) throws Exception {
+        Map<String, OrderItem> origionalItems = new HashMap();
         order.setTotal(0);
         order.setFulfilledBy(userPrincipalProvider.getUserPrincipal().getSub());
         mapper.getOrderItems(order.getId()).stream().forEach((item) -> {
-            mapper.addItemToInventory(item.getId(), item.getCondition(), item.getQty());
+            origionalItems.put(item.getId(), item);
         });
         mapper.removeOrderItems(order.getId());
-        for(OrderItem item : order.getItems()) {
-            mapper.removeItemFromInventory(item.getId(), item.getCondition(), item.getQty());
-            OrderItemInventory itemInventory = mapper.getItemInventory(item.getId(), item.getCondition());
-            if(itemInventory.getQty() < 0)
-                throw new Exception();
+        order.getItems().stream().forEach((item) -> {
+            OrderItem orig = origionalItems.remove(item.getId());
+            if(orig.getQty() > item.getQty())
+                mapper.addItemToInventory(item.getId(), item.getCondition(), orig.getQty() - item.getQty());
             mapper.addOrderItem(order.getId(), item);
             order.setTotal(order.getTotal() + (item.getQty()*item.getPrice()));
-        }
+        });
+        origionalItems.values().stream().forEach((item) -> {
+            mapper.addItemToInventory(item.getId(), item.getCondition(), item.getQty());
+        });
         if(order.getDiscount() > 0)
             order.setTotal(order.getTotal() - order.getTotal()*(order.getDiscount()/100.0));
         order.setTotal(new BigDecimal(order.getTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         mapper.updateOrder(order);
+    }
+
+    @Override
+    public void cancelOrder(String id) {
+        mapper.removeOrder(id);
     }
 }

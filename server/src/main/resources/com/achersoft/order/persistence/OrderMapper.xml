@@ -144,6 +144,7 @@
                total 'total'
           FROM orders
          WHERE fulfilled_by is null
+      ORDER BY created_at
     </select>
     
     <select id="getCompletedOrders" resultType="com.achersoft.order.dao.Order">
@@ -182,4 +183,8 @@
     LEFT OUTER JOIN mtg_set s ON c.set_id = s.id      
          WHERE oi.order_id = #{id} 
     </select>
+    
+    <delete id="removeOrder">
+        DELETE FROM orders WHERE id = #{id}
+    </delete>
 </mapper>
