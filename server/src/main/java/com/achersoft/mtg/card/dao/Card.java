@@ -42,6 +42,7 @@ public class Card {
     public Date releaseDate;
     public String splitId;
     public Boolean isFront;
+    public Boolean tcg;
     public int NM;
     public double nmp;
     public int SP;

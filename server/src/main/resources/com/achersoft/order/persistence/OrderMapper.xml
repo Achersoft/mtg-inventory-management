@@ -191,7 +191,8 @@
                c.language 'language',
                oi.con 'condition',
                oi.qty 'qty',
-               oi.price 'price'
+               oi.price 'price',
+               c.is_tcg 'tcg'
           FROM order_items oi
     LEFT OUTER JOIN mtg_card c ON c.id = oi.id     
     LEFT OUTER JOIN mtg_set s ON c.set_id = s.id      

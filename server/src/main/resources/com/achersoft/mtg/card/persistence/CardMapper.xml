@@ -21,6 +21,7 @@
                c.multiverse_id 'multiverseid',
                c.split_sequence 'splitSequence',
                c.split_id 'splitId',
+               c.is_tcg 'tcg',
                i.NM 'NM',
                i.nm_price 'nmp',
                i.SP 'SP',

@@ -134,4 +134,10 @@ angular.module('main.orders', ['ngRoute'])
     };
 
     return orderSvc;
-}]);
+}])
+
+.filter('yesNo', function() {
+    return function(input) {
+        return input ? 'Yes' : 'No';
+    }
+});

@@ -37,7 +37,8 @@
                               multiverse_id, 
                               split_sequence,
                               split_id,
-                              has_children)
+                              has_children,
+                              is_tcg)
                       VALUES (#{id},
                               #{name},
                               #{setId},
@@ -55,7 +56,8 @@
                               #{multiverseid},
                               #{splitSequence},
                               #{splitId},
-                              #{hasChildren})
+                              #{hasChildren},
+                              0)
       ON DUPLICATE KEY UPDATE id=id
     </insert>
     

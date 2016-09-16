@@ -35,6 +35,7 @@ public class CardDetails {
     private Date releaseDate;
     private String splitId;
     private Boolean isFront;
+    public Boolean tcg;
     private List<CardStock> stock;
     private List<CardStock> additionalPrintings;
     

@@ -20,4 +20,5 @@ public class OrderItem {
     public int qty;
     public int maxQty;
     public double price;
+    public boolean tcg;
 }

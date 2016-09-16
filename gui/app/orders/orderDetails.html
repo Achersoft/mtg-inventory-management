@@ -17,6 +17,9 @@
             <td data-title="'Condition'" style="padding-top:12px">
                 {{card.condition}}
             </td>
+            <td data-title="'On TCG'" style="padding-top:12px">
+                {{card.tcg | yesNo}}
+            </td>
             <td data-title="'Quantity'" style="padding-top:12px">
                 <span style="cursor:pointer" class="glyphicon glyphicon-minus" ng-class="{'disabled':card.qty===1}" ng-click="changeQty(card, true)"></span>
                     &nbsp;&nbsp;{{card.qty}}&nbsp;&nbsp;
