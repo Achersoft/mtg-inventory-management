@@ -21,6 +21,7 @@
     
     <insert id="addCard">
         INSERT into mtg_card (id, 
+                              inventory_id,
                               name, 
                               set_id, 
                               mana_cost, 
@@ -35,11 +36,13 @@
                               number, 
                               language,
                               multiverse_id, 
+                              layout,
                               split_sequence,
                               split_id,
                               has_children,
                               is_tcg)
                       VALUES (#{id},
+                              #{inventoryId},
                               #{name},
                               #{setId},
                               #{manaCost},
@@ -54,6 +57,7 @@
                               #{number},
                               #{language},
                               #{multiverseid},
+                              #{layout},
                               #{splitSequence},
                               #{splitId},
                               #{hasChildren},

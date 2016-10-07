@@ -23,6 +23,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class Card {
     public String id;
+    public String inventoryId;
     public String name;
     public String setId;
     public String set;
@@ -41,7 +42,7 @@ public class Card {
     public String multiverseId;
     public Date releaseDate;
     public String splitId;
-    public Boolean isFront;
+    public String layout;
     public Boolean tcg;
     public int NM;
     public double nmp;

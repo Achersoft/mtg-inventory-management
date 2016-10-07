@@ -1,20 +1,84 @@
-<div>
+<div ng-if="card.layout === 'normal'">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-sm-push-6">
-        <img src="{{imgBaseURL}}/static/images/{{card.id}}" border="0" alt="1" style="display:block;margin:auto;">
+        <img src="{{imgBaseURL}}/static/images/{{card.details.id}}" border="0" alt="1" style="display:block;margin:auto;">
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-sm-pull-6">
-        <h2 style="margin-top: 10px;font-size:26px"><strong>{{card.name}}</strong></h2>
-        <h3 style="margin-top: 10px;font-size:16px;"><a ng-href="#/setList/{{card.setId}}/{{card.language}}">{{card.set}}</a></h3>
+        <h2 style="margin-top: 10px;font-size:26px"><strong>{{card.details.name}}</strong></h2>
+        <h3 style="margin-top: 10px;font-size:16px;"><a ng-href="#/setList/{{card.details.setId}}/{{card.details.language}}">{{card.details.set}}</a></h3>
         <div class="body">
-            <p><strong>Card Type: </strong>{{card.type}}</p>
-            <p ng-show="{{card.power}}">
-                <strong>Power/Toughness: </strong>{{card.power}}/{{card.toughness}}
+            <p><strong>Card Type: </strong>{{card.details.type}}</p>
+            <p ng-show="{{card.details.power}}">
+                <strong>Power/Toughness: </strong>{{card.details.power}}/{{card.details.toughness}}
             </p>
-            <p><strong>Mana Cost: </strong><img src="{{imgBaseURL}}/titan/images/{{mana}}.png" border="0" width="17" height="17" alt="1" ng-repeat="mana in card.manaCost track by $index"></p>
-            <p><strong>Card Text: </strong>{{card.text}}</p>
-            <p><strong>Oracle Text: </strong>{{card.oracle}}</p>
-            <p><strong>Artist: </strong>{{card.artist}}</p>
-            <p><strong>Rarity: </strong>{{card.rarity}}</p>
+            <p><strong>Mana Cost: </strong><img src="{{imgBaseURL}}/titan/images/{{mana}}.png" border="0" width="17" height="17" alt="1" ng-repeat="mana in card.details.manaCost track by $index"></p>
+            <p><strong>Card Text: </strong>{{card.details.text}}</p>
+            <p><strong>Oracle Text: </strong>{{card.details.oracle}}</p>
+            <p><strong>Artist: </strong>{{card.details.artist}}</p>
+            <p><strong>Rarity: </strong>{{card.details.rarity}}</p>
+        </div>
+    </div>
+</div>
+<div ng-if="card.layout === 'flip'">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-sm-push-6">
+        <img src="{{imgBaseURL}}/static/images/{{card.subDetails[0].id}}" border="0" alt="1" style="display:block;margin:auto;">
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-sm-pull-6">
+        <h2 style="margin-top: 10px;font-size:26px"><strong>{{card.details.name}}</strong></h2>
+        <h3 style="margin-top: 10px;font-size:16px;"><a ng-href="#/setList/{{card.details.setId}}/{{card.details.language}}">{{card.details.set}}</a></h3>
+        <div class="body">
+            <h4 style="margin-top: 10px;font-size:20px"><strong>{{card.subDetails[0].name}}</strong></h4>
+            <p><strong>Card Type: </strong>{{card.subDetails[0].type}}</p>
+            <p ng-show="{{card.subDetails[0].power}}">
+                <strong>Power/Toughness: </strong>{{card.subDetails[0].power}}/{{card.subDetails[0].toughness}}
+            </p>
+            <p><strong>Mana Cost: </strong><img src="{{imgBaseURL}}/titan/images/{{mana}}.png" border="0" width="17" height="17" alt="1" ng-repeat="mana in card.subDetails[0].manaCost track by $index"></p>
+            <p><strong>Card Text: </strong>{{card.subDetails[0].text}}</p>
+            <p><strong>Oracle Text: </strong>{{card.subDetails[0].oracle}}</p>
+            <p><strong>Artist: </strong>{{card.subDetails[0].artist}}</p>
+            <p><strong>Rarity: </strong>{{card.subDetails[0].rarity}}</p>
+            <hr>
+            <h4 style="margin-top: 10px;font-size:20px"><strong>{{card.subDetails[1].name}}</strong></h4>
+            <p><strong>Card Type: </strong>{{card.subDetails[1].type}}</p>
+            <p ng-show="{{card.subDetails[1].power}}">
+                <strong>Power/Toughness: </strong>{{card.subDetails[1].power}}/{{card.subDetails[1].toughness}}
+            </p>
+            <p><strong>Mana Cost: </strong><img src="{{imgBaseURL}}/titan/images/{{mana}}.png" border="0" width="17" height="17" alt="1" ng-repeat="mana in card.subDetails[1].manaCost track by $index"></p>
+            <p><strong>Card Text: </strong>{{card.subDetails[1].text}}</p>
+            <p><strong>Oracle Text: </strong>{{card.subDetails[1].oracle}}</p>
+            <p><strong>Artist: </strong>{{card.subDetails[1].artist}}</p>
+            <p><strong>Rarity: </strong>{{card.subDetails[1].rarity}}</p>
+        </div>
+    </div>
+</div>
+<div ng-if="card.layout === 'split'">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-sm-push-6">
+        <img src="{{imgBaseURL}}/static/images/{{card.subDetails[0].id}}" border="0" alt="1" style="display:block;margin:auto;" class="rotate90">
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-sm-pull-6">
+        <h2 style="margin-top: 10px;font-size:26px"><strong>{{card.details.name}}</strong></h2>
+        <h3 style="margin-top: 10px;font-size:16px;"><a ng-href="#/setList/{{card.details.setId}}/{{card.details.language}}">{{card.details.set}}</a></h3>
+        <div class="body">
+            <h4 style="margin-top: 10px;font-size:20px"><strong>{{card.subDetails[0].name}}</strong></h4>
+            <p><strong>Card Type: </strong>{{card.subDetails[0].type}}</p>
+            <p ng-show="{{card.subDetails[0].power}}">
+                <strong>Power/Toughness: </strong>{{card.subDetails[0].power}}/{{card.subDetails[0].toughness}}
+            </p>
+            <p><strong>Mana Cost: </strong><img src="{{imgBaseURL}}/titan/images/{{mana}}.png" border="0" width="17" height="17" alt="1" ng-repeat="mana in card.subDetails[0].manaCost track by $index"></p>
+            <p><strong>Card Text: </strong>{{card.subDetails[0].text}}</p>
+            <p><strong>Oracle Text: </strong>{{card.subDetails[0].oracle}}</p>
+            <p><strong>Artist: </strong>{{card.subDetails[0].artist}}</p>
+            <p><strong>Rarity: </strong>{{card.subDetails[0].rarity}}</p>
+            <hr>
+            <h4 style="margin-top: 10px;font-size:20px"><strong>{{card.subDetails[1].name}}</strong></h4>
+            <p><strong>Card Type: </strong>{{card.subDetails[1].type}}</p>
+            <p ng-show="{{card.subDetails[1].power}}">
+                <strong>Power/Toughness: </strong>{{card.subDetails[1].power}}/{{card.subDetails[1].toughness}}
+            </p>
+            <p><strong>Mana Cost: </strong><img src="{{imgBaseURL}}/titan/images/{{mana}}.png" border="0" width="17" height="17" alt="1" ng-repeat="mana in card.subDetails[1].manaCost track by $index"></p>
+            <p><strong>Card Text: </strong>{{card.subDetails[1].text}}</p>
+            <p><strong>Oracle Text: </strong>{{card.subDetails[1].oracle}}</p>
+            <p><strong>Artist: </strong>{{card.subDetails[1].artist}}</p>
+            <p><strong>Rarity: </strong>{{card.subDetails[1].rarity}}</p>
         </div>
     </div>
 </div>

@@ -32,8 +32,6 @@ public class CardListItemDTO {
     public String number;
     public String multiverseId;
     public Date releaseDate;
-    public String splitId;
-    public Boolean isFront;
     public String language;
     public String condition;
     public int qty;
@@ -41,7 +39,7 @@ public class CardListItemDTO {
     
     public static CardListItemDTO fromDAO(CardListItem dao){
         return CardListItemDTO.builder()
-                .id(dao.id)
+                .id(dao.inventoryId)
                 .name(dao.name)
                 .set(dao.set)    
                 .manaCost((dao.manaCost!=null)?Arrays.asList(dao.manaCost.replace("{", "").replace("}", ",").replace("/", "").toLowerCase().split(",")):null)
@@ -57,8 +55,6 @@ public class CardListItemDTO {
                 .number(dao.number)
                 .multiverseId(dao.multiverseId)
                 .releaseDate(dao.releaseDate)
-                .splitId(dao.splitId)
-                .isFront(dao.isFront)
                 .language(dao.language)
                 .condition(dao.condition)
                 .qty(dao.qty)

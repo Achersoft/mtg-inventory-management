@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CardImport {
     public String id;
+    public String inventoryId;
     public String setId;
     public String layout;
     public String type;

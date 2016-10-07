@@ -38,7 +38,8 @@ public class CardServiceImpl implements CardService {
     @Override
     public CardDetails getCard(String id) {
         CardDetails cardDetails = CardDetails.fromCard(mapper.getCard(id));
-        mapper.getAdditionalPrintings(id, cardDetails.getName()).forEach((card) -> {
+        cardDetails.setSubDetails(mapper.getAdditionalDetails(id));
+        mapper.getAdditionalPrintings(id, cardDetails.getDetails().getName()).forEach((card) -> {
             cardDetails.getAdditionalPrintings().addAll(CardStock.fromDAO(card));
         });
         return cardDetails;

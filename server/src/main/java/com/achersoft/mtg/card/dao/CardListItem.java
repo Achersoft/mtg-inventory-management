@@ -14,6 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CardListItem {
     public String id;
+    public String inventoryId;
     public String name;
     public String setId;
     public String set;
@@ -31,7 +32,7 @@ public class CardListItem {
     public String multiverseId;
     public Date releaseDate;
     public String splitId;
-    public Boolean isFront;
+    public String layout;
     public String language;
     public String condition;
     public int qty;
@@ -40,6 +41,7 @@ public class CardListItem {
     public static CardListItem fromCard(Card dao){
         CardListItem card = CardListItem.builder()
                 .id(dao.id)
+                .inventoryId(dao.inventoryId)
                 .name(dao.name)
                 .setId(dao.setId)
                 .set(dao.set)    
@@ -57,7 +59,7 @@ public class CardListItem {
                 .multiverseId(dao.multiverseId)
                 .releaseDate(dao.releaseDate)
                 .splitId(dao.splitId)
-                .isFront(dao.isFront)
+                .layout(dao.layout)
                 .language(dao.language)
                 .build();
         

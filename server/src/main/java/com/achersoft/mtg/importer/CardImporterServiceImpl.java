@@ -40,7 +40,7 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
     
     private void importSets() {
         Logger.getLogger(CardImporterServiceImpl.class.getName()).log(Level.INFO, "Started Card Import");
-        sets.getSets().stream().forEach((set) -> {
+        sets.getSets().stream().filter((set) -> !set.isOnlineOnly()).forEach((set) -> {
             Logger.getLogger(CardImporterServiceImpl.class.getName()).log(Level.INFO, "Import Set: {0}", set.getName());
             Map vars = new HashMap();
             set.setId(DigestUtils.sha1Hex(set.name));
@@ -49,6 +49,8 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
                     card.layout.equals("flip") || card.layout.equals("double-faced")
             ).forEach((card) -> {
                 card.setSetId(set.getId());
+                if(card.getOriginalText() == null && card.getText() != null)
+                    card.setOriginalText(card.getText());
                 if(card.getForeignNames() == null || card.getForeignNames().isEmpty())
                     card.setForeignNames(new ArrayList());
                 card.getForeignNames().add(ForeignImport.builder().language("English").multiverseid(card.multiverseid).build());
@@ -66,6 +68,7 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
                             cardVariant.setName(cardVariant.getName() + " (" + vars.get(cardVariant.getName()) + ")" );
                         }
                         cardVariant.setId(DigestUtils.sha1Hex(cardVariant.getName()+set.getId()+lang.getLanguage()));
+                        cardVariant.setInventoryId(DigestUtils.sha1Hex(cardVariant.getName()+set.getId()+lang.getLanguage()));
                         cardVariant.setLanguage(lang.getLanguage());
                         cardVariant.setMultiverseid(lang.getMultiverseid());
                         mapper.addCard(cardVariant);
@@ -73,46 +76,50 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
                         importImage(cardVariant.getId(), cardVariant.getMultiverseid());
                     } else {
                         card.setId(DigestUtils.sha1Hex(card.getName()+set.getId()+lang.getLanguage()));
+                        card.setInventoryId(DigestUtils.sha1Hex(card.getName()+set.getId()+lang.getLanguage()));
                         card.setLanguage(lang.getLanguage());
                         card.setMultiverseid(lang.getMultiverseid());
                         if(card.layout.equalsIgnoreCase("split")) {
+                            String id = DigestUtils.sha1Hex(String.join("", card.names)+set.getId()+lang.getLanguage());
                             CardImport splitCard = CardImport.builder()
-                                    .id(DigestUtils.sha1Hex(String.join("", card.names)+set.getId()+lang.getLanguage()))
+                                    .id(id)
+                                    .inventoryId(id)
                                     .setId(set.getId())
                                     .name(String.join(" // ", card.names))
                                     .hasChildren(true)
                                     .language(lang.getLanguage())
                                     .layout("split")
                                     .build();
+                            card.setInventoryId(id);
+                            card.setSplitId(id);
                             card.setSplitSequence(card.names.indexOf(card.name)+1);
-                            card.setSplitId(splitCard.getId());
                             mapper.addCard(splitCard);
+                            mapper.addCard(card);
                             mapper.addCardToInventory(splitCard);
-                            importImage(splitCard.getId(), splitCard.getMultiverseid());
+                            importImage(card.getId(), card.getMultiverseid());
                         } else if(card.layout.equalsIgnoreCase("flip") || card.layout.equalsIgnoreCase("double-faced")) {
+                            String id = DigestUtils.sha1Hex(String.join("", card.names)+set.getId()+lang.getLanguage());
                             CardImport flipCard = CardImport.builder()
-                                    .id(DigestUtils.sha1Hex(String.join("", card.names)+set.getId()+lang.getLanguage()))
+                                    .id(id)
+                                    .inventoryId(id)
                                     .setId(set.getId())
                                     .name(String.join(" | ", card.names))
                                     .hasChildren(true)
                                     .language(lang.getLanguage())
                                     .layout("flip")
                                     .build();
+                            card.setInventoryId(id);
+                            card.setSplitId(id);
                             card.setSplitSequence(card.names.indexOf(card.name)+1);
-                            card.setSplitId(flipCard.getId());
                             mapper.addCard(flipCard);
+                            mapper.addCard(card);
                             mapper.addCardToInventory(flipCard);
-                            importImage(flipCard.getId(), flipCard.getMultiverseid());
+                            importImage(card.getId(), card.getMultiverseid());
                         } else {
-                            if(card.getOriginalText() == null && card.getText() != null)
-                                card.setOriginalText(card.getText());
                             mapper.addCard(card);
                             mapper.addCardToInventory(card);
                             importImage(card.getId(), card.getMultiverseid());
                         }
-                        if(card.getOriginalText() == null && card.getText() != null)
-                            card.setOriginalText(card.getText());
-                        mapper.addCard(card);
                     }
                 });
             });
