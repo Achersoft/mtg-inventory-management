@@ -111,7 +111,7 @@ public class SpringConfig {
                  "/" + "mtg_inventory");
         p.setUsername("titan_mtg");
         p.setPassword("bonerfart");
-       /* p.setUrl("jdbc:" + "mysql" + 
+        /*p.setUrl("jdbc:" + "mysql" + 
                  "://" + "localhost" +
                  ":" + "3306" +
                  "/" + "titan");

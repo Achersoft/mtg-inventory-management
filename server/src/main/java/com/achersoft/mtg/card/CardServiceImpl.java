@@ -66,7 +66,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public List<Card> getSetInventory(String id, String language) {
-        return mapper.getSet(id, language);
+        return mapper.getSetInventory(id, language);
     }
     
     @Override

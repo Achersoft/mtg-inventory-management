@@ -10,7 +10,6 @@ import com.achersoft.user.persistence.UserMapper;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,11 +81,11 @@ public class OrderServiceImpl implements OrderService {
         order.setTotal(0);
         order.setFulfilledBy(userPrincipalProvider.getUserPrincipal().getSub());
         mapper.getOrderItems(order.getId()).stream().forEach((item) -> {
-            origionalItems.put(item.getId(), item);
+            origionalItems.put(item.getId()+item.getCondition(), item);
         });
         mapper.removeOrderItems(order.getId());
         order.getItems().stream().forEach((item) -> {
-            OrderItem orig = origionalItems.remove(item.getId());
+            OrderItem orig = origionalItems.remove(item.getId()+item.getCondition());
             if(orig.getQty() > item.getQty())
                 mapper.addItemToInventory(item.getId(), item.getCondition(), orig.getQty() - item.getQty());
             mapper.addOrderItem(order.getId(), item);
@@ -103,6 +102,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancelOrder(String id) {
+        mapper.getOrderItems(id).stream().forEach((item) -> {
+            mapper.addItemToInventory(item.getId(), item.getCondition(), item.getQty());               
+        });
         mapper.removeOrder(id);
     }
 }

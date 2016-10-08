@@ -6,5 +6,6 @@
           SELECT distinct s.id 'id',
                           s.name 'value'
             FROM mtg_set s
+        ORDER BY s.name
     </select>
 </mapper>

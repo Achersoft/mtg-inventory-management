@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CardStock {
-    public String cardId;
+    public String id;
     public String setId;
     public String set;
     public String language;
@@ -26,7 +26,7 @@ public class CardStock {
         List<CardStock> stocks = new ArrayList();
         if(dao.NM > 0) {
             stocks.add(CardStock.builder()
-                    .cardId(dao.getId())
+                    .id(dao.inventoryId)
                     .setId(dao.setId)
                     .set(dao.set)
                     .language(dao.language)
@@ -36,7 +36,7 @@ public class CardStock {
                     .build());
         } if(dao.SP > 0) {
             stocks.add(CardStock.builder()
-                    .cardId(dao.getId())
+                    .id(dao.inventoryId)
                     .setId(dao.setId)
                     .set(dao.set)
                     .language(dao.language)
@@ -46,7 +46,7 @@ public class CardStock {
                     .build());
         } if(dao.MP > 0) {
             stocks.add(CardStock.builder()
-                    .cardId(dao.getId())
+                    .id(dao.inventoryId)
                     .setId(dao.setId)
                     .set(dao.set)
                     .language(dao.language)
@@ -56,7 +56,7 @@ public class CardStock {
                     .build());
         } if(dao.HP > 0) {
             stocks.add(CardStock.builder()
-                    .cardId(dao.getId())
+                    .id(dao.inventoryId)
                     .setId(dao.setId)
                     .set(dao.set)
                     .language(dao.language)
@@ -66,41 +66,41 @@ public class CardStock {
                     .build());
         } if(dao.FNM > 0) {
             stocks.add(CardStock.builder()
-                    .cardId(dao.getId())
+                    .id(dao.inventoryId)
                     .setId(dao.setId)
                     .set(dao.set + " (foil)")
                     .language(dao.language)
-                    .condition("NM")
+                    .condition("FNM")
                     .qty(dao.FNM)
                     .price(dao.fnmp)
                     .build());
         } if(dao.FSP > 0) {
             stocks.add(CardStock.builder()
-                    .cardId(dao.getId())
+                    .id(dao.inventoryId)
                     .setId(dao.setId)
                     .set(dao.set + " (foil)")
                     .language(dao.language)
-                    .condition("SP")
+                    .condition("FSP")
                     .qty(dao.FSP)
                     .price(dao.fspp)
                     .build());
         } if(dao.FMP > 0) {
             stocks.add(CardStock.builder()
-                    .cardId(dao.getId())
+                    .id(dao.inventoryId)
                     .setId(dao.setId)
                     .set(dao.set + " (foil)")
                     .language(dao.language)
-                    .condition("MP")
+                    .condition("FMP")
                     .qty(dao.FMP)
                     .price(dao.fmpp)
                     .build());
         } if(dao.FHP > 0) {
             stocks.add(CardStock.builder()
-                    .cardId(dao.getId())
+                    .id(dao.inventoryId)
                     .setId(dao.setId)
                     .set(dao.set + " (foil)")
                     .language(dao.language)
-                    .condition("HP")
+                    .condition("FHP")
                     .qty(dao.FHP)
                     .price(dao.fhpp)
                     .build());

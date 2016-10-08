@@ -12,6 +12,7 @@ public interface CardMapper {
     public List<Card> getAdditionalPrintings(@Param("id") String id, @Param("name") String name);
     public List<Set> getSets(String language);
     public List<Card> getSet(@Param("id") String id, @Param("language") String language);
+    public List<Card> getSetInventory(@Param("id") String id, @Param("language") String language);
     public List<Card> search(CardSearch search);
     public void addInventory(Card card);
     public void adjustInventory(Card card);

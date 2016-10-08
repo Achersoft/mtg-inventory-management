@@ -88,6 +88,16 @@
       ORDER BY c.name
     </select>
     
+    <select id="getSetInventory" resultType="com.achersoft.mtg.card.dao.Card">
+        <include refid="cardSelection"/>
+         WHERE s.id = #{id}
+           AND s.id = c.set_id
+           AND c.inventory_id = c.id
+           AND c.inventory_id = i.id
+           AND c.language = #{language}  
+      ORDER BY c.name
+    </select>
+    
     <select id="search" resultType="com.achersoft.mtg.card.dao.Card">
         <include refid="cardSelection"/>
          WHERE s.id = c.set_id

@@ -34,7 +34,7 @@
             </td>
             <td data-title="" ng-if="privilegeCheck.isUserAuthorized('CUSTOMER')">
                 <div ng-show="{{card.qty}} > 0">
-                    <ngcart-addtocart id="{{card.id}}{{card.condition}}" name="{{card.name}}" price="{{card.price}}" quantity="1" quantity-max="{{card.qty}}" data="card">Add to Cart</ngcart-addtocart>
+                    <ngcart-addtocart id="{{card.id}}{{card.set}}{{card.condition}}" name="{{card.name}}" price="{{card.price}}" quantity="1" quantity-max="{{card.qty}}" data="card">Add to Cart</ngcart-addtocart>
                 </div>
             </td>
         </tr>

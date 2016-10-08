@@ -6,12 +6,19 @@ import com.achersoft.mtg.importer.dao.ForeignImport;
 import com.achersoft.mtg.importer.dao.SetsImport;
 import com.achersoft.mtg.importer.persistence.ImporterMapper;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -136,13 +143,32 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
             if(f2.exists())
                 return;
             URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + multiverseId + "&type=card");
-            BufferedImage image = ImageIO.read(url);
-            if(image != null) {
-                ImageIO.write(image, "jpeg", f2);
-            } else {
-                image = ImageIO.read(new File(new File(System.getProperty("catalina.base"), "webapps/titan/images"), "blank.jpeg"));
-                ImageIO.write(image, "jpeg", f2);
+            URLConnection openConnection = url.openConnection(); 
+            openConnection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            openConnection.setRequestProperty("Accept-Encoding", "gzip, deflate, sdch");
+            openConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.8");
+            openConnection.setRequestProperty("Cache-Control", "no-cache");
+            openConnection.setRequestProperty("Connection", "keep-alive");
+            openConnection.setRequestProperty("Cookie", "_ga=GA1.2.1450316419.1468957852; CardDatabaseSettings=1=en-US; BIGipServerWWWNetPool02=3876587786.20480.0000; ASP.NET_SessionId=c54mr0ia350ax4mwmz0oskmz; __utmt=1; __utma=28542179.1450316419.1468957852.1475785426.1475884187.2; __utmb=28542179.2.10.1475884187; __utmc=28542179; __utmz=28542179.1475884187.2.2.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided)");
+            openConnection.setRequestProperty("Host", "gatherer.wizards.com");
+            openConnection.setRequestProperty("Pragma", "no-cache");
+            openConnection.setRequestProperty("Referer", "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid="+multiverseId);
+            openConnection.setRequestProperty("Upgrade-Insecure-Requests", "1");
+            openConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36");
+
+            try (InputStream in = new BufferedInputStream(openConnection.getInputStream())) {
+                if(in.available()>0) {
+                    OutputStream out = new BufferedOutputStream(new FileOutputStream(f2));
+                    for ( int i; (i = in.read()) != -1; ) {
+                        out.write(i);
+                    }  
+                    out.close();
+                } else {
+                    BufferedImage image = ImageIO.read(new File(new File(System.getProperty("catalina.base"), "webapps/titan/images"), "blank.jpeg"));
+                    ImageIO.write(image, "jpeg", f2);
+                }
             }
+            TimeUnit.SECONDS.sleep(1);
         } catch (Exception ex) {
             Logger.getLogger(CardImporterServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
