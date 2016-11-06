@@ -190,6 +190,7 @@
                s.name 'set',
                c.language 'language',
                oi.con 'condition',
+               c.color 'color',
                oi.qty 'qty',
                oi.price 'price',
                c.is_tcg 'tcg'

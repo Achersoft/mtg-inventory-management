@@ -27,6 +27,7 @@ public class CardImport {
     public String multiverseid;
     public String name;
     public String number;
+    public String color;
     public List<String> names;
     public List<String> subtypes;
     public List<String> supertypes;
@@ -58,6 +59,7 @@ public class CardImport {
                 .multiverseid(multiverseid)
                 .name(name)
                 .number(number)
+                .color(color)
                 .names(names)
                 .subtypes(subtypes)
                 .supertypes(supertypes)

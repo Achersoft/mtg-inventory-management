@@ -39,6 +39,7 @@ public class Card {
     public String power;
     public String toughness;
     public String number;
+    public String color;
     public String multiverseId;
     public Date releaseDate;
     public String splitId;

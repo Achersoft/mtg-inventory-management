@@ -20,6 +20,7 @@ public class OrderItemDTO {
     public String set;
     public String language;
     public String condition;
+    public String color;
     public int qty;
     public int maxQty;
     public double price;
@@ -31,6 +32,7 @@ public class OrderItemDTO {
                 .set(set)
                 .language(language)
                 .condition(condition)
+                .color(color)
                 .qty(qty)
                 .price(price)
                 .build();

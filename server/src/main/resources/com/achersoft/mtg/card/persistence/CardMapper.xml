@@ -19,6 +19,7 @@
                c.power 'power',
                c.toughness 'toughness',
                c.number 'number',
+               c.color 'color',
                c.multiverse_id 'multiverseid',
                c.split_sequence 'splitSequence',
                c.split_id 'splitId',

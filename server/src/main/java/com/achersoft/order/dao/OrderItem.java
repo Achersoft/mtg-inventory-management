@@ -17,6 +17,7 @@ public class OrderItem {
     public String set;
     public String language;
     public String condition;
+    public String color;
     public int qty;
     public int maxQty;
     public double price;

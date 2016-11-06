@@ -56,6 +56,12 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
                     card.layout.equals("flip") || card.layout.equals("double-faced")
             ).forEach((card) -> {
                 card.setSetId(set.getId());
+                if(card.getColors() == null || card.getColors().isEmpty())
+                    card.setColor("COLORLESS");
+                else if(card.getColors().size() > 1)
+                    card.setColor("MULTI");
+                else
+                    card.setColor(card.getColors().get(0).toUpperCase());
                 if(card.getOriginalText() == null && card.getText() != null)
                     card.setOriginalText(card.getText());
                 if(card.getForeignNames() == null || card.getForeignNames().isEmpty())
@@ -95,6 +101,7 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
                                     .name(String.join(" // ", card.names))
                                     .hasChildren(true)
                                     .language(lang.getLanguage())
+                                    .color(card.color)
                                     .layout("split")
                                     .build();
                             card.setInventoryId(id);
@@ -113,6 +120,7 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
                                     .name(String.join(" | ", card.names))
                                     .hasChildren(true)
                                     .language(lang.getLanguage())
+                                    .color(card.color)
                                     .layout("flip")
                                     .build();
                             card.setInventoryId(id);
