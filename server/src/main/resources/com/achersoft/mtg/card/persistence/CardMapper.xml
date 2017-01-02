@@ -98,7 +98,7 @@
            AND c.language = #{language}  
       ORDER BY c.name
     </select>
-    
+
     <select id="search" resultType="com.achersoft.mtg.card.dao.Card">
         <include refid="cardSelection"/>
          WHERE s.id = c.set_id
@@ -107,12 +107,47 @@
         <if test="id != null">
            AND c.id = #{id}
         </if>
+        <if test="colors != null">
+            <foreach item="element" index="index" collection="colors" open="AND (" separator=" OR " close=")">
+                <if test="element.color == 'COLORLESS'">
+                    ( c.mana_cost not like '%U%'
+                    AND c.mana_cost not like '%B%'
+                    AND c.mana_cost not like '%G%'
+                    AND c.mana_cost not like '%R%'
+                    AND c.mana_cost not like '%W%' )
+                </if>
+                <if test="element.color != 'COLORLESS'">
+                    c.mana_cost like #{element.abv}
+                </if>
+            </foreach>
+        </if>
+        <if test="types != null">
+            <foreach item="element" index="index" collection="types" open="AND (" separator=" OR " close=")">
+                c.type like #{element.abv}
+            </foreach>
+        </if>
+        <if test="rarities != null">
+            <foreach item="element" index="index" collection="rarities" open="AND (" separator=" OR " close=")">
+                c.rarity like #{element.description}
+            </foreach>
+        </if>
+        <if test="languages != null">
+            <foreach item="element" index="index" collection="languages" open="AND (" separator=" OR " close=")">
+                c.language like #{element.description}
+            </foreach>
+        </if>
+        <if test="priceMin != null">
+            AND i.nm_price BETWEEN #{priceMin} AND #{priceMax}
+        </if>
         <if test="name != null">
            AND c.name = #{name}
       ORDER BY s.name, c.language
         </if>
         <if test="like != null">
            AND c.name like #{like}
+      GROUP BY c.name
+        </if>
+        <if test="like == null and name == null">
       GROUP BY c.name
         </if>
         <if test="limit">

@@ -31,7 +31,14 @@ angular.module('main', [
         LOGIN_URL       : restBaseUrl + '/login',
         LOGOUT_URL      : restBaseUrl + '/logout'
     };
-})())        
+})())  
+.filter('capitalize', function() {
+  return function(input, scope) {
+    if (input!==null)
+        input = input.toLowerCase();
+    return input.substring(0,1).toUpperCase()+input.substring(1);
+  };
+})
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/setSelection/English'});
 }])

@@ -2,6 +2,10 @@ angular.module('main')
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider
+    .when('/search/advanced', {
+        templateUrl: 'search/advanced.html',
+        controller: 'AdvancedSearchCtrl'
+    })
     .when('/search/results', {
         templateUrl: 'search/searchList.html',
         controller: 'SearchCtrl'
@@ -26,11 +30,75 @@ angular.module('main')
     });
 }])
 
+.controller('AdvancedSearchCtrl', ['$scope', 'SearchState', 'SearchSvc', '$location', '$route', function ($scope, searchState, searchSvc, $location, $route) {
+    $scope.search = searchState.reset();
+    $scope.cardTypes = ["CREATURE", "ARTIFACT", "SORCERY", "INSTANT", "ENCHANTMENT", "PLANESWALKER", "LAND"];
+    $scope.cardColors = ["BLUE", "BLACK", "GREEN", "RED", "WHITE", "COLORLESS"];
+    $scope.cardRarities = ["COMMON", "UNCOMMON", "RARE", "MYTHIC", "SPECIAL", "BASIC"];
+    $scope.cardLanguages = ["English", "Russian", "Japanese", "Korean", "Spanish", "German", "Chinese", "Portuguese", "French", "Italian"];
+
+    $scope.typeSelected =  function(type){
+        return $.inArray(type, $scope.search.types) > -1;
+    };
+    
+    $scope.toggleTypeSelected =  function(type){
+        if($scope.typeSelected(type)) 
+            $scope.search.types.splice($scope.search.types.indexOf(type), 1);
+        else
+            $scope.search.types.push(type);
+    };
+    
+    $scope.colorSelected =  function(type){
+        return $.inArray(type, $scope.search.colors) > -1;
+    };
+    
+    $scope.toggleColorSelected =  function(type){
+        if($scope.colorSelected(type)) 
+            $scope.search.colors.splice($scope.search.colors.indexOf(type), 1);
+        else
+            $scope.search.colors.push(type);
+    };
+    
+    $scope.raritySelected =  function(type){
+        return $.inArray(type, $scope.search.rarities) > -1;
+    };
+    
+    $scope.toggleRaritySelected =  function(type){
+        if($scope.raritySelected(type)) 
+            $scope.search.rarities.splice($scope.search.rarities.indexOf(type), 1);
+        else
+            $scope.search.rarities.push(type);
+    };
+    
+    $scope.languageSelected =  function(type){
+        return $.inArray(type, $scope.search.languages) > -1;
+    };
+    
+    $scope.toggleLanguageSelected =  function(type){
+        if($scope.languageSelected(type)) 
+            $scope.search.languages.splice($scope.search.languages.indexOf(type), 1);
+        else
+            $scope.search.languages.push(type);
+    };
+    
+    $scope.doSearch = function(){
+        $location.path("/search/results");
+        $route.reload();
+    };
+}])
+
 .factory('SearchState', [
     function() {                    
         var searchState = {
             name: null,
             like: null,
+            colors: [],
+            types: [],
+            rarities: [],
+            languages: [],
+            cmc: null,
+            priceMin: null,
+            priceMax: null,
             limit: true
         };
         
@@ -45,6 +113,22 @@ angular.module('main')
         function setContext(data) {
             searchState = data;
         }
+        
+        function reset() {
+            searchState = {
+                    name: null,
+                    like: null,
+                    colors: [],
+                    types: [],
+                    rarities: [],
+                    languages: [],
+                    cmc: null,
+                    priceMin: null,
+                    priceMax: null,
+                    limit: true
+                };
+            return searchState;   
+        }
 
         function get() {
             return searchState;
@@ -54,6 +138,7 @@ angular.module('main')
             setCardName: setCardName,
             setLikeName: setLikeName,
             setContext: setContext,
+            reset: reset,
             get: get
         };
     }])
