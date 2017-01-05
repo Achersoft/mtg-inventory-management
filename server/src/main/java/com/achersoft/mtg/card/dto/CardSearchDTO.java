@@ -31,7 +31,8 @@ public class CardSearchDTO {
     public Integer cmc;
     public Double priceMin;
     public Double priceMax;
-    public boolean limit = false;
+    public Integer page = 1;
+    public Integer limit = 20;
     
     public CardSearch toDao() {
         if(like != null)
@@ -51,6 +52,7 @@ public class CardSearchDTO {
                 .cmc(cmc)
                 .priceMin(priceMin)
                 .priceMax(priceMax)
+                .page((page-1)*limit)
                 .limit(limit)
                 .build();
     }

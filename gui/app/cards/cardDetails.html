@@ -72,9 +72,6 @@
     <h2 style="border-bottom:1pt solid black;">Additional Printings</h2>
     <table ng-table="tableParams" class="table table-striped table-hover table-condensed" >
         <tr ng-repeat-start="cli in card.additionalPrintings" ng-repeat-end="" class="form-inline">
-            <td data-title="'Name'">
-                 <a ng-href="#/cardDetails/{{cli.id}}">{{card.name}}</a>
-            </td>
             <td data-title="'Set'">
                 <a ng-href="#/setList/{{cli.setId}}/{{cli.language}}">{{cli.set}}</a>
             </td>

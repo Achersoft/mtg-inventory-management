@@ -27,5 +27,6 @@ public class CardSearch {
     public Integer cmc;
     public Double priceMin;
     public Double priceMax;
-    public boolean limit;
+    public Integer page;
+    public Integer limit;
 }

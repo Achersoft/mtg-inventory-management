@@ -12,7 +12,7 @@ angular.module('main')
     });
 }])
 
-.controller('SearchCtrl', ['$scope', 'NgTableParams', 'SearchSvc', function ($scope, NgTableParams, searchSvc) {
+.controller('SearchCtrl', ['$scope', 'NgTableParams', 'SearchState', 'SearchSvc', function ($scope, NgTableParams, searchState, searchSvc) {
     $scope.tableParams = new NgTableParams({
         page: 1,         
         count: 20     
@@ -20,9 +20,11 @@ angular.module('main')
     {   total: 0, 
         counts: [], 
         getData: function ($defer, params) {
-            searchSvc.search().success(function (result) {
-                params.total(result.length);
-                $defer.resolve(result.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+            searchState.get().page = params.page();
+            searchState.get().limit = params.count();
+            searchSvc.search(params.page(), params.count()).success(function (result) {
+                params.total(result.count);
+                $defer.resolve(result.cards);
             }).error(function(error){
                 $scope.status = 'Unable to load list for page ' + params.page() + ': ' + error;
             });
@@ -99,15 +101,16 @@ angular.module('main')
             cmc: null,
             priceMin: null,
             priceMax: null,
-            limit: true
+            page: 1,
+            limit: 20
         };
         
         function setCardName(cardName) {
-            searchState = {name: cardName, limit: false};
+            searchState = {name: cardName, page: 1, limit: 20};
         }
         
         function setLikeName(cardName) {
-            searchState = {like: cardName, limit: true};
+            searchState = {like: cardName, page: 1, limit: 10};
         }
 
         function setContext(data) {
@@ -125,7 +128,8 @@ angular.module('main')
                     cmc: null,
                     priceMin: null,
                     priceMax: null,
-                    limit: true
+                    page: 1,
+                    limit: 20
                 };
             return searchState;   
         }
@@ -146,7 +150,7 @@ angular.module('main')
 .factory('SearchSvc',['$http', 'RESOURCES', 'SearchState', function($http, RESOURCES, searchState) {    
     var searchSvc={};
 
-    searchSvc.search = function(){
+    searchSvc.search = function() {
         return $http.put(RESOURCES.REST_BASE_URL + '/cards/search/', searchState.get());
     };
     

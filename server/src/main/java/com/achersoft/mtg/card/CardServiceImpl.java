@@ -5,6 +5,7 @@ import com.achersoft.mtg.card.dao.CardDetails;
 import com.achersoft.mtg.card.dao.CardListItem;
 import com.achersoft.mtg.card.dao.CardSearch;
 import com.achersoft.mtg.card.dao.CardStock;
+import com.achersoft.mtg.card.dao.SearchList;
 import com.achersoft.mtg.card.dao.Set;
 import com.achersoft.mtg.card.persistence.CardMapper;
 import java.util.HashMap;
@@ -58,10 +59,10 @@ public class CardServiceImpl implements CardService {
     }
     
     @Override
-    public List<CardListItem> search(CardSearch search) {
-        return mapper.search(search).stream().map((card) -> {
+    public SearchList search(CardSearch search) {
+        return SearchList.builder().count(mapper.searchCount(search)).cards(mapper.search(search).stream().map((card) -> {
             return CardListItem.fromCard(card);
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toList())).build();
     }
 
     @Override

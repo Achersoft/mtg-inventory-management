@@ -14,6 +14,7 @@ public interface CardMapper {
     public List<Card> getSet(@Param("id") String id, @Param("language") String language);
     public List<Card> getSetInventory(@Param("id") String id, @Param("language") String language);
     public List<Card> search(CardSearch search);
+    public int searchCount(CardSearch search);
     public void addInventory(Card card);
     public void adjustInventory(Card card);
 }

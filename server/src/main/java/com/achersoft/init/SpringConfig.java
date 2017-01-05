@@ -105,18 +105,18 @@ public class SpringConfig {
     public DataSource dataSource() {
         DataSource datasource = new DataSource();
         PoolProperties p = new PoolProperties();
-       /* p.setUrl("jdbc:" + "mysql" + 
+        p.setUrl("jdbc:" + "mysql" + 
                  "://" + "localhost" +
                  ":" + "3306" +
                  "/" + "mtg_inventory");
         p.setUsername("titan_mtg");
-        p.setPassword("bonerfart");*/
-        p.setUrl("jdbc:" + "mysql" + 
+        p.setPassword("bonerfart");
+        /*p.setUrl("jdbc:" + "mysql" + 
                  "://" + "localhost" +
                  ":" + "3306" +
                  "/" + "titan");
         p.setUsername("root");
-        p.setPassword("zxcxcv");
+        p.setPassword("zxcxcv");*/
         p.setDriverClassName("com.mysql.jdbc.Driver");
         p.setJmxEnabled(true);
         p.setTestWhileIdle(false);

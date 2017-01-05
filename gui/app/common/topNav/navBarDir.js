@@ -17,7 +17,7 @@ angular.module('main').directive('navBar',[ 'SearchSvc', 'SearchState', '$locati
             this.searchForCard = function(viewValue) {
                 searchState.setLikeName(viewValue);
                 return searchSvc.search().then(function(response) {
-                    return response.data;
+                    return response.data.cards;
                 });
             };
         }

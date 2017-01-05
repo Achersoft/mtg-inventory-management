@@ -2,9 +2,11 @@ package com.achersoft.rest.services;
 
 import com.achersoft.mtg.card.CardService;
 import com.achersoft.mtg.card.dao.Card;
+import com.achersoft.mtg.card.dao.SearchList;
 import com.achersoft.mtg.card.dto.CardDTO;
 import com.achersoft.mtg.card.dto.CardListItemDTO;
 import com.achersoft.mtg.card.dto.CardSearchDTO;
+import com.achersoft.mtg.card.dto.SearchListDTO;
 import com.achersoft.mtg.card.dto.SetDTO;
 import com.achersoft.security.annotations.RequiresPrivilege;
 import com.achersoft.security.type.Privilege;
@@ -75,8 +77,9 @@ public class CardRestService {
     @Path("/search")
     @Consumes({MediaType.APPLICATION_JSON})	
     @Produces({MediaType.APPLICATION_JSON})	
-    public List<CardListItemDTO> search(CardSearchDTO search) throws Exception {
-	return cardService.search(search.toDao()).stream().map((dao) -> {return CardListItemDTO.fromDAO(dao);}).collect(Collectors.toList());
+    public SearchListDTO search(CardSearchDTO search) throws Exception {
+        SearchList s = cardService.search(search.toDao());
+	return SearchListDTO.builder().count(s.count).cards(s.cards.stream().map((dao) -> {return CardListItemDTO.fromDAO(dao);}).collect(Collectors.toList())).build();
     }
     
     @RequiresPrivilege({Privilege.ADMIN,Privilege.EMPLOYEE})
