@@ -140,6 +140,7 @@ public class CardImporterServiceImpl implements CardImporterService, Runnable {
             });
         });
         cardService.refreshSets();
+        Logger.getLogger(CardImporterServiceImpl.class.getName()).log(Level.INFO, "Completed Card Import");
     }
     
     private void importImage(String id, String multiverseId) {

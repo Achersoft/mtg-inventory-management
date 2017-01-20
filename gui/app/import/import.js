@@ -7,6 +7,10 @@ angular.module('main.import', ['ngRoute'])
     .when('/import/allSets', {
         templateUrl: 'import/allSets.html',
         controller: 'ImportCtrl'
+    })
+    .when('/import/selectSet', {
+        templateUrl: 'import/selectSet.html',
+        controller: 'ImportCtrl'
     });
 }])
 
@@ -29,9 +33,12 @@ angular.module('main.import', ['ngRoute'])
 .controller('ImportCtrl', ['$scope', '$routeParams', 'RESOURCES', 'ImportSvc', function ($scope, $routeParams, RESOURCES, importSvc) {
     $scope.uploadFile = function(){
         var file = $scope.myFile;
-        console.log('file is ' );
-        console.dir(file);
         importSvc.uploadFileToUrl(file);
+    };
+    
+    $scope.uploadSet = function(){
+        var file = $scope.myFile;
+        importSvc.uploadSetToUrl(file);
     };
 }])
 
@@ -41,7 +48,20 @@ angular.module('main.import', ['ngRoute'])
     importSvc.uploadFileToUrl = function(file){
         var fd = new FormData();
         fd.append('file', file);
-        $http.post(RESOURCES.REST_BASE_URL + '/importer/upload', fd, {
+        $http.post(RESOURCES.REST_BASE_URL + '/importer/all', fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(){
+        })
+        .error(function(){
+        });
+    };
+    
+    importSvc.uploadSetToUrl = function(file){
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(RESOURCES.REST_BASE_URL + '/importer/set', fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         })

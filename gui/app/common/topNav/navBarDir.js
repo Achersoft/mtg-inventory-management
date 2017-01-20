@@ -20,6 +20,24 @@ angular.module('main').directive('navBar',[ 'SearchSvc', 'SearchState', '$locati
                     return response.data.cards;
                 });
             };
+            
+            this.oneDollarBinder = function(){
+                var state = searchState.reset();
+                state.priceMin = 0.99;
+                state.priceMax = 1.99;   
+                state.inStock = true;
+                $location.path("/search/results");
+                $route.reload();
+            }
+            
+            this.twoDollarBinder = function(){
+                var state = searchState.reset();
+                state.priceMin = 1.99;
+                state.priceMax = 2.99; 
+                state.inStock = true;
+                $location.path("/search/results");
+                $route.reload();
+            };
         }
     };
 }]);

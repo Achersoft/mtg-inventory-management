@@ -137,20 +137,24 @@
             </foreach>
         </if>
         <if test="priceMin != null">
-            AND i.nm_price BETWEEN #{priceMin} AND #{priceMax}
+           AND i.nm_price BETWEEN #{priceMin} AND #{priceMax}
         </if>
         <if test="name != null">
            AND c.name = #{name}
-      ORDER BY s.name, c.language
         </if>
         <if test="like != null">
            AND c.name like #{like}
+        </if>
+        <if test="inStock == true">
+           AND (i.NM > 0 || i.SP > 0 || i.MP > 0 || i.HP > 0 || i.FNM > 0 || i.FSP > 0 || i.FMP > 0 || i.FHP > 0)
+        </if>
+        <if test="quick == true">
+      GROUP BY c.name
+        </if>
+        <if test="quick == false">
       GROUP BY c.name, s.name
         </if>
-        <if test="like == null and name == null">
-      GROUP BY c.name, s.name
-        </if>
-           LIMIT #{page}, #{limit}
+         LIMIT #{page}, #{limit}
     </select>
     
     <select id="searchCount" resultType="java.lang.Integer">
@@ -201,6 +205,9 @@
         </if>
         <if test="like != null">
            AND c.name like #{like}
+        </if>
+        <if test="inStock == true">
+           AND (i.NM > 0 || i.SP > 0 || i.MP > 0 || i.HP > 0 || i.FNM > 0 || i.FSP > 0 || i.FMP > 0 || i.FHP > 0)
         </if>
     </select>
     

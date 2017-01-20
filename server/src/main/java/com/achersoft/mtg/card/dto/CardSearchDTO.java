@@ -33,6 +33,8 @@ public class CardSearchDTO {
     public Double priceMax;
     public Integer page = 1;
     public Integer limit = 20;
+    public Boolean quick = false;
+    public boolean inStock = false;
     
     public CardSearch toDao() {
         if(like != null)
@@ -54,6 +56,8 @@ public class CardSearchDTO {
                 .priceMax(priceMax)
                 .page((page-1)*limit)
                 .limit(limit)
+                .quick(quick)
+                .inStock(inStock)
                 .build();
     }
 }

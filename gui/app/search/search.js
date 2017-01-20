@@ -97,12 +97,14 @@ angular.module('main')
             colors: [],
             types: [],
             rarities: [],
-            languages: [],
+            languages: ["English"],
             cmc: null,
             priceMin: null,
             priceMax: null,
             page: 1,
-            limit: 20
+            limit: 20,
+            quick: false,
+            inStock: false
         };
         
         function setCardName(cardName) {
@@ -110,7 +112,7 @@ angular.module('main')
         }
         
         function setLikeName(cardName) {
-            searchState = {like: cardName, page: 1, limit: 10};
+            searchState = {like: cardName, page: 1, limit: 10, quick: true};
         }
 
         function setContext(data) {
@@ -124,12 +126,14 @@ angular.module('main')
                     colors: [],
                     types: [],
                     rarities: [],
-                    languages: [],
+                    languages: ["English"],
                     cmc: null,
                     priceMin: null,
                     priceMax: null,
                     page: 1,
-                    limit: 20
+                    limit: 20,
+                    quick: false,
+                    inStock: false
                 };
             return searchState;   
         }

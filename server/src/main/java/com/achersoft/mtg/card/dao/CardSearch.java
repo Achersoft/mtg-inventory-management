@@ -29,4 +29,6 @@ public class CardSearch {
     public Double priceMax;
     public Integer page;
     public Integer limit;
+    public boolean quick;
+    public boolean inStock;
 }

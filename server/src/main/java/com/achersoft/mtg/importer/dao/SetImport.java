@@ -22,6 +22,6 @@ public class SetImport {
     public String border;
     public String type;
     public String block;
-    public boolean onlineOnly;
+    public boolean onlineOnly = false;
     public List<CardImport> cards;
 }

@@ -25,6 +25,13 @@
             <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/setSelection/Italian"><b>Italian</b></a></li>
           </ul>
         </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Binders </b><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="" ng-click="topNavCtrl.oneDollarBinder()"><b>$1 Binder</b></a></li>
+              <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="" ng-click="topNavCtrl.twoDollarBinder()"><b>$2 Binder</b></a></li>
+          </ul>
+        </li>
         <li class="dropdown" ng-if="privilegeCheck.isUserAuthorized('ADMIN') || privilegeCheck.isUserAuthorized('EMPLOYEE')">
             <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Orders </b><span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -43,6 +50,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href=""><b>Import </b><span class="caret"></span></a>
           <ul class="dropdown-menu">
               <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/import/allSets"><b>All Sets</b></a></li>
+              <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#/import/selectSet"><b>Select Set</b></a></li>
           </ul>
         </li>
         <li class="dropdown" ng-if="privilegeCheck.isUserAuthorized('ADMIN')">

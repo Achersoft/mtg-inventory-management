@@ -198,6 +198,7 @@
     LEFT OUTER JOIN mtg_card c ON c.id = oi.id     
     LEFT OUTER JOIN mtg_set s ON c.set_id = s.id      
          WHERE oi.order_id = #{id} 
+      ORDER BY s.name, c.name
     </select>
     
     <delete id="removeOrder">
